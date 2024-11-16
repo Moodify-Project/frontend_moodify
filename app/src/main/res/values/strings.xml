@@ -1,12 +1,10 @@
 <resources>
     <string name="app_name">frontend_moodify</string>
     <string name="action_settings">Settings</string>
-    <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
-
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
         volutpat, dolor id interdum ullamcorper, risus dolor egestas lectus, sit amet mattis purus
@@ -43,4 +41,16 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
+    <string name="logo_description">Logo Moodify</string>
+    <string name="banner_description">Banner Moodify</string>
+    <string name="welcome_to_moodify">Welcome to MOODIFY</string>
+    <string name="lorem_ipsum_description">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</string>
+    <string name="lets_go">Let&apos;s go!</string>
+    <string name="login">Login</string>
+    <string name="email_hint">Email account</string>
+    <string name="password_hint">Password</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="register_prompt">Haven&apos;t registered yet?</string>
+    <string name="register">Register</string>
+    <string name="back_button_description">Back button</string>
 </resources>
