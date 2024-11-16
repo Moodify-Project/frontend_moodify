@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">frontend_moodify</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
@@ -43,4 +42,27 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
+    <string name="app_name">MOODIFY</string>
+    <string name="register_title">Register</string>
+    <string name="already_have_account">Already have an account? </string>
+    <string name="login">Login</string>
+
+    <!-- Buttons -->
+    <string name="register_button">Register</string>
+    <string name="back_arrow">Back</string>
+
+    <!-- Input Hints -->
+    <string name="hint_name">Name</string>
+    <string name="hint_email">Email Account</string>
+    <string name="hint_password">Password</string>
+
+    <!-- Descriptions -->
+    <string name="banner_image">Register banner</string>
+    <string name="app_logo">App logo</string>
+    <string name="name_icon">Name icon</string>
+    <string name="email_icon">Email icon</string>
+    <string name="password_icon">Password icon</string>
+
+    <!-- Terms and Privacy -->
+    <string name="terms_and_conditions">By signing up, you\'re agree to our Terms &amp; Conditions and Privacy Policy</string>
 </resources>
