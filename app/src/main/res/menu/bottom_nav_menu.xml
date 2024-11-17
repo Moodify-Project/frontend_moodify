@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/ic_home_fix"
+        android:title="@string/home_title"
+        app:showAsAction="ifRoom|withText" />
+    <item
+        android:id="@+id/navigation_relaxation"
+        android:icon="@drawable/ic_relaxation_fix"
+        android:title="@string/relax_title"
+        app:showAsAction="ifRoom|withText" />
+    <item
+        android:id="@+id/navigation_crate"
+        android:icon="@drawable/ic_create_fix"
+        android:title="@string/create_title"
+        app:showAsAction="ifRoom|withText" />
+    <item
+        android:id="@+id/navigation_mood"
+        android:icon="@drawable/ic_mood_track_fix"
+        android:title="@string/mood_title"
+        app:showAsAction="ifRoom|withText" />
+    <item
+        android:id="@+id/navigation_journal"
+        android:icon="@drawable/ic_journal_fix"
+        android:title="@string/journal_title"
+        app:showAsAction="ifRoom|withText" />
+</menu>
