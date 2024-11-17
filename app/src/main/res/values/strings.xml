@@ -43,14 +43,35 @@
     </string>
     <string name="logo_description">Logo Moodify</string>
     <string name="banner_description">Banner Moodify</string>
-    <string name="welcome_to_moodify">Welcome to MOODIFY</string>
-    <string name="lorem_ipsum_description">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</string>
+    <string name="welcome_to_moodify">Welcome to</string>
+    <string name="description_text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</string>
     <string name="lets_go">Let&apos;s go!</string>
+
+
     <string name="login">Login</string>
-    <string name="email_hint">Email account</string>
-    <string name="password_hint">Password</string>
+    <string name="email_hint">email account</string>
+    <string name="password_hint">password</string>
     <string name="forgot_password">Forgot Password?</string>
     <string name="register_prompt">Haven&apos;t registered yet?</string>
     <string name="register">Register</string>
     <string name="back_button_description">Back button</string>
+
+    <string name="register_title">Register</string>
+    <string name="name_hint">Name</string>
+    <string name="agreement_text">By signing up, you’re agree to our <font color='#4C80C1'>Terms &amp; Conditions</font> and <font color='#4C80C1'>Privacy Policy</font>.</string>
+    <string name="register_prompt_">Already have an account?</string>
+    <string name="login_link">Login</string>
+
+    <string name="profile">Profile</string>
+    <string name="back_button_description_profile">Go back to the previous screen</string>
+    <string name="profile_image_description">User profile picture</string>
+    <string name="name">Name</string>
+    <string name="name_icon_description">Icon representing user&apos;s name</string>
+    <string name="gender">Gender</string>
+    <string name="gender_icon_description">Icon representing user&apos;s gender</string>
+    <string name="nations">Nations</string>
+    <string name="nation_icon_description">Icon representing user&apos;s nation</string>
+    <string name="submit">Submit</string>
+
+
 </resources>
