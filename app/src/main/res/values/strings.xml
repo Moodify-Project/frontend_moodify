@@ -72,6 +72,25 @@
     <string name="nations">Nations</string>
     <string name="nation_icon_description">Icon representing user&apos;s nation</string>
     <string name="submit">Submit</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
+    <string name="create_journaling">Create Journaling</string>
+    <string name="submenu_description">Submenu</string>
+    <string name="date_text">11 November 2024 19.52</string>
+    <string name="done">Done</string>
+    <string name="done_icon_description">Done Icon</string>
+    <string name="start_typing">Start typing...</string>
+
+
+    <!--Pop Up Menu -->
+    <string name="menu_settings">Settings</string>
+    <string name="menu_profile">Profile</string>
+    <string name="menu_bookmark">Bookmark</string>
+    <string name="menu_logout">Logout</string>
+
+
+    <!-- Favorite Arcticles -->
+    <string name="favorite_articles">Favorite Articles</string>
 </resources>
