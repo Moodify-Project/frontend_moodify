@@ -1,12 +1,10 @@
 <resources>
     <string name="app_name">frontend_moodify</string>
     <string name="action_settings">Settings</string>
-    <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
-
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
         volutpat, dolor id interdum ullamcorper, risus dolor egestas lectus, sit amet mattis purus
@@ -45,6 +43,8 @@
     </string>
     <string name="logo_description">Logo Moodify</string>
     <string name="banner_description">Banner Moodify</string>
+
+
     <string name="welcome_to_moodify">Welcome to MOODIFY</string>
     <string name="lorem_ipsum_description">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</string>
     <string name="lets_go">Let\'s go!</string>
@@ -55,7 +55,23 @@
     <string name="register_prompt">Haven\'t registered yet?</string>
     <string name="register">Register</string>
     <string name="back_button_description">Back button</string>
+
     <string name="register_title">Register</string>
+    <string name="name_hint">Name</string>
+    <string name="agreement_text">By signing up, you’re agree to our <font color='#4C80C1'>Terms &amp; Conditions</font> and <font color='#4C80C1'>Privacy Policy</font>.</string>
+    <string name="register_prompt_">Already have an account?</string>
+    <string name="login_link">Login</string>
+
+    <string name="back_button_description_profile">Go back to the previous screen</string>
+    <string name="profile_image_description">User profile picture</string>
+    <string name="name">Name</string>
+    <string name="name_icon_description">Icon representing user\'s name</string>
+    <string name="gender">Gender</string>
+    <string name="gender_icon_description">Icon representing user\'s gender</string>
+    <string name="nations">Nations</string>
+    <string name="nation_icon_description">Icon representing user\'s nation</string>
+    <string name="submit">Submit</string>
+
 
     <string name="already_have_account">Already have an account? </string>
 
