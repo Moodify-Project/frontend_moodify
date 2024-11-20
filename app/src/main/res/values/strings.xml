@@ -95,4 +95,16 @@
     <string name="notification_title">DAILY REMINDER</string>
     <string name="notification_message">Don&apos;t forget to make a journal</string>
     <string name="notification_sub_message">There’s Fire 3 blocks away from you. Try alternative route.</string>
+
+
+    <!-- DetailArticle -->
+    <string name="header_title">Why Brain Smart?</string>
+    <string name="back_button_description_detail">Back Button</string>
+    <string name="author_name">James Arthur</string>
+    <string name="publication_date">Published 08 Aug 2024</string>
+    <string name="article_content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec porttitor vestibulum tortor at sagittis. Nulla vel porta lectus. Maecenas mollis id massa a volutpat. Etiam diam ex, molestie id ex laoreet, pellentesque semper enim. Aliquam luctus tempus gravida. Nullam tellus neque, tincidunt ut tincidunt id, placerat vitae purus. In semper risus non malesuada auctor. Morbi rutrum nec odio ut lobortis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Sed viverra quis nunc non rhoncus. Duis tempus, leo </string>
+
+    <!-- Article Item -->
+    <string name="article_description">Research explores factors that influence cognitive aging, highlighting exercise, avoiding stress...</string>
 </resources>
+
