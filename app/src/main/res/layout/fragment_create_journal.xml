@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:fontFamily="@font/poppins_medium"
-            android:text="@string/create_journaling"
+            android:text="@string/create_journal"
             android:textColor="@android:color/white"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -92,15 +92,16 @@
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginTop="0dp"
         android:background="@drawable/bg_border_light_grey"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/date_done_section">
+        app:layout_constraintTop_toBottomOf="@id/date_done_section"
+        app:layout_constraintVertical_bias="0.0">
 
 
-    <TextView
+        <TextView
             android:id="@+id/tv_placeholder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
