@@ -151,6 +151,7 @@
     <string name="publication_date">Published 08 Aug 2024</string>
     <string name="article_content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec porttitor vestibulum tortor at sagittis. Nulla vel porta lectus. Maecenas mollis id massa a volutpat. Etiam diam ex, molestie id ex laoreet, pellentesque semper enim. Aliquam luctus tempus gravida. Nullam tellus neque, tincidunt ut tincidunt id, placerat vitae purus. In semper risus non malesuada auctor. Morbi rutrum nec odio ut lobortis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Sed viverra quis nunc non rhoncus. Duis tempus, leo </string>
 
+
     <!-- Article Item -->
     <string name="article_description">Research explores factors that influence cognitive aging, highlighting exercise, avoiding stress...</string>
 
@@ -185,4 +186,7 @@
     </string-array>
     <string name="enter_name">John Sins</string>
     <string name="change_photo">Change Photo</string>
+
+    <string name="lost_connection_image">Image indicating no internet connection</string>
 </resources>
+
