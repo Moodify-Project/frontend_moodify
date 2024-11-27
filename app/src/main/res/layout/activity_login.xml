@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".LoginActivity">
+    tools:context=".presentation.ui.auth.LoginActivity">
 
    <androidx.constraintlayout.widget.ConstraintLayout
        android:layout_width="match_parent"
@@ -61,59 +61,68 @@
           app:layout_constraintHorizontal_bias="0.0"
           app:layout_constraintStart_toStartOf="parent"
           app:layout_constraintTop_toBottomOf="@id/bannerImage" />
-
-      <EditText
-          android:id="@+id/emailInput"
-          android:layout_width="0dp"
+      <ProgressBar
+          android:id="@+id/progressBar"
+          android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:hint="@string/email_hint"
-          android:drawableStart="@drawable/ic_email"
-          android:drawablePadding="10dp"
-          android:padding="12dp"
-          android:background="@android:color/transparent"
-          android:layout_marginTop="16dp"
-          android:textSize="14sp"
-          android:fontFamily="@font/poppins_medium"
+          android:visibility="gone"
           app:layout_constraintStart_toStartOf="parent"
           app:layout_constraintEnd_toEndOf="parent"
-          app:layout_constraintTop_toBottomOf="@id/loginTitle" />
-
-      <View
-          android:layout_width="0dp"
-          android:layout_height="1dp"
-          android:layout_marginTop="4dp"
-          android:layout_marginBottom="12dp"
-          android:background="@color/light_grey"
-          app:layout_constraintStart_toStartOf="@id/emailInput"
-          app:layout_constraintEnd_toEndOf="@id/emailInput"
-          app:layout_constraintTop_toBottomOf="@id/emailInput" />
-
-      <EditText
-          android:id="@+id/passwordInput"
+          app:layout_constraintTop_toTopOf="parent"
+          app:layout_constraintBottom_toBottomOf="parent"/>
+      <com.google.android.material.textfield.TextInputLayout
+          android:id="@+id/emailInputLayout"
           android:layout_width="0dp"
           android:layout_height="wrap_content"
-          android:hint="@string/password_hint"
-          android:drawableStart="@drawable/ic_password"
-          android:drawableEnd="@drawable/ic_privacy"
-          android:drawablePadding="10dp"
-          android:padding="12dp"
-          android:background="@android:color/transparent"
           android:layout_marginTop="16dp"
-          android:textSize="14sp"
-          android:fontFamily="@font/poppins_medium"
+          app:boxBackgroundMode="none"
+          app:boxStrokeColor="@color/blue"
+          app:startIconDrawable="@drawable/ic_email"
+          app:startIconTint="@color/blue"
+          app:startIconContentDescription="@string/email_hint"
           app:layout_constraintStart_toStartOf="parent"
           app:layout_constraintEnd_toEndOf="parent"
-          app:layout_constraintTop_toBottomOf="@id/emailInput" />
+          app:layout_constraintTop_toBottomOf="@id/loginTitle">
 
-      <View
+         <com.example.frontend_moodify.presentation.customview.EmailEditText
+             android:id="@+id/emailInput"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:minHeight="48dp"
+             android:paddingStart="48dp"
+             android:paddingEnd="8dp"
+             android:textSize="14sp"
+             android:fontFamily="@font/poppins_medium" />
+      </com.google.android.material.textfield.TextInputLayout>
+
+      <com.google.android.material.textfield.TextInputLayout
+          android:id="@+id/passwordInputLayout"
           android:layout_width="0dp"
-          android:layout_height="1dp"
-          android:layout_marginTop="4dp"
-          android:layout_marginBottom="12dp"
-          android:background="@color/light_grey"
-          app:layout_constraintStart_toStartOf="@id/passwordInput"
-          app:layout_constraintEnd_toEndOf="@id/passwordInput"
-          app:layout_constraintTop_toBottomOf="@id/passwordInput" />
+          android:layout_height="wrap_content"
+          android:layout_marginTop="16dp"
+          app:boxBackgroundMode="none"
+          app:boxStrokeColor="@color/blue"
+          app:startIconDrawable="@drawable/ic_password"
+          app:startIconTint="@color/blue"
+          app:startIconContentDescription="@string/password_hint"
+          app:endIconMode="password_toggle"
+          app:endIconDrawable="@drawable/ic_privacy"
+          app:endIconTint="@color/blue"
+          app:endIconContentDescription="@string/password_hint"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintTop_toBottomOf="@id/emailInputLayout">
+
+         <com.example.frontend_moodify.presentation.customview.PasswordEditText
+             android:id="@+id/passwordInput"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:minHeight="48dp"
+             android:paddingStart="48dp"
+             android:paddingEnd="40dp"
+             android:textSize="14sp"
+             android:fontFamily="@font/poppins_medium" />
+      </com.google.android.material.textfield.TextInputLayout>
 
       <TextView
           android:id="@+id/forgotPassword"
@@ -124,7 +133,7 @@
           android:textSize="14sp"
           android:fontFamily="@font/poppins_medium"
           app:layout_constraintEnd_toEndOf="parent"
-          app:layout_constraintTop_toBottomOf="@id/passwordInput"
+          app:layout_constraintTop_toBottomOf="@id/passwordInputLayout"
           android:layout_marginTop="8dp" />
 
       <Button
@@ -160,6 +169,8 @@
           android:text="@string/register"
           android:textColor="@color/blue"
           android:textSize="14sp"
+          android:paddingStart="8dp"
+          android:paddingEnd="0dp"
           android:fontFamily="@font/poppins_medium"
           app:layout_constraintStart_toEndOf="@id/registerText"
           app:layout_constraintTop_toTopOf="@id/registerText" />

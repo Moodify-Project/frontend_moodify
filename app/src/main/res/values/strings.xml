@@ -43,6 +43,9 @@
     </string>
     <string name="logo_description">Logo Moodify</string>
     <string name="banner_description">Banner Moodify</string>
+<!--    <string name="welcome_to_moodify">Welcome to</string>-->
+<!--    <string name="description_text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</string>-->
+<!--    <string name="lets_go">Let&apos;s go!</string>-->
 
 
     <string name="welcome_to_moodify">Welcome to MOODIFY</string>
@@ -81,9 +84,11 @@
     <string name="done_icon_description">Done Icon</string>
     <string name="start_typing">Start typing...</string>
 
-<<<<<<< HEAD
     <string name="already_have_account">Already have an account? </string>
-
+    <string name="error_invalid_email">Invalid email format</string>
+    <string name="error_password_length">Password must be at least 8 characters</string>
+    <string name="error_name_empty">Name cannot be empty</string>
+    <string name="error_name_short">Name must be at least 3 characters long</string>
 
     <!-- Buttons -->
     <string name="register_button">Register</string>
@@ -131,11 +136,53 @@
     <string name="menu_logout">Logout</string>
 
     <!-- Favorite Arcticles -->
-    <string name="favorite_articles">Favorite Articles</string>
+    <string name="favorite_articles">Bookmark</string>
 
     <!-- Notifications -->
     <string name="notification_title">DAILY REMINDER</string>
-    <string name="notification_message">Don&apos;t forget to make a journal</string>
+    <string name="notification_message">Don\'t forget to make a journal</string>
     <string name="notification_sub_message">There’s Fire 3 blocks away from you. Try alternative route.</string>
->>>>>>> 2ad3ed579f7bd4fa3fe55f82c0fbe9d61dbbb3ba
+
+
+    <!-- DetailArticle -->
+    <string name="header_title">Why Brain Smart?</string>
+    <string name="back_button_description_detail">Back Button</string>
+    <string name="author_name">James Arthur</string>
+    <string name="publication_date">Published 08 Aug 2024</string>
+    <string name="article_content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec porttitor vestibulum tortor at sagittis. Nulla vel porta lectus. Maecenas mollis id massa a volutpat. Etiam diam ex, molestie id ex laoreet, pellentesque semper enim. Aliquam luctus tempus gravida. Nullam tellus neque, tincidunt ut tincidunt id, placerat vitae purus. In semper risus non malesuada auctor. Morbi rutrum nec odio ut lobortis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Sed viverra quis nunc non rhoncus. Duis tempus, leo </string>
+
+    <!-- Article Item -->
+    <string name="article_description">Research explores factors that influence cognitive aging, highlighting exercise, avoiding stress...</string>
+
+    <!-- Home -->
+    <string name="greeting">Hello, Candra</string>
+    <string name="date">FRIDAY, NOVEMBER 08</string>
+    <string name="newest_article">Newest Article</string>
+
+    <!-- Relaxation -->
+    <string name="play_pause_description">Play or pause music</string>
+    <string name="slider_music_description">Adjust music progress</string>
+    <string name="info_icon_description">Information icon</string>
+    <string name="title_song">Natural songs</string>
+    <string name="title_instructor">Take a Breath</string>
+    <string name="time_instructor">15 S</string>
+    <string name="start_time">2:25</string>
+    <string name="end_time">4:02</string>
+
+    <string name="description_text">Lorem Ipsum is simply dummy text of the printing and </string>
+
+    <!-- Profile -->
+    <string-array name="gender_options">
+        <item>Male</item>
+        <item>Female</item>
+        <item>Other</item>
+    </string-array>
+    <string-array name="nation_options">
+        <item>USA</item>
+        <item>Canada</item>
+        <item>Indonesia</item>
+        <item>Other</item>
+    </string-array>
+    <string name="enter_name">John Sins</string>
+    <string name="change_photo">Change Photo</string>
 </resources>

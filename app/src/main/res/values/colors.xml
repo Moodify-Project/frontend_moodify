@@ -13,11 +13,8 @@
     <color name="white_full">#FFFFFF</color>
     <color name="sky_blue">#608BC1</color>
     <color name="cream">#F3F3E0</color>
-<<<<<<< HEAD
     <color name="gray">#E4E4E4</color>
-=======
     <color name="background">#F5f5f5</color>
     <color name="grey_cream">#CAC4D0</color>
     <color name="grey_line">#CCCCCC</color>
->>>>>>> 2ad3ed579f7bd4fa3fe55f82c0fbe9d61dbbb3ba
 </resources>

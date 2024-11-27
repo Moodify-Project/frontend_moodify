@@ -1,49 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/rounded_bg"
-    android:padding="16dp">
+    android:layout_margin="8dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp"
+    app:cardBackgroundColor="#FFFFFF">
 
-    <ImageView
-        android:id="@+id/notification_icon"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_alignParentStart="true"
-        android:layout_marginEnd="8dp"
-        android:src="@drawable/logo_black" />
-
-    <TextView
-        android:id="@+id/notification_title"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@id/notification_icon"
-        android:fontFamily="@font/poppins_bold"
-        android:text="@string/notification_title"
-        android:textColor="#000000"
-        android:textSize="16sp" />
+        android:orientation="vertical"
+        android:padding="16dp">
 
-    <TextView
-        android:id="@+id/notification_message"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/notification_title"
-        android:layout_toEndOf="@id/notification_icon"
-        android:fontFamily="@font/poppins_regular"
-        android:text="@string/notification_message"
-        android:textColor="#666666"
-        android:textSize="14sp"
-        android:layout_marginTop="4dp" />
+        <!-- Header (Icon dan Title) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="8dp">
 
-    <TextView
-        android:id="@+id/notification_sub_message"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/notification_message"
-        android:layout_toEndOf="@id/notification_icon"
-        android:fontFamily="@font/poppins_regular"
-        android:text="@string/notification_sub_message"
-        android:textColor="#999999"
-        android:textSize="12sp"
-        android:layout_marginTop="2dp" />
-</RelativeLayout>
+            <!-- Icon -->
+            <ImageView
+                android:id="@+id/notification_icon"
+                android:layout_width="40dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/logo_black" />
+
+            <!-- Title -->
+            <TextView
+                android:id="@+id/notification_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_semi_bold"
+                android:text="@string/notification_title"
+                android:textColor="#333333"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- Main Message -->
+        <TextView
+            android:id="@+id/notification_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_medium"
+            android:text="@string/notification_message"
+            android:textColor="#666666"
+            android:textSize="12sp"
+            android:layout_marginBottom="4dp" />
+
+        <!-- Sub Message -->
+        <TextView
+            android:id="@+id/notification_sub_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_regular"
+            android:text="@string/notification_sub_message"
+            android:textColor="#999999"
+            android:textSize="12sp" />
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

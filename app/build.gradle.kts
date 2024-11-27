@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("kotlin-kapt")
 }
 
 android {
@@ -47,6 +48,17 @@ dependencies {
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
 
+
+    implementation(libs.retrofit)
+    implementation(libs.retrofit2.converter.gson)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.glide)
+    implementation(libs.okhttp)
+    implementation (libs.androidx.paging.runtime)
+    implementation (libs.jetbrains.kotlinx.coroutines.android)
+    implementation (libs.logging.interceptor)
+    implementation (libs.androidx.datastore.preferences)
 
     implementation (libs.material)
 

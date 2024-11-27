@@ -13,7 +13,7 @@
         android:title="@string/relax_title"
         app:showAsAction="ifRoom|withText" />
     <item
-        android:id="@+id/navigation_crate"
+        android:id="@+id/navigation_create"
         android:icon="@drawable/ic_create_fix"
         android:title="@string/create_title"
         app:showAsAction="ifRoom|withText" />
