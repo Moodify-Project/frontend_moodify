@@ -59,6 +59,7 @@ dependencies {
     implementation (libs.jetbrains.kotlinx.coroutines.android)
     implementation (libs.logging.interceptor)
     implementation (libs.androidx.datastore.preferences)
+    implementation (libs.jwtdecode)
 
     implementation (libs.material)
 

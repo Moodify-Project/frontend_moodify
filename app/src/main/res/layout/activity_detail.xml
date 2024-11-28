@@ -76,13 +76,13 @@
                 android:gravity="center_vertical">
 
                 <ImageView
-                    android:id="@+id/authorIcon"
+                    android:id="@+id/bookmarkIcon"
                     android:layout_width="16dp"
                     android:layout_height="16dp"
-                    android:src="@drawable/ic_user" />
+                    android:src="@drawable/ic_bookmarks" />
 
                 <TextView
-                    android:id="@+id/articleAuthor"
+                    android:id="@+id/bookmarkCount"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"

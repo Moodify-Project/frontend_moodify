@@ -36,19 +36,39 @@ class LoginActivity : AppCompatActivity() {
             binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         }
 
+//        viewModel.loginResult.observe(this) { result ->
+//            result.onSuccess { token ->
+//                Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show()
+//                navigateToHome()
+//                sessionManager.saveAccessToken(token)
+//            }.onFailure {
+//                Toast.makeText(this, "Login failed: ${it.message}", Toast.LENGTH_SHORT).show()
+//            }
+//        }
         viewModel.loginResult.observe(this) { result ->
-            result.onSuccess { token ->
+            result.onSuccess { response ->
                 Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show()
+                sessionManager.saveAccessToken(response.accessToken)
+                sessionManager.saveRefreshToken(response.refreshToken)
                 navigateToHome()
-                sessionManager.saveAccessToken(token)
             }.onFailure {
                 Toast.makeText(this, "Login failed: ${it.message}", Toast.LENGTH_SHORT).show()
             }
         }
-
+//        binding.loginButton.setOnClickListener {
+//            val email = binding.emailInput.text.toString()
+//            val password = binding.passwordInput.text.toString()
+//            viewModel.login(email, password)
+//        }
         binding.loginButton.setOnClickListener {
             val email = binding.emailInput.text.toString()
             val password = binding.passwordInput.text.toString()
+
+            if (email.isEmpty() || password.isEmpty()) {
+                Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             viewModel.login(email, password)
         }
     }

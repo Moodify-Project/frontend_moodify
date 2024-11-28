@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.frontend_moodify.data.remote.response.login.LoginRequest
+import com.example.frontend_moodify.data.remote.response.login.LoginResponse
 import com.example.frontend_moodify.data.remote.response.register.RegisterRequest
 import com.example.frontend_moodify.data.remote.response.register.RegisterResponse
 import com.example.frontend_moodify.presentation.repository.AuthRepository
@@ -19,8 +20,8 @@ class AuthViewModel(private val authRepository: AuthRepository) : ViewModel() {
     private val _error = MutableLiveData<String?>()
     val error: LiveData<String?> = _error
 
-    private val _loginResult = MutableLiveData<Result<String>>()
-    val loginResult: LiveData<Result<String>> get() = _loginResult
+    private val _loginResult = MutableLiveData<Result<LoginResponse>>()
+    val loginResult: LiveData<Result<LoginResponse>> get() = _loginResult
 
 //    private val _registerResult = MutableLiveData<Result<RegisterResponse>>()
 //    val registerResult: LiveData<Result<RegisterResponse>> = _registerResult
@@ -33,11 +34,11 @@ class AuthViewModel(private val authRepository: AuthRepository) : ViewModel() {
         viewModelScope.launch {
             try {
                 val response = authRepository.login(LoginRequest(email, password))
-                _loginResult.value = Result.success(response.accessToken)
-            } catch (e: IOException) {
-                _loginResult.value = Result.failure(e)
+                _loginResult.postValue(Result.success(response))
+            } catch (e: Exception) {
+                _loginResult.postValue(Result.failure(e))
             } finally {
-                _isLoading.value = false
+                _isLoading.postValue(false)
             }
         }
     }
