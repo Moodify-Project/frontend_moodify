@@ -48,7 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="Start typing..."
-            android:textColorHint="@android:color/darker_gray"
+            android:textColorHint="@color/grey"
             android:backgroundTint="@android:color/transparent"
             android:gravity="top"/>
 

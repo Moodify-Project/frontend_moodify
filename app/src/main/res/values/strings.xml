@@ -188,5 +188,7 @@
     <string name="change_photo">Change Photo</string>
 
     <string name="lost_connection_image">Image indicating no internet connection</string>
+    <string name="no_connection_message">No Connection. Please Try Again Later.</string>
+
 </resources>
 

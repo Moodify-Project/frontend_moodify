@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="@color/white"
     tools:context=".presentation.ui.auth.RegisterActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -38,7 +38,7 @@
         <ImageView
             android:id="@+id/bannerImage"
             android:layout_width="0dp"
-            android:layout_height="150dp"
+            android:layout_height="200dp"
             android:layout_marginTop="48dp"
             android:contentDescription="@string/banner_description"
             android:src="@drawable/banner_register"
@@ -54,7 +54,7 @@
             android:layout_marginTop="20dp"
             android:fontFamily="@font/poppins_semi_bold"
             android:text="@string/register"
-            android:textColor="#618CC1"
+            android:textColor="@color/blue"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -140,12 +140,12 @@
                 android:id="@+id/passwordInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_medium"
+                android:inputType="textPassword"
                 android:minHeight="48dp"
                 android:paddingStart="48dp"
                 android:paddingEnd="40dp"
-                android:textSize="14sp"
-                android:fontFamily="@font/poppins_medium"
-                android:inputType="textPassword" />
+                android:textSize="14sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
@@ -154,7 +154,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="@string/agreement_text"
-            android:textColor="#4C80C1"
+            android:textColor="@color/blue"
             android:textSize="12sp"
             android:fontFamily="@font/poppins_medium"
             app:layout_constraintEnd_toEndOf="parent"
@@ -166,8 +166,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/register"
-            android:textColor="#FFFFFF"
-            android:backgroundTint="#618CC1"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/blue"
             android:fontFamily="@font/poppins_medium"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -192,7 +192,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/login"
-            android:textColor="#4C80C1"
+            android:textColor="@color/dark_blue"
             android:textSize="14sp"
             android:paddingStart="8dp"
             android:paddingEnd="0dp"
