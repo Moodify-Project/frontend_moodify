@@ -3,8 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white">
+    android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -29,7 +28,6 @@
             android:layout_marginStart="16dp"
             android:fontFamily="@font/poppins_medium"
             android:text="@string/header_title"
-            android:textColor="@color/white"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/backButton"
@@ -73,7 +71,6 @@
                 android:fontFamily="@font/poppins_regular"
                 android:lineSpacingExtra="4dp"
                 android:text="@string/article_content"
-                android:textColor="@color/black"
                 android:textSize="14sp" />
         </androidx.core.widget.NestedScrollView>
     </LinearLayout>

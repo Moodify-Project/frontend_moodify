@@ -1,14 +1,14 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme for Dark Mode -->
     <style name="Base.Theme.Frontend_moodify" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimary">@color/black</item> <!-- Black primary color for dark mode -->
         <item name="colorPrimaryVariant">@color/dark_blue</item>
-        <item name="colorOnPrimary">@android:color/white</item>
+        <item name="colorOnPrimary">@android:color/white</item> <!-- White text on primary for readability -->
         <item name="colorSecondary">@color/medium_blue</item>
         <item name="colorOnSecondary">@android:color/white</item>
         <item name="android:statusBarColor">@color/dark_blue</item>
         <item name="android:navigationBarColor">@color/navigationBarColorDark</item> <!-- Dark mode navigation bar color -->
-        <item name="android:textColorPrimary">@color/white</item>
-        <item name="android:textColorSecondary">@color/grey</item>
+        <item name="android:textColorPrimary">@color/white</item> <!-- White text for primary text -->
+        <item name="android:textColorSecondary">@color/grey</item> <!-- Grey text for secondary text -->
     </style>
 </resources>

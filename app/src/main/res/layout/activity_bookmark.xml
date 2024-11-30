@@ -4,8 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.ui.bookmark.BookmarkActivity"
-    android:background="@color/white">
+    tools:context=".presentation.ui.bookmark.BookmarkActivity">
 
     <!-- MaterialToolbar -->
     <com.google.android.material.appbar.MaterialToolbar
@@ -16,7 +15,6 @@
         android:elevation="4dp"
         app:navigationIcon="@drawable/ic_back_white"
         app:title="@string/favorite_articles"
-        app:titleTextColor="@color/white"
         app:titleTextAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
 
     <androidx.recyclerview.widget.RecyclerView
