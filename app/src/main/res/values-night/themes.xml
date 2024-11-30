@@ -1,7 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme for Dark Mode -->
     <style name="Base.Theme.Frontend_moodify" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/black</item> <!-- Black primary color for dark mode -->
+        <item name="colorPrimary">@color/blue</item> <!-- Black primary color for dark mode -->
         <item name="colorPrimaryVariant">@color/dark_blue</item>
         <item name="colorOnPrimary">@android:color/white</item> <!-- White text on primary for readability -->
         <item name="colorSecondary">@color/medium_blue</item>
