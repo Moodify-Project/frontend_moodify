@@ -1,136 +1,135 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_relaxation"
-    android:padding="16dp"
-    tools:context=".RelaxationFragment">
+    android:fillViewport="true">
 
-    <!-- Title -->
-    <TextView
-        android:id="@+id/tvTitle"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:fontFamily="sans-serif-medium"
-        android:gravity="center"
-        android:text="@string/title_instructor"
-        android:textColor="@android:color/white"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:background="@drawable/background_relaxation"
+        android:padding="16dp"
+        tools:context=".RelaxationFragment">
 
-    <!-- Timer -->
-    <TextView
-        android:id="@+id/tvTimer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-black"
-        android:gravity="center"
-        android:text="@string/time_instructor"
-        android:textColor="@android:color/white"
-        android:textSize="48sp"
-        app:layout_constraintBottom_toTopOf="@id/tvMusic"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvTitle" />
-
-    <!-- Music Label -->
-    <TextView
-        android:id="@+id/tvMusic"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:fontFamily="sans-serif"
-        android:text="@string/title_song"
-        android:textColor="@android:color/white"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@id/container"
-        app:layout_constraintEnd_toEndOf="@id/imgInfo"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <!-- Slider -->
-    <LinearLayout
-        android:id="@+id/container"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="24dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@id/btnPlay"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <!-- Start time -->
+        <!-- Title -->
         <TextView
+            android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/start_time"
+            android:layout_marginTop="32dp"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:text="@string/title_instructor"
             android:textColor="@android:color/white"
-            android:textSize="14sp" />
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Slider -->
-<!--        <com.google.android.material.slider.Slider-->
-<!--            android:id="@+id/sliderMusic"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginStart="8dp"-->
-<!--            android:layout_marginEnd="8dp"-->
-<!--            app:stepSize="1"-->
-<!--            app:valueFrom="0"-->
-<!--            app:valueTo="240"-->
-<!--            app:trackActiveTint="@color/blue"-->
-<!--            app:trackInactiveTint="@color/gray"-->
-<!--            android:contentDescription="@string/slider_music_description" />-->
-
-
-
-        <!-- End time -->
+        <!-- Timer -->
         <TextView
+            android:id="@+id/tvTimer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/end_time"
+            android:fontFamily="sans-serif-black"
+            android:gravity="center"
+            android:text="@string/time_instructor"
             android:textColor="@android:color/white"
-            android:textSize="14sp" />
-    </LinearLayout>
+            android:textSize="48sp"
+            app:layout_constraintBottom_toTopOf="@id/container_song"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTitle" />
 
-    <!-- Info icon -->
-    <ImageView
-        android:id="@+id/imgInfo"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginTop="16dp"
-        android:src="@drawable/ic_info"
-        android:contentDescription="@string/info_icon_description"
-        app:layout_constraintBottom_toTopOf="@id/container"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:tint="@android:color/white" />
+        <!-- Music Container -->
+        <LinearLayout
+            android:id="@+id/container_song"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            app:layout_constraintBottom_toTopOf="@id/container"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
-    <!-- Play Button -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btnPlay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:backgroundTint="@color/blue"
-        android:src="@drawable/ic_pause"
-        android:contentDescription="@string/play_pause_description"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:tint="@android:color/white" />
+            <!-- Music Label -->
+            <TextView
+                android:id="@+id/tvMusic"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="sans-serif"
+                android:text="@string/title_song"
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="20dp" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <!-- Info Icon -->
+            <ImageView
+                android:id="@+id/imgInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_info"
+                android:contentDescription="@string/info_icon_description"
+                app:tint="@android:color/white" />
+        </LinearLayout>
+
+        <!-- Slider Container -->
+        <LinearLayout
+            android:id="@+id/container"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="24dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@id/btnPlay"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <!-- Start Time -->
+            <TextView
+                android:id="@+id/tvDurationStart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="00:00"
+                android:textColor="@android:color/white"
+                android:textSize="14sp" />
+
+            <!-- SeekBar -->
+            <SeekBar
+                android:id="@+id/seekBarSong"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="8dp" />
+
+            <!-- End Time -->
+            <TextView
+                android:id="@+id/tvDurationEnd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="00:00"
+                android:textColor="@android:color/white"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- Play Button -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnPlay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:backgroundTint="@color/blue"
+            android:src="@drawable/ic_pause"
+            android:contentDescription="@string/play_pause_description"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:tint="@android:color/white" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

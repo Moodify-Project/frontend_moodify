@@ -1,7 +1,10 @@
 package com.example.frontend_moodify.presentation.ui.splash
 
 import android.content.Intent
+import android.graphics.text.LineBreaker
+import android.os.Build
 import android.os.Bundle
+import android.text.Layout
 import androidx.appcompat.app.AppCompatActivity
 import com.example.frontend_moodify.databinding.ActivityLandingPageBinding
 import com.example.frontend_moodify.presentation.ui.auth.LoginActivity
@@ -27,6 +30,12 @@ class LandingPageActivity : AppCompatActivity() {
             // Navigate to RegisterActivity
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) { // API 33+
+            binding.descriptionText.breakStrategy = LineBreaker.BREAK_STRATEGY_SIMPLE
+            binding.descriptionText.justificationMode = LineBreaker.JUSTIFICATION_MODE_INTER_WORD
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) { // API 26 to 32
+            binding.descriptionText.justificationMode = LineBreaker.JUSTIFICATION_MODE_INTER_WORD
         }
     }
 }

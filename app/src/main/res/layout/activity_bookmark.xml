@@ -7,24 +7,57 @@
     tools:context=".presentation.ui.bookmark.BookmarkActivity"
     android:background="@color/white">
 
-    <!-- MaterialToolbar -->
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/topAppBar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@drawable/background_gradient"
-        android:elevation="4dp"
-        app:navigationIcon="@drawable/ic_back_white"
-        app:title="@string/favorite_articles"
-        app:titleTextColor="@color/white"
-        app:titleTextAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/favoriteArticlesRecyclerView"
+    <!-- ScrollView ensures the layout is scrollable -->
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize"
-        android:clipToPadding="false"
-        android:scrollbars="vertical"
-        android:padding="16dp" />
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- MaterialToolbar -->
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/topAppBar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@drawable/background_gradient"
+                android:elevation="4dp"
+                app:navigationIcon="@drawable/ic_back_white"
+                app:title="@string/favorite_articles"
+                app:titleTextColor="@color/white"
+                app:titleTextAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
+
+            <!-- RecyclerView -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/favoriteArticlesRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:clipToPadding="false"
+                android:scrollbars="vertical" />
+
+            <!-- ProgressBar -->
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_gravity="center" />
+
+            <!-- Empty State -->
+            <TextView
+                android:id="@+id/emptyStateText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/no_connection_message"
+                android:visibility="gone"
+                android:textColor="@color/grey"
+                android:textSize="16sp"
+                android:fontFamily="@font/poppins_regular" />
+        </LinearLayout>
+    </ScrollView>
 </FrameLayout>

@@ -18,6 +18,9 @@ import com.example.frontend_moodify.presentation.viewmodel.ArticleViewModel
 import com.example.frontend_moodify.presentation.viewmodel.ArticleViewModelFactory
 import com.example.frontend_moodify.utils.SessionManager
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
     private lateinit var binding: FragmentHomeBinding
@@ -42,6 +45,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 putExtra("publishDate", article.publishedAt)
                 putExtra("bookmarkCount", article.bookmarkedCount)
                 putExtra("articleId", article.id)
+                putExtra("content", article.content)
             }
             Log.d("HomeFragment", "publishDate: ${article.id}")
 
@@ -63,7 +67,15 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
         }
 
+        val currentDate = getCurrentDate()
+        binding.dateTextView.text = currentDate
+
         viewModel.fetchArticles()
+    }
+    private fun getCurrentDate(): String {
+        val dateFormat = SimpleDateFormat("EEEE, MMMM dd", Locale.getDefault())
+        val formattedDate = dateFormat.format(Date())
+        return formattedDate.uppercase()
     }
 }
 

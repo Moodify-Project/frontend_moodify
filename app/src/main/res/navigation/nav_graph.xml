@@ -35,4 +35,16 @@
         android:label="@string/create_title"
         tools:layout="@layout/fragment_create_journal">
     </fragment>
+    <fragment
+        android:id="@+id/navigation_mood"
+        android:name="com.example.frontend_moodify.MoodTrackerFragment"
+        android:label="@string/mood_title"
+        tools:layout="@layout/fragment_mood_track">
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_journal"
+        android:name="com.example.frontend_moodify.JournalFragment"
+        android:label="@string/journal_title"
+        tools:layout="@layout/fragment_journal">
+    </fragment>
 </navigation>

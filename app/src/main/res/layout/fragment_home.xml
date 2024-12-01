@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5"
+    android:background="@color/white"
     tools:context=".HomeFragment">
 
     <!-- Konten utama -->
@@ -54,10 +54,11 @@
                         android:fontFamily="@font/poppins_medium" />
 
                     <TextView
+                        android:id="@+id/dateTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/date"
-                        android:textColor="@color/cream"
+                        android:textColor="@color/white"
                         android:textSize="12sp"
                         android:fontFamily="@font/poppins_semi_bold" />
                 </LinearLayout>

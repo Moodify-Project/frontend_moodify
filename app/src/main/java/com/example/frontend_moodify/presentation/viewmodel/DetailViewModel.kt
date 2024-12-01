@@ -1,6 +1,5 @@
 package com.example.frontend_moodify.presentation.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,31 +9,44 @@ import com.example.frontend_moodify.data.remote.response.bookmark.BookmarkReques
 import kotlinx.coroutines.launch
 
 class DetailViewModel(private val apiService: ArticleApiService) : ViewModel() {
-
     private val _isBookmarked = MutableLiveData<Boolean>()
-    val isBookmarked: LiveData<Boolean> get() = _isBookmarked
+    val isBookmarked: LiveData<Boolean> = _isBookmarked
+
+    fun setBookmarkStatus(isBookmarked: Boolean) {
+        _isBookmarked.value = isBookmarked
+    }
 
     fun toggleBookmark(articleId: String) {
+        if (_isBookmarked.value == true) {
+            removeBookmark(articleId)
+        } else {
+            addBookmark(articleId)
+        }
+    }
+
+    fun addBookmark(articleId: String) {
         viewModelScope.launch {
             try {
-                if (_isBookmarked.value == true) {
-//                    val response = apiService.removeBookmark(articleId)
-//                    if (response.isSuccessful) {
-//                        _isBookmarked.postValue(false)
-//                    }
-                } else {
-                    val response = apiService.bookmarkArticle(BookmarkRequest(articleId))
-                    if (response.isSuccessful) {
-                        _isBookmarked.postValue(true)
-                    }
+                val response = apiService.bookmarkArticle(BookmarkRequest(articleId))
+                if (response.isSuccessful) {
+                    _isBookmarked.value = true
                 }
             } catch (e: Exception) {
-                Log.e("BookmarkError", e.message.toString())
+                e.printStackTrace()
             }
         }
     }
 
-    fun setBookmarkStatus(isBookmarked: Boolean) {
-        _isBookmarked.postValue(isBookmarked)
+    fun removeBookmark(articleId: String) {
+        viewModelScope.launch {
+            try {
+                val response = apiService.removeBookmark(articleId)
+                if (response.isSuccessful) {
+                    _isBookmarked.value = false
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
     }
 }

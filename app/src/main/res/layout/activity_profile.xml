@@ -87,7 +87,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/name"
-                        android:textColor="#CAC4D0"
+                        android:textColor="@color/light_grey"
                         android:textSize="14sp"
                         android:fontFamily="@font/poppins_medium"
                         android:layout_marginBottom="4dp" />
@@ -105,6 +105,7 @@
                             android:layout_gravity="center"
                             android:layout_marginEnd="8dp"
                             android:src="@drawable/ic_user"
+                            app:tint="@color/light_grey"
                             android:contentDescription="@string/name_icon_description" />
 
                         <com.google.android.material.textfield.TextInputLayout
@@ -126,7 +127,8 @@
                                 android:paddingEnd="8dp"
                                 android:singleLine="true"
                                 android:importantForAccessibility="yes"
-                                android:contentDescription="@string/name_hint" />
+                                android:contentDescription="@string/name_hint"
+                                android:hint="@string/name_placeholder"/>
                         </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
 
@@ -135,7 +137,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/gender"
-                        android:textColor="#CAC4D0"
+                        android:textColor="@color/light_grey"
                         android:textSize="14sp"
                         android:fontFamily="@font/poppins_medium"
                         android:layout_marginTop="8dp"
@@ -166,7 +168,7 @@
                             android:textSize="16sp"
                             android:gravity="center_vertical"
                             android:fontFamily="@font/poppins_medium"
-                            android:textColor="#CAC4D0" />
+                            android:textColor="@color/light_grey" />
                     </LinearLayout>
 
                     <!-- Nations -->
@@ -174,7 +176,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/nations"
-                        android:textColor="#CAC4D0"
+                        android:textColor="@color/light_grey"
                         android:textSize="14sp"
                         android:fontFamily="@font/poppins_medium"
                         android:layout_marginTop="8dp"
@@ -205,7 +207,7 @@
                             android:textSize="16sp"
                             android:gravity="center_vertical"
                             android:fontFamily="@font/poppins_medium"
-                            android:textColor="#CAC4D0" />
+                            android:textColor="@color/light_grey" />
                     </LinearLayout>
 
                     <!-- Submit Button -->
@@ -216,9 +218,9 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="16dp"
                         android:paddingHorizontal="24dp"
-                        android:backgroundTint="#618CC1"
+                        android:backgroundTint="@color/light_blue"
                         android:text="@string/submit"
-                        android:textColor="#FFFFFF"
+                        android:textColor="@color/white"
                         android:textSize="16sp"
                         android:fontFamily="@font/poppins_medium" />
                 </LinearLayout>

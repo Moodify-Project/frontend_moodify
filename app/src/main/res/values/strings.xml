@@ -65,6 +65,8 @@
     <string name="register_prompt_">Already have an account?</string>
     <string name="login_link">Login</string>
 
+
+
     <string name="back_button_description_profile">Go back to the previous screen</string>
     <string name="profile_image_description">User profile picture</string>
     <string name="name">Name</string>
@@ -89,6 +91,8 @@
     <string name="error_password_length">Password must be at least 8 characters</string>
     <string name="error_name_empty">Name cannot be empty</string>
     <string name="error_name_short">Name must be at least 3 characters long</string>
+    <string name="error_password_uppercase">Password harus memiliki minimal 2 huruf besar.</string>
+    <string name="error_password_symbol">Password harus memiliki minimal 2 simbol.</string>
 
     <!-- Buttons -->
     <string name="register_button">Register</string>
@@ -169,6 +173,7 @@
     <string name="time_instructor">15 S</string>
     <string name="start_time">2:25</string>
     <string name="end_time">4:02</string>
+    <string name="relaxation_stopped">Relaxation Stopped</string>
 
     <string name="description_text">Lorem Ipsum is simply dummy text of the printing and </string>
 
@@ -186,7 +191,10 @@
     </string-array>
     <string name="enter_name">John Sins</string>
     <string name="change_photo">Change Photo</string>
+    <string name="name_placeholder">Enter your name</string>
 
     <string name="lost_connection_image">Image indicating no internet connection</string>
+    <string name="no_connection_message">No Connection. Please Try Again Later.</string>
+
 </resources>
 

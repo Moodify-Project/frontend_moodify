@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".JournalFragment">
+    tools:context=".MoodTrackerFragment">
 
     <!-- Header Layout -->
     <RelativeLayout
@@ -75,8 +75,8 @@
         android:paddingStart="8dp"
         android:paddingEnd="8dp" />
 
-    <!-- ScrollView for Journal Content -->
-    <ScrollView
+    <!-- NestedScrollView for Content -->
+    <androidx.core.widget.NestedScrollView
         android:id="@+id/sv_journal_content"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -86,19 +86,25 @@
         android:paddingStart="8dp"
         android:paddingEnd="8dp"
         android:background="@drawable/bg_border_light_grey"
-        android:fillViewport="true"
         app:layout_constraintTop_toBottomOf="@id/rv_date_selector"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:fillViewport="true">
 
-        <TextView
-            android:id="@+id/tv_journal_text"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:text="@string/lorem_ipsum"
-            android:textColor="@color/black"
-            android:fontFamily="@font/poppins_regular"
-            android:textSize="14sp"
-            android:textAlignment="viewStart"/>
-    </ScrollView>
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_journal_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:text="@string/lorem_ipsum"
+                android:textColor="@color/black"
+                android:fontFamily="@font/poppins_regular"
+                android:textSize="14sp"
+                android:textAlignment="viewStart"/>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
