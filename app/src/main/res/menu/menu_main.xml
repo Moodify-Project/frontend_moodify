@@ -5,22 +5,26 @@
 
     <item
         android:id="@+id/action_settings"
-        android:icon="@drawable/ic_setting"
         android:title="@string/action_settings"
+        app:iconTint="@color/grey"
+        android:textColor="@color/grey"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_profile"
-        android:icon="@drawable/ic_user"
         android:title="@string/profile_title"
+        app:iconTint="@color/grey"
+        android:textColor="@color/grey"
         app:showAsAction="never"/>
     <item
         android:id="@+id/action_bookmarks"
-        android:icon="@drawable/ic_bookmarks"
         android:title="@string/bookmark_title"
+        android:textColor="@color/grey"
+        app:iconTint="@color/grey"
         app:showAsAction="never"/>
     <item
         android:id="@+id/action_logout"
-        android:icon="@drawable/ic_logout"
         android:title="@string/logout_title"
+        app:iconTint="@color/grey"
+        android:textColor="@color/grey"
         app:showAsAction="never"/>
 </menu>

@@ -28,9 +28,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val sharedPreferences = getSharedPreferences("user_settings", MODE_PRIVATE)
-
         val isDarkMode = sharedPreferences.getBoolean("dark_mode", false)
-
         if (isDarkMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         } else {
@@ -38,6 +36,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         super.onCreate(savedInstanceState)
+
+        // Inflate layout dan setContentView
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
