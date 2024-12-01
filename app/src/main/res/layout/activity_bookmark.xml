@@ -6,23 +6,27 @@
     android:layout_height="match_parent"
     tools:context=".presentation.ui.bookmark.BookmarkActivity">
 
-    <!-- MaterialToolbar -->
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/topAppBar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@drawable/background_gradient"
         android:elevation="4dp"
-        app:navigationIcon="@drawable/ic_back_white"
+        app:navigationIcon="@drawable/ic_back_grey"
+        app:titleTextColor="@color/light_grey"
         app:title="@string/favorite_articles"
         app:titleTextAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/light_grey"
+        android:layout_marginTop="?attr/actionBarSize" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/favoriteArticlesRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="?attr/actionBarSize"
-        android:clipToPadding="false"
         android:scrollbars="vertical"
         android:padding="16dp" />
 </FrameLayout>
