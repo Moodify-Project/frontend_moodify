@@ -13,6 +13,7 @@
     <color name="grey_cream">#CAC4D0</color>
     <color name="grey_line">#CCCCCC</color>
     <color name="navigationBarColorLight">#ffffff</color> <!-- Light mode navigation bar color -->
+    <color name="dateTextColor">#000000</color>
 
 
 </resources>

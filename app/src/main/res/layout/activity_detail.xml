@@ -52,7 +52,6 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:text="@string/header_title"
-                android:textColor="@color/black"
                 android:textSize="20sp"
                 android:fontFamily="@font/poppins_medium" />
 

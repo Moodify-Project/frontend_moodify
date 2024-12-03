@@ -12,6 +12,6 @@
     <color name="background">#000000</color> <!-- Black background for dark mode -->
     <color name="grey_line">#666666</color>
     <color name="navigationBarColorDark" tools:ignore="MissingDefaultResource">#ffffff</color> <!-- Dark mode navigation bar color -->
-
+    <color name="dateTextColor">#FFFFFF</color>
 
 </resources>
