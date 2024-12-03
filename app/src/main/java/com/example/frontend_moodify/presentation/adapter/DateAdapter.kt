@@ -38,7 +38,7 @@ class DateAdapter(
         val dayFormat = SimpleDateFormat("E", Locale.getDefault())
         val dateFormat = SimpleDateFormat("dd", Locale.getDefault())
 
-        holder.binding.tvDay.text = dayFormat.format(calendar.time).substring(0, 1) 
+        holder.binding.tvDay.text = dayFormat.format(calendar.time).substring(0, 1)
         holder.binding.tvDate.text = dateFormat.format(calendar.time)
 
         val dateTextColor = ContextCompat.getColor(holder.binding.root.context, R.color.dateTextColor)
