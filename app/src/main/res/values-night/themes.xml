@@ -10,5 +10,6 @@
         <item name="android:navigationBarColor">@color/navigationBarColorDark</item> <!-- Dark mode navigation bar color -->
         <item name="android:textColorPrimary">@color/white</item> <!-- White text for primary text -->
         <item name="android:textColorSecondary">@color/grey</item> <!-- Grey text for secondary text -->
+        <item name="colorControlNormal">@color/nav_colors_dark</item>  <!-- Gunakan nav_colors_dark untuk dark mode -->
     </style>
 </resources>

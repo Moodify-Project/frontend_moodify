@@ -113,17 +113,15 @@ class ProfileActivity : AppCompatActivity() {
         viewModelProfile.profile.observe(this) { profile ->
             if (profile != null) {
                 binding.nameInput.setText(profile.name)
-                // Mengatur spinner gender
                 val genderPosition = genderList.indexOf(profile.gender)
                 if (genderPosition >= 0) {
                     binding.genderSpinner.setSelection(genderPosition)
                 } else {
-                    binding.genderSpinner.setSelection(0) // Default ke pilihan pertama
+                    binding.genderSpinner.setSelection(0)
                 }
 
-                // Mengatur AutoCompleteTextView nation
                 if (profile.country.isNotEmpty()) {
-                    binding.nationSpinner.setText(profile.country, false) // False agar tidak memunculkan dropdown
+                    binding.nationSpinner.setText(profile.country, false)
                 }
 
 

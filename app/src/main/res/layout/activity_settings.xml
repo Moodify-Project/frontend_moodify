@@ -7,23 +7,26 @@
     tools:context=".presentation.ui.settings.SettingActivity">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/container_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/blue"
         android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@drawable/background_gradient"
             android:elevation="4dp"
-            app:navigationIcon="@drawable/ic_back_white"
+            app:navigationIcon="@drawable/ic_back_grey"
             app:title="@string/setting_title"
-            app:titleTextColor="@android:color/white"
+            app:titleTextColor="@color/light_grey"
             app:titleTextAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/light_grey" />
     </com.google.android.material.appbar.AppBarLayout>
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -49,7 +52,7 @@
             android:id="@+id/profile_separator"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:background="@color/gray"
+            android:background="@color/grey_line"
             app:layout_constraintTop_toBottomOf="@id/profile_title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -84,7 +87,7 @@
             android:id="@+id/themes_separator"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:background="@color/gray"
+            android:background="@color/light_grey"
             app:layout_constraintTop_toBottomOf="@id/themes_title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -127,7 +130,7 @@
             android:id="@+id/daily_separator"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:background="@color/gray"
+            android:background="@color/grey_line"
             app:layout_constraintTop_toBottomOf="@id/daily_reminder_title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

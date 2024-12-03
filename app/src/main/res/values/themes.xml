@@ -2,13 +2,14 @@
     <style name="Base.Theme.Frontend_moodify" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/blue</item> <!-- White primary color for light mode -->
         <item name="colorPrimaryVariant">@color/light_blue</item>
-        <item name="colorOnPrimary">@android:color/black</item> <!-- Black text on primary for readability -->
+        <item name="colorOnPrimary">@android:color/black</item>
         <item name="colorSecondary">@color/blue</item>
         <item name="colorOnSecondary">@android:color/white</item>
         <item name="android:statusBarColor">@color/blue</item>
         <item name="android:navigationBarColor">@color/navigationBarColorLight</item>
         <item name="android:textColorPrimary">@color/black</item> <!-- Black text for primary text -->
         <item name="android:textColorSecondary">@color/grey</item> <!-- Grey text for secondary text -->
+        <item name="colorControlNormal">@color/nav_colors</item>  <!-- Gunakan nav_colors untuk light mode -->
     </style>
 
     <style name="Theme.Frontend_moodify" parent="Base.Theme.Frontend_moodify" />

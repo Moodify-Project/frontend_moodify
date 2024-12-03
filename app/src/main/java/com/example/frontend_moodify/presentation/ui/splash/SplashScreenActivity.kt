@@ -19,31 +19,25 @@ class SplashScreenActivity : AppCompatActivity() {
 
         val logo = findViewById<ImageView>(R.id.logo)
 
-        // Animasi untuk pergerakan logo (bergerak ke atas)
         val moveAnimator = ObjectAnimator.ofFloat(logo, "translationY", -500f, 0f)
-        moveAnimator.duration = 800  // Durasi animasi gerak logo
-        moveAnimator.interpolator = AccelerateDecelerateInterpolator()  // Ease In Out
+        moveAnimator.duration = 800
+        moveAnimator.interpolator = AccelerateDecelerateInterpolator()
         moveAnimator.start()
 
-        // Animasi untuk memudar logo
         val fadeOutAnimator = ObjectAnimator.ofFloat(logo, "alpha", 1f, 0f)
-        fadeOutAnimator.duration = 300  // Durasi animasi memudar logo
+        fadeOutAnimator.duration = 300
 
-        // Menambahkan listener untuk animasi pergerakan logo
         moveAnimator.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator) {
                 super.onAnimationEnd(animation)
-                // Mulai animasi fade out setelah pergerakan selesai
                 fadeOutAnimator.start()
 
-                // Setelah fade out selesai, pindah ke activity berikutnya
                 fadeOutAnimator.addListener(object : AnimatorListenerAdapter() {
                     override fun onAnimationEnd(animation: Animator) {
                         super.onAnimationEnd(animation)
-                        // Setelah animasi selesai, pindah ke LandingPageActivity
                         val intent = Intent(this@SplashScreenActivity, LandingPageActivity::class.java)
                         startActivity(intent)
-                        finish()  // Pastikan activity splash selesai agar tidak bisa kembali
+                        finish()
                     }
                 })
             }

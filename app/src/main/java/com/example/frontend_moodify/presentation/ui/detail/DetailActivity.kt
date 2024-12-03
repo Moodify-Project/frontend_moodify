@@ -36,10 +36,8 @@ class DetailActivity : AppCompatActivity() {
         val publishDate = intent.getStringExtra("publishDate")
         val bookmarkCount = intent.getIntExtra("bookmarkCount", -1)
 
-        // Check saved bookmark status
         val isInitiallyBookmarked = getSavedBookmarkStatus(articleId)
 
-        // Set article details
         binding.articleTitle.text = title
         binding.articleContent.text = description
         binding.articleDate.text = publishDate
@@ -49,33 +47,28 @@ class DetailActivity : AppCompatActivity() {
             .load(imageUrl)
             .into(binding.headerImage)
 
-        // Handle Back Button
-        binding.backButton.setOnClickListener {
-            onBackPressedDispatcher.onBackPressed()
-        }
 
-        // Observe Bookmark Status
+//        binding.backButton.setOnClickListener {
+//            onBackPressedDispatcher.onBackPressed()
+//        }
+
         viewModel.isBookmarked.observe(this) { isBookmarked ->
             val iconRes = if (isBookmarked) R.drawable.ic_bookmark_active else R.drawable.ic_bookmark_nonactive
             binding.fab.setImageResource(iconRes)
         }
 
-        // Handle FAB Click
         binding.fab.setOnClickListener {
             if (viewModel.isBookmarked.value == true) {
-                // Remove bookmark
                 viewModel.removeBookmark(articleId)
                 removeBookmarkStatus(articleId)
                 Toast.makeText(this, "Bookmark removed", Toast.LENGTH_SHORT).show()
             } else {
-                // Add bookmark
                 viewModel.addBookmark(articleId)
                 saveBookmarkStatus(articleId, true)
                 Toast.makeText(this, "Bookmark added", Toast.LENGTH_SHORT).show()
             }
         }
 
-        // Set Initial Bookmark Status
         viewModel.setBookmarkStatus(isInitiallyBookmarked)
     }
 
