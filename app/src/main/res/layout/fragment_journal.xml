@@ -74,7 +74,6 @@
         app:layout_constraintTop_toBottomOf="@+id/header"
         android:paddingStart="8dp"
         android:paddingEnd="8dp" />
-
     <!-- ScrollView for Journal Content -->
     <ScrollView
         android:id="@+id/sv_journal_content"
@@ -100,5 +99,7 @@
             android:fontFamily="@font/poppins_regular"
             android:textSize="14sp"
             android:textAlignment="viewStart"/>
+
     </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_landing"
+    android:background="@drawable/background_landing_light"
     tools:context=".presentation.ui.splash.LandingPageActivity">
 
     <LinearLayout

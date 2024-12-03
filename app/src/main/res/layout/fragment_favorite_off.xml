@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".FavoriteArticle"
-    android:background="@color/white">
+    tools:context=".FavoriteArticle">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/header"
@@ -31,7 +30,6 @@
             android:layout_marginStart="16dp"
             android:fontFamily="@font/poppins_medium"
             android:text="@string/favorite_articles"
-            android:textColor="@color/white"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/backButton"

@@ -1,9 +1,14 @@
 package com.example.frontend_moodify.data.remote.network
 
 import android.content.Context
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.example.frontend_moodify.presentation.repository.ArticleRepository
 import com.example.frontend_moodify.presentation.repository.AuthRepository
+import com.example.frontend_moodify.presentation.repository.JournalRepository
+import com.example.frontend_moodify.presentation.repository.NationRepository
 import com.example.frontend_moodify.presentation.repository.ProfileRepository
+//import com.example.frontend_moodify.presentation.viewmodel.ProfileViewModel
 import com.example.frontend_moodify.utils.AuthInterceptor
 import com.example.frontend_moodify.utils.SessionManager
 import okhttp3.OkHttpClient
@@ -54,4 +59,18 @@ object Injection {
     fun provideProfileRepository(sessionManager: SessionManager): ProfileRepository {
         return ProfileRepository(provideProfileApiService(sessionManager))
     }
+
+    fun provideJournalApiService(sessionManager: SessionManager): JournalApiService {
+        return provideRetrofit(sessionManager).create(JournalApiService::class.java)
+    }
+
+    fun provideJournalRepository(sessionManager: SessionManager): JournalRepository {
+        return JournalRepository(provideJournalApiService(sessionManager))
+    }
+
+    fun provideNationsRepository(): NationRepository {
+        val apiService = NationApiClient.api
+        return NationRepository(apiService)
+    }
+
 }

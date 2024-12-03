@@ -195,6 +195,12 @@
 
     <string name="lost_connection_image">Image indicating no internet connection</string>
     <string name="no_connection_message">No Connection. Please Try Again Later.</string>
+    <string name="no_journal_message">No journal found for the selected date.</string>
+
+    <string name="text_date">11 November 2024 19:52</string>
+    <string name="text_done">Done ✓</string>
+    <string name="input_hint">Start typing...</string>
+
 
 </resources>
 

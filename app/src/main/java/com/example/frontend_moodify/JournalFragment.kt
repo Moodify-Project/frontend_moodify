@@ -3,24 +3,28 @@ package com.example.frontend_moodify
 import android.graphics.text.LineBreaker
 import android.os.Build
 import android.os.Bundle
-import android.text.Layout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.frontend_moodify.R
+import com.example.frontend_moodify.data.remote.network.Injection
 import com.example.frontend_moodify.databinding.FragmentJournalBinding
 import com.example.frontend_moodify.presentation.adapter.DateAdapter
+import com.example.frontend_moodify.presentation.viewmodel.JournalViewModel
+import com.example.frontend_moodify.presentation.viewmodel.JournalViewModelFactory
+import com.example.frontend_moodify.utils.SessionManager
 import java.text.SimpleDateFormat
 import java.util.*
 
 class JournalFragment : Fragment() {
     private lateinit var binding: FragmentJournalBinding
     private lateinit var dateAdapter: DateAdapter
+    private lateinit var viewModel: JournalViewModel
     private var allDates: List<Calendar> = emptyList()
-    private var selectedDate: Calendar = Calendar.getInstance() // Default to today
+    private var selectedDate: Calendar = Calendar.getInstance()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,6 +37,11 @@ class JournalFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val sessionManager = SessionManager(requireContext())
+        val repository = Injection.provideJournalRepository(sessionManager)
+        val factory = JournalViewModelFactory(repository)
+        viewModel = ViewModelProvider(this, factory)[JournalViewModel::class.java]
+
         allDates = generateDates()
         dateAdapter = DateAdapter(allDates, isWeeklyMode = false) { selected ->
             selectedDate = selected
@@ -43,9 +52,12 @@ class JournalFragment : Fragment() {
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvDateSelector.adapter = dateAdapter
 
-        // Scroll to today and select today by default
+        val today = Calendar.getInstance()
+        selectedDate = today
+        updateDateText(today)
+
         scrollToToday()
-        updateDateText(selectedDate)
+        observeViewModel()
 
         binding.btnLeft.setOnClickListener { navigateDate(-1) }
         binding.btnRight.setOnClickListener { navigateDate(1) }
@@ -53,7 +65,22 @@ class JournalFragment : Fragment() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             binding.tvJournalText.justificationMode = LineBreaker.JUSTIFICATION_MODE_INTER_WORD
         }
+    }
 
+    private fun observeViewModel() {
+        viewModel.journalContent.observe(viewLifecycleOwner) { content ->
+            binding.tvJournalText.text = content
+        }
+
+        viewModel.errorMessage.observe(viewLifecycleOwner) { error ->
+            Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun updateDateText(date: Calendar) {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        viewModel.fetchJournalByDate(dateFormat.format(date.time))
+        binding.tvDate.text = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(date.time)
     }
 
     private fun navigateDate(step: Int) {
@@ -63,11 +90,6 @@ class JournalFragment : Fragment() {
         dateAdapter.setSelectedDate(selectedDate)
         updateDateText(selectedDate)
         binding.rvDateSelector.scrollToPosition(newIndex)
-    }
-
-    private fun updateDateText(date: Calendar) {
-        val dateFormat = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
-        binding.tvDate.text = dateFormat.format(date.time)
     }
 
     private fun scrollToToday() {
