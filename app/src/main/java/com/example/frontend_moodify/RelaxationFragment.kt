@@ -25,9 +25,9 @@ class RelaxationFragment : Fragment() {
     private var remainingTime = 0
 
     private val steps = listOf(
-        Step("Tarik Napas", 6),
-        Step("Tahan Napas", 4),
-        Step("Hembuskan Napas", 8)
+        Step("Inhale deeply and slowly", 6),
+        Step("Hold your breath", 4),
+        Step("Exhale slowly", 8)
     )
 
     private var songPlayer: MediaPlayer? = null
@@ -58,7 +58,7 @@ class RelaxationFragment : Fragment() {
         binding.imgInfo.setOnClickListener { view ->
             val snackbar = Snackbar.make(
                 view,
-                "Tarik napas saat lingkaran membesar (4 detik).\nTahan napas (2 detik).\nHembuskan napas saat lingkaran mengecil (6 detik).",
+                " GUIDELINE RELAXATION FEATURE \n 1. Inhale deeply, slowly, and mindfully (6s).\n2. Gently hold your breath (4s).\n 3. Exhale slowly, release all tension (8s).",
                 Snackbar.LENGTH_INDEFINITE
             )
             snackbar.setAction("Tutup") {
@@ -66,16 +66,14 @@ class RelaxationFragment : Fragment() {
             }
             snackbar.setAnchorView(R.id.imgInfo)
 
-            // Menambahkan padding dan penyesuaian teks
             val snackbarView = snackbar.view
-            snackbarView.setPadding(16, 16, 16, 16) // Padding di semua sisi
+            snackbarView.setPadding(16, 16, 16, 16)
             snackbarView.findViewById<TextView>(com.google.android.material.R.id.snackbar_text).apply {
-                maxLines = 10 // Mengizinkan lebih banyak baris
-                textSize = 14f // Sesuaikan ukuran teks jika diperlukan
+                maxLines = 10
+                textSize = 14f
             }
             snackbar.show()
 
-            // Dismiss otomatis setelah 15 detik
             Handler(Looper.getMainLooper()).postDelayed({
                 snackbar.dismiss()
             }, 15000)
@@ -109,14 +107,31 @@ class RelaxationFragment : Fragment() {
         isRunning = true
         binding.btnPlay.setImageResource(R.drawable.ic_pause)
         binding.tvTitle.text = "Bersiap..."
-        binding.tvTimer.text = "3"
-        handler.postDelayed({
-            currentStep = 0
-            runStep()
-        }, 3000)
+//        binding.tvTimer.text = "3"
+        startCountdown(3)
+//        handler.postDelayed({
+//            currentStep = 0
+//            runStep()
+//        }, 3000)
 
         songPlayer?.start()
         updateSongProgressHandler.post(updateSongProgressRunnable)
+    }
+
+    private fun startCountdown(start: Int) {
+        var countdown = start
+        handler.post(object : Runnable {
+            override fun run() {
+                if (countdown > 0) {
+                    binding.tvTimer.text = countdown.toString()
+                    countdown--
+                    handler.postDelayed(this, 1000)
+                } else {
+                    currentStep = 0
+                    runStep()
+                }
+            }
+        })
     }
 
     private fun stopRelaxation() {

@@ -3,6 +3,7 @@ package com.example.frontend_moodify.presentation.ui.bookmark
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -26,7 +27,7 @@ class BookmarkActivity : AppCompatActivity() {
         BookmarkViewModelFactory(Injection.provideArticleRepository(SessionManager(this)))
     }
     private val adapter = BookmarkAdapter { article ->
-        val intent = Intent(this, DetailActivity::class.java).apply { // Ganti requireContext() dengan this
+        val intent = Intent(this, DetailActivity::class.java).apply {
             putExtra("title", article.title)
             putExtra("imageUrl", article.urlToImage)
             putExtra("description", article.description)
@@ -47,23 +48,21 @@ class BookmarkActivity : AppCompatActivity() {
 
         setupRecyclerView()
 
-        lifecycleScope.launchWhenStarted {
-            viewModel.isLoading.collect { isLoading ->
-                binding.progressBar.isVisible = isLoading
-            }
+        binding.topAppBar.setNavigationOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
         }
 
-        lifecycleScope.launchWhenStarted {
-            viewModel.bookmarkedArticles.collect { articles ->
-                adapter.submitList(articles)
-            }
+        viewModel.bookmarkedArticles.observe(this) { articles ->
+            adapter.submitList(articles)
         }
 
-        lifecycleScope.launchWhenStarted {
-            viewModel.errorMessage.collect { message ->
-                message?.let {
-                    Toast.makeText(this@BookmarkActivity, it, Toast.LENGTH_SHORT).show()
-                }
+        viewModel.isLoading.observe(this) { isLoading ->
+            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        }
+
+        viewModel.errorMessage.observe(this) { message ->
+            message?.let {
+                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
             }
         }
 

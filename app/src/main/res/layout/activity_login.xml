@@ -36,13 +36,15 @@
 
       <ImageView
           android:id="@+id/bannerImage"
-          android:layout_width="0dp"
-          android:layout_height="200dp"
+          android:layout_width="match_parent"
+          android:layout_height="0dp"
+          android:minHeight="200dp"
           android:layout_marginTop="60dp"
           android:contentDescription="@string/banner_description"
           android:src="@drawable/banner_login"
           app:layout_constraintEnd_toEndOf="parent"
           app:layout_constraintHorizontal_bias="0.0"
+          app:layout_constraintDimensionRatio="12:10"
           app:layout_constraintStart_toStartOf="parent"
           app:layout_constraintTop_toBottomOf="@id/backButton" />
 
@@ -138,7 +140,7 @@
       <Button
           android:id="@+id/loginButton"
           android:layout_width="0dp"
-          android:layout_height="wrap_content"
+          android:layout_height="51dp"
           android:text="@string/login"
           android:textColor="@color/white"
           android:backgroundTint="@color/blue"
@@ -148,31 +150,37 @@
           app:layout_constraintTop_toBottomOf="@id/forgotPassword"
           android:layout_marginTop="16dp" />
 
-      <TextView
-          android:id="@+id/registerText"
+      <LinearLayout
+          android:id="@+id/registerContainer"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:text="@string/register_prompt"
-          android:textColor="@color/light_blue"
-          android:textSize="14sp"
-          android:fontFamily="@font/poppins_medium"
+          android:orientation="horizontal"
+          android:gravity="center"
           app:layout_constraintStart_toStartOf="parent"
           app:layout_constraintEnd_toEndOf="parent"
           app:layout_constraintTop_toBottomOf="@id/loginButton"
-          android:layout_marginTop="16dp" />
+          android:layout_marginTop="16dp">
 
-      <TextView
-          android:id="@+id/registerLink"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="@string/register"
-          android:textColor="@color/blue"
-          android:textSize="14sp"
-          android:paddingStart="8dp"
-          android:paddingEnd="0dp"
-          android:fontFamily="@font/poppins_medium"
-          app:layout_constraintStart_toEndOf="@id/registerText"
-          app:layout_constraintTop_toTopOf="@id/registerText" />
+         <TextView
+             android:id="@+id/registerText"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="@string/register_prompt"
+             android:textColor="@color/light_blue"
+             android:textSize="14sp"
+             android:fontFamily="@font/poppins_medium" />
+
+         <TextView
+             android:id="@+id/registerLink"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="@string/register"
+             android:textColor="@color/blue"
+             android:textSize="14sp"
+             android:layout_marginStart="8dp"
+             android:fontFamily="@font/poppins_medium" />
+
+      </LinearLayout>
 
    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

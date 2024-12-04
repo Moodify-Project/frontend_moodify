@@ -40,7 +40,8 @@
         <activity android:name=".presentation.ui.settings.SettingActivity"/>
         <activity android:name=".presentation.ui.auth.RegisterActivity"/>
         <activity android:name=".presentation.ui.auth.LoginActivity"/>
-        <activity android:name=".MainActivity" />
+        <activity android:name=".MainActivity"
+                    android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".presentation.ui.detail.DetailActivity" />
 
         <activity

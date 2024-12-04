@@ -24,6 +24,14 @@
         android:background="@color/light_grey"
         android:layout_marginTop="?attr/actionBarSize" />
 
+    <!-- ProgressBar -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:layout_gravity="center" />
+
     <!-- ScrollView ensures the layout is scrollable -->
     <ScrollView
         android:layout_width="match_parent"
@@ -42,15 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="?attr/actionBarSize"
                 android:scrollbars="vertical"
-                android:padding="16dp" />
-
-            <!-- ProgressBar -->
-            <ProgressBar
-                android:id="@+id/progressBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:layout_gravity="center" />
+                android:paddingTop="24dp"/>
 
             <!-- Empty State -->
             <TextView

@@ -16,6 +16,20 @@ class DetailViewModel(private val apiService: ArticleApiService) : ViewModel() {
         _isBookmarked.value = isBookmarked
     }
 
+    fun fetchBookmarkStatus(articleId: String) {
+        viewModelScope.launch {
+            try {
+                val response = apiService.getBookmarkedArticles()
+                if (response.status) {
+                    val isBookmarked = response.articles.any { it.id == articleId }
+                    _isBookmarked.postValue(isBookmarked)
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
     fun toggleBookmark(articleId: String) {
         if (_isBookmarked.value == true) {
             removeBookmark(articleId)

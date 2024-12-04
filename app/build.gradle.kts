@@ -62,6 +62,7 @@ dependencies {
     implementation (libs.jwtdecode)
 
     implementation (libs.material)
+    implementation(libs.androidx.core.animation)
 
 
     testImplementation(libs.junit)

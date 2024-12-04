@@ -66,7 +66,9 @@ class ProfileActivity : AppCompatActivity() {
         binding.changeProfileImageButton.setOnClickListener {
             openGallery()
         }
-
+        binding.toolbar.setNavigationOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
 
         val sessionManager = SessionManager(this)
         val repositoryProfile = Injection.provideProfileRepository(sessionManager)

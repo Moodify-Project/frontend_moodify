@@ -28,6 +28,11 @@ class RegisterActivity : AppCompatActivity() {
             startActivity(Intent(this, LandingPageActivity::class.java))
         }
 
+        binding.loginLink.setOnClickListener {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+        }
+
         binding.registerButton.setOnClickListener {
             val name = binding.nameInput.text.toString()
             val email = binding.emailInput.text.toString()
@@ -41,11 +46,6 @@ class RegisterActivity : AppCompatActivity() {
             authViewModel.register(name, email, password)
         }
 
-//        authViewModel.error.observe(this) { errorMessage ->
-//            errorMessage?.let {
-//                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
-//            }
-//        }
         authViewModel.registerResult.observe(this, Observer { result ->
             result.fold(
                 onSuccess = { message ->
@@ -62,6 +62,13 @@ class RegisterActivity : AppCompatActivity() {
 
         authViewModel.isLoading.observe(this) { isLoading ->
             binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        }
+    }
+    override fun onBackPressed() {
+        if (isTaskRoot) {
+            finishAffinity()
+        } else {
+            super.onBackPressed()
         }
     }
 }

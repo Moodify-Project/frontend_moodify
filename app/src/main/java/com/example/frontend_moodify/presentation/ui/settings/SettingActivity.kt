@@ -6,15 +6,19 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SwitchCompat
 import com.example.frontend_moodify.R
 import androidx.appcompat.app.AppCompatDelegate
+import com.example.frontend_moodify.databinding.ActivityProfileBinding
+import com.example.frontend_moodify.databinding.ActivitySettingsBinding
 
 class SettingActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivitySettingsBinding
     private lateinit var darkModeSwitch: SwitchCompat
     private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_settings)
+        binding = ActivitySettingsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         darkModeSwitch = findViewById(R.id.dark_mode_switch)
 
@@ -34,6 +38,9 @@ class SettingActivity : AppCompatActivity() {
             val editor = sharedPreferences.edit()
             editor.putBoolean("dark_mode", isChecked)
             editor.apply()
+        }
+        binding.toolbar.setNavigationOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
         }
     }
 }
