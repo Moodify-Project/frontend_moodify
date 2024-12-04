@@ -37,8 +37,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         app:itemIconTint="?attr/colorControlNormal"
-    app:itemTextColor="?attr/colorControlNormal"
-    app:menu="@menu/bottom_nav_menu" />
+        app:itemTextColor="?attr/colorControlNormal"
+        app:rippleColor="@android:color/white"
+        app:menu="@menu/bottom_nav_menu" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
