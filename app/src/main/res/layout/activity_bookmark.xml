@@ -13,7 +13,6 @@
         android:layout_height="?attr/actionBarSize"
         android:elevation="4dp"
         app:navigationIcon="@drawable/ic_back_grey"
-        app:titleTextColor="@color/light_grey"
         app:title="@string/favorite_articles"
         app:titleTextAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
 
@@ -29,7 +28,7 @@
         android:layout_height="match_parent"
         android:fillViewport="true">
 
-        <LinearLayout
+         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">

@@ -33,25 +33,31 @@ class MainActivity : AppCompatActivity() {
         val sharedPreferences = getSharedPreferences("user_settings", MODE_PRIVATE)
         val isDarkMode = sharedPreferences.getBoolean("dark_mode", false)
 
+        // Set dark mode based on user preference
         if (isDarkMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         }
 
-        // Inflate layout dan setContentView
+        // Inflate layout and setContentView
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Toolbar setup
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
+        // Adjust toolbar colors based on dark mode
         if (isDarkMode) {
             toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.black))
+            toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.white))
         } else {
             toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.white))
+            toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.black))
         }
 
+        // Set up NavController for navigation between fragments
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(
             setOf(
@@ -64,22 +70,34 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
 
+        // Setup Bottom Navigation
         val bottomNavigationView: BottomNavigationView = binding.bottomNavigation
         bottomNavigationView.setupWithNavController(navController)
         bottomNavigationView.labelVisibilityMode = NavigationBarView.LABEL_VISIBILITY_LABELED
 
+        // Adjust background color of BottomNavigationView based on dark mode
         if (isDarkMode) {
             bottomNavigationView.setBackgroundColor(ContextCompat.getColor(this, R.color.black))
         } else {
             bottomNavigationView.setBackgroundColor(ContextCompat.getColor(this, R.color.white))
         }
+
+        // Adjust color of the overflow menu icon based on dark mode
+        val menuIcon = toolbar.overflowIcon
+        if (isDarkMode) {
+            menuIcon?.setColorFilter(ContextCompat.getColor(this, R.color.white), android.graphics.PorterDuff.Mode.SRC_IN)
+        } else {
+            menuIcon?.setColorFilter(ContextCompat.getColor(this, R.color.black), android.graphics.PorterDuff.Mode.SRC_IN)
+        }
     }
 
+    // Inflate the options menu in the toolbar
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
         return true
     }
 
+    // Handle selected menu items
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_settings -> {
@@ -105,6 +123,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // Logout function that clears session and redirects to login
     private fun logout() {
         val sessionManager = SessionManager(this)
         sessionManager.clearSession()
@@ -115,6 +134,7 @@ class MainActivity : AppCompatActivity() {
         finish()
     }
 
+    // Handle navigation up actions
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()

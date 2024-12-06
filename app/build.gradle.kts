@@ -67,5 +67,8 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    implementation(libs.volley)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.material.v190)
 
 }
