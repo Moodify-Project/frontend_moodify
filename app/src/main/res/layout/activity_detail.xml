@@ -6,22 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".presentation.ui.detail.DetailActivity">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout"
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/topAppBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fitsSystemWindows="true">
+        android:layout_height="?attr/actionBarSize"
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/topAppBar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.03dp"
-            android:background="@color/light_grey" />
-    </com.google.android.material.appbar.AppBarLayout>
+        android:elevation="4dp"
+        app:navigationIcon="@drawable/ic_back_grey"
+        app:title="@string/header_title"
+        app:titleTextAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
 
     <ProgressBar
         android:id="@+id/progressBar"
