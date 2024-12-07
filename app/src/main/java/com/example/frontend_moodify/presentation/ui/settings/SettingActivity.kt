@@ -37,7 +37,7 @@ class SettingActivity : AppCompatActivity() {
 
         // Initialize Retrofit
         retrofit = Retrofit.Builder()
-            .baseUrl("http://35.219.12.145/") // Sesuaikan URL server
+            .baseUrl("http://35.219.12.145/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         apiService = retrofit.create(ApiService::class.java)
