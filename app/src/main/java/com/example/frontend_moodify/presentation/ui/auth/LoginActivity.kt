@@ -7,10 +7,12 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.example.frontend_moodify.MainActivity
 import com.example.frontend_moodify.R
 import com.example.frontend_moodify.data.remote.network.Injection
 import com.example.frontend_moodify.databinding.ActivityLoginBinding
+import com.example.frontend_moodify.presentation.ui.splash.LandingPageActivity
 import com.example.frontend_moodify.presentation.viewmodel.AuthViewModel
 import com.example.frontend_moodify.presentation.viewmodel.AuthViewModelFactory
 import com.example.frontend_moodify.utils.SessionManager
@@ -35,6 +37,24 @@ class LoginActivity : AppCompatActivity() {
 
         animateElements()
 
+        // Observe loading state
+        viewModel.isLoading.observe(this) { isLoading ->
+            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        }
+
+        // Observe login result
+        viewModel.loginResult.observe(this) { result ->
+            result.onSuccess { response ->
+                Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show()
+                sessionManager.saveAccessToken(response.accessToken)
+                sessionManager.saveRefreshToken(response.refreshToken)
+                navigateToHome()
+            }.onFailure {
+                Toast.makeText(this, "Login failed: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        // Button login
         binding.loginButton.setOnClickListener {
             val email = binding.emailInput.text.toString()
             val password = binding.passwordInput.text.toString()
@@ -46,12 +66,21 @@ class LoginActivity : AppCompatActivity() {
 
             viewModel.login(email, password)
         }
+
+        binding.backButton.setOnClickListener {
+            val intent = Intent(this, LandingPageActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.registerLink.setOnClickListener {
+            val intent = Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun animateElements() {
-
         val bannerImageTranslationX = ObjectAnimator.ofFloat(binding.bannerImage, "translationX", -30f, 30f)
-        bannerImageTranslationX.duration = 2000 // Durasi lebih lambat untuk animasi gerak banner
+        bannerImageTranslationX.duration = 2000
         bannerImageTranslationX.repeatCount = ObjectAnimator.INFINITE
         bannerImageTranslationX.repeatMode = ObjectAnimator.REVERSE
         bannerImageTranslationX.interpolator = android.view.animation.AccelerateDecelerateInterpolator()
@@ -114,14 +143,21 @@ class LoginActivity : AppCompatActivity() {
         }
 
         finalAnimatorSet.start()
-
         bannerImageTranslationX.start()
+
     }
 
     private fun navigateToHome() {
-
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         finish()
+    }
+
+    override fun onBackPressed() {
+        if (isTaskRoot) {
+            finishAffinity()
+        } else {
+            super.onBackPressed()
+        }
     }
 }
