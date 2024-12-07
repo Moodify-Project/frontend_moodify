@@ -1,19 +1,46 @@
 package com.example.frontend_moodify.presentation.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.frontend_moodify.data.remote.network.ArticleApiService
 import com.example.frontend_moodify.data.remote.response.bookmark.BookmarkRequest
+import com.example.frontend_moodify.data.remote.response.news.Article
 import kotlinx.coroutines.launch
 
 class DetailViewModel(private val apiService: ArticleApiService) : ViewModel() {
+
+    private val _articleDetail = MutableLiveData<Article>()
+    val articleDetail: LiveData<Article> get() = _articleDetail
+
+    private val _loading = MutableLiveData<Boolean>()
+    val loading: LiveData<Boolean> = _loading
+
+    private val _error = MutableLiveData<String>()
+    val error: LiveData<String> = _error
+
     private val _isBookmarked = MutableLiveData<Boolean>()
     val isBookmarked: LiveData<Boolean> = _isBookmarked
 
     fun setBookmarkStatus(isBookmarked: Boolean) {
         _isBookmarked.value = isBookmarked
+    }
+
+    fun fetchArticleDetail(articleId: String) {
+        viewModelScope.launch {
+            try {
+                val response = apiService.getArticleDetail(articleId)
+                if (response.isSuccessful) {
+                    _articleDetail.postValue(response.body()?.result)
+                } else {
+                    Log.e("DetailViewModel", "Error: ${response.message()}")
+                }
+            } catch (e: Exception) {
+                Log.e("DetailViewModel", "Network Error: ${e.message}")
+            }
+        }
     }
 
     fun fetchBookmarkStatus(articleId: String) {

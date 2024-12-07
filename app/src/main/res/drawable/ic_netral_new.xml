@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="32dp"
+    android:height="32dp"
+    android:viewportWidth="32"
+    android:viewportHeight="32">
+
+    <!-- Outer Circle -->
+    <path
+        android:fillColor="#FFB02E"
+        android:pathData="M15.9989,29.9978C25.3333,29.9978 29.9978,23.7303 29.9978,15.9989C29.9978,8.26751 25.3333,2 15.9989,2C6.66443,2 2,8.26751 2,15.9989C2,23.7303 6.66443,29.9978 15.9989,29.9978Z" />
+
+    <!-- Left Eye -->
+    <path
+        android:fillColor="#FFFF"
+        android:pathData="M10.5,16.25C12.8472,16.25 14.75,14.3472 14.75,12C14.75,9.65279 12.8472,7.75 10.5,7.75C8.15279,7.75 6.25,9.65279 6.25,12C6.25,14.3472 8.15279,16.25 10.5,16.25Z" />
+
+    <!-- Right Eye -->
+    <path
+        android:fillColor="#FFFF"
+        android:pathData="M21.5,16.25C23.8472,16.25 25.75,14.3472 25.75,12C25.75,9.65279 23.8472,7.75 21.5,7.75C19.1528,7.75 17.25,9.65279 17.25,12C17.25,14.3472 19.1528,16.25 21.5,16.25Z" />
+
+    <!-- Left Pupil -->
+    <path
+        android:fillColor="#402A32"
+        android:pathData="M11,14C12.1046,14 13,13.1046 13,12C13,10.8954 12.1046,10 11,10C9.89543,10 9,10.8954 9,12C9,13.1046 9.89543,14 11,14Z" />
+
+    <!-- Right Pupil -->
+    <path
+        android:fillColor="#402A32"
+        android:pathData="M21,14C22.1046,14 23,13.1046 23,12C23,10.8954 22.1046,10 21,10C19.8954,10 19,10.8954 19,12C19,13.1046 19.8954,14 21,14Z" />
+
+    <!-- Mouth -->
+    <path
+        android:fillColor="#402A32"
+        android:pathData="M11,19C10.4477,19 10,19.4477 10,20C10,20.5523 10.4477,21 11,21H21C21.5523,21 22,20.5523 22,20C22,19.4477 21.5523,19 21,19H11Z" />
+
+</vector>

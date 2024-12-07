@@ -19,6 +19,9 @@ class MoodTrackerFragment : Fragment() {
     private var allDates: List<Calendar> = emptyList()
     private var selectedWeekStart: Calendar? = null
 
+    // Map untuk menyimpan konten jurnal berdasarkan tanggal
+    private val journalContent = mutableMapOf<String, String>()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -31,52 +34,57 @@ class MoodTrackerFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         allDates = generateDates()
-        selectedWeekStart = getWeekStart(Calendar.getInstance()) // Default to current week
+        selectedWeekStart = getWeekStart(Calendar.getInstance()) // Default ke minggu ini
 
         dateAdapter = DateAdapter(allDates, isWeeklyMode = true) { selected ->
             selectedWeekStart = getWeekStart(selected)
             updateDateRangeText()
+            updateJournalText(selected)
         }
 
         binding.rvDateSelector.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvDateSelector.adapter = dateAdapter
 
-        // Scroll to today's week and select
+        // Inisialisasi konten jurnal
+        initializeJournalContent()
+
+        // Scroll ke hari ini dan tampilkan jurnal hari ini
         scrollToToday()
         updateDateRangeText()
+        updateJournalText(Calendar.getInstance())
 
+        // Tombol navigasi mingguan
         binding.btnLeft.setOnClickListener { navigateWeek(-1) }
         binding.btnRight.setOnClickListener { navigateWeek(1) }
 
+        // Justifikasi teks untuk versi Android yang mendukung
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             binding.tvJournalText.justificationMode = LineBreaker.JUSTIFICATION_MODE_INTER_WORD
         }
-
     }
 
+    // Navigasi minggu ke kiri atau kanan
     private fun navigateWeek(step: Int) {
-        // Ensure selectedWeekStart is non-null before using it
         if (selectedWeekStart == null) {
-            selectedWeekStart = Calendar.getInstance() // Default to current date if null
+            selectedWeekStart = Calendar.getInstance()
         }
 
-        val currentIndex = allDates.indexOfFirst { isSameDay(it, selectedWeekStart!!) } // Non-nullable
+        val currentIndex = allDates.indexOfFirst { isSameDay(it, selectedWeekStart!!) }
         val newIndex = (currentIndex + (step * 7)).coerceIn(0, allDates.size - 1)
 
-        // Update selectedWeekStart safely with non-null value
         selectedWeekStart = getWeekStart(allDates[newIndex])
-
-        // Update date range text
         updateDateRangeText()
 
-        // Ensure selectedWeekStart is non-null before passing it to the adapter
         selectedWeekStart?.let {
             dateAdapter.setSelectedDate(it)
         }
 
         binding.rvDateSelector.scrollToPosition(newIndex)
     }
+
+
+    // Perbarui rentang tanggal di UI
     private fun updateDateRangeText() {
         val endOfWeek = selectedWeekStart?.clone() as Calendar
         endOfWeek.add(Calendar.DAY_OF_WEEK, 6)
@@ -84,23 +92,39 @@ class MoodTrackerFragment : Fragment() {
         binding.tvDate.text = "${dateFormat.format(selectedWeekStart?.time)} - ${dateFormat.format(endOfWeek.time)}"
     }
 
+    // Perbarui teks jurnal berdasarkan tanggal
+    private fun updateJournalText(selectedDate: Calendar) {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val selectedDateString = dateFormat.format(selectedDate.time)
+
+        val content = journalContent[selectedDateString] ?: "Tidak ada jurnal untuk tanggal ini."
+        binding.tvJournalText.text = content
+    }
+
+    // Scroll ke hari ini dan pilih
     private fun scrollToToday() {
         val todayIndex = allDates.indexOfFirst { isSameDay(it, Calendar.getInstance()) }
         binding.rvDateSelector.scrollToPosition(todayIndex)
 
-        // Ensure selectedWeekStart is non-null before passing to the adapter
-        selectedWeekStart = Calendar.getInstance()
+        selectedWeekStart = getWeekStart(Calendar.getInstance())
         selectedWeekStart?.let {
             dateAdapter.setSelectedDate(it)
         }
     }
 
+    // Dapatkan awal minggu dari tanggal tertentu
     private fun getWeekStart(date: Calendar): Calendar {
         val start = date.clone() as Calendar
         start.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+        if (start.after(date)) {
+            // Jika awal minggu lebih besar dari tanggal saat ini,
+            // artinya tanggal saat ini termasuk minggu sebelumnya.
+            start.add(Calendar.DAY_OF_MONTH, -7)
+        }
         return start
     }
 
+    // Generate daftar tanggal selama dua tahun
     private fun generateDates(): List<Calendar> {
         val calendar = Calendar.getInstance()
         calendar.add(Calendar.DAY_OF_MONTH, -365)
@@ -113,8 +137,23 @@ class MoodTrackerFragment : Fragment() {
         return dates
     }
 
+    // Bandingkan apakah dua tanggal berada di hari yang sama
     private fun isSameDay(date1: Calendar, date2: Calendar): Boolean {
         return date1.get(Calendar.YEAR) == date2.get(Calendar.YEAR) &&
                 date1.get(Calendar.DAY_OF_YEAR) == date2.get(Calendar.DAY_OF_YEAR)
+    }
+
+    // Inisialisasi konten jurnal
+    private fun initializeJournalContent() {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val today = Calendar.getInstance()
+
+        // Contoh data
+        journalContent[dateFormat.format(today.time)] = "Hari ini adalah hari yang luar biasa!"
+        today.add(Calendar.DAY_OF_MONTH, -1)
+        journalContent[dateFormat.format(today.time)] = "Kemarin cukup sibuk, tapi berhasil menyelesaikan banyak tugas."
+
+        today.add(Calendar.DAY_OF_MONTH, -1)
+        journalContent[dateFormat.format(today.time)] = "Dua hari yang lalu penuh tantangan, tetapi berhasil teratasi."
     }
 }

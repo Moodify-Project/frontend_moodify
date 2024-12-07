@@ -3,6 +3,7 @@ package com.example.frontend_moodify.presentation.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.frontend_moodify.presentation.repository.AuthRepository
+import com.example.frontend_moodify.utils.SessionManager
 
 class AuthViewModelFactory(private val repository: AuthRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

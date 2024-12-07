@@ -1,18 +1,20 @@
 <resources>
     <color name="black">#000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="dark_blue">#133E87</color>
-    <color name="blue">#4C80C1</color>
-    <color name="light_blue">#97B7DF</color>
-    <color name="medium_blue">#618CC1</color>
+    <color name="dark_blue">#133E87</color> <!-- Biru tua -->
+    <color name="blue">#4C80C1</color> <!-- Biru terang -->
+    <color name="light_blue">#97B7DF</color> <!-- Biru muda -->
+    <color name="medium_blue">#618CC1</color> <!-- Biru sedang -->
     <color name="grey">#878787</color>
     <color name="light_grey">#A6A5A8</color>
-    <color name="sky_blue">#608BC1</color>
+    <color name="sky_blue">#608BC1</color> <!-- Biru langit -->
     <color name="gray">#E4E4E4</color>
-    <color name="background">#FFFFFF</color> <!-- White background for light mode -->
+    <color name="background">#FFFFFF</color> <!-- Background putih untuk mode terang -->
     <color name="grey_cream">#CAC4D0</color>
     <color name="grey_line">#CCCCCC</color>
-    <color name="navigationBarColorLight">#ffffff</color> <!-- Light mode navigation bar color -->
-
-
+    <color name="navigationBarColorLight">#ffffff</color> <!-- Warna bar navigasi untuk mode terang -->
+    <color name="dateTextColor">#000000</color> <!-- Teks tanggal hitam untuk mode terang -->
+    <color name="color_selected">#608BC1</color>   <!-- Biru untuk item yang dipilih -->
+    <color name="bg_light">#FFFFFF</color>         <!-- Putih untuk mode terang -->
+    <color name="bg_dark">#121212</color>          <!-- Hitam untuk mode gelap -->
 </resources>

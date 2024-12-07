@@ -16,6 +16,8 @@ import com.example.frontend_moodify.presentation.adapter.DateAdapter
 import com.example.frontend_moodify.presentation.viewmodel.JournalViewModel
 import com.example.frontend_moodify.presentation.viewmodel.JournalViewModelFactory
 import com.example.frontend_moodify.utils.SessionManager
+import com.google.android.material.datepicker.CalendarConstraints
+import com.google.android.material.datepicker.MaterialDatePicker
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -62,6 +64,10 @@ class JournalFragment : Fragment() {
         binding.btnLeft.setOnClickListener { navigateDate(-1) }
         binding.btnRight.setOnClickListener { navigateDate(1) }
 
+        binding.tvDate.setOnClickListener {
+            showDatePicker()
+        }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             binding.tvJournalText.justificationMode = LineBreaker.JUSTIFICATION_MODE_INTER_WORD
         }
@@ -75,6 +81,30 @@ class JournalFragment : Fragment() {
         viewModel.errorMessage.observe(viewLifecycleOwner) { error ->
             Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun showDatePicker() {
+        val datePicker =
+            MaterialDatePicker.Builder.datePicker()
+                .setTitleText("Select Date")
+                .setSelection(selectedDate.timeInMillis)
+                .setCalendarConstraints(
+                    CalendarConstraints.Builder()
+                        .setStart(allDates.first().timeInMillis)
+                        .setEnd(allDates.last().timeInMillis)
+                        .build()
+                )
+                .build()
+
+        datePicker.addOnPositiveButtonClickListener { dateInMillis ->
+            val calendar = Calendar.getInstance()
+            calendar.timeInMillis = dateInMillis
+            selectedDate = calendar
+            updateDateText(selectedDate)
+            scrollToSelectedDate()
+        }
+
+        datePicker.show(requireActivity().supportFragmentManager, "DatePicker")
     }
 
     private fun updateDateText(date: Calendar) {
@@ -96,6 +126,12 @@ class JournalFragment : Fragment() {
         val todayIndex = allDates.indexOfFirst { isSameDay(it, Calendar.getInstance()) }
         binding.rvDateSelector.scrollToPosition(todayIndex)
         dateAdapter.setSelectedDate(Calendar.getInstance())
+    }
+
+    private fun scrollToSelectedDate() {
+        val selectedIndex = allDates.indexOfFirst { isSameDay(it, selectedDate) }
+        binding.rvDateSelector.scrollToPosition(selectedIndex)
+        dateAdapter.setSelectedDate(selectedDate)
     }
 
     private fun generateDates(): List<Calendar> {

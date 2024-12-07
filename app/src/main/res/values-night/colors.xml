@@ -1,17 +1,17 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <color name="black">#000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="dark_blue">#133E87</color>
-    <color name="blue">#4C80C1</color>
-    <color name="light_blue">#97B7DF</color>
-    <color name="medium_blue">#618CC1</color>
+    <color name="dark_blue">#0D47A1</color> <!-- Biru gelap -->
+    <color name="blue">#2196F3</color> <!-- Biru terang -->
+    <color name="light_blue">#4FC3F7</color> <!-- Biru muda cerah -->
+    <color name="medium_blue">#0288D1</color> <!-- Biru medium -->
     <color name="grey">#878787</color>
     <color name="light_grey">#A6A5A8</color>
-    <color name="sky_blue">#608BC1</color>
+    <color name="sky_blue">#03A9F4</color> <!-- Biru langit cerah -->
     <color name="gray">#E4E4E4</color>
-    <color name="background">#000000</color> <!-- Black background for dark mode -->
+    <color name="background">#121212</color> <!-- Background gelap untuk mode gelap -->
     <color name="grey_line">#666666</color>
-    <color name="navigationBarColorDark" tools:ignore="MissingDefaultResource">#ffffff</color> <!-- Dark mode navigation bar color -->
-
+    <color name="navigationBarColorDark" tools:ignore="MissingDefaultResource">#ffffff</color>
+    <color name="dateTextColor">#FFFFFF</color> <!-- Teks tanggal putih untuk mode gelap -->
 
 </resources>

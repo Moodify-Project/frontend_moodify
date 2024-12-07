@@ -1,5 +1,6 @@
 package com.example.frontend_moodify.presentation.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -37,6 +38,7 @@ class ArticleAdapter(private val onClick: (Article) -> Unit) : RecyclerView.Adap
 
             binding.root.setOnClickListener {
                 onClick(article)
+                Log.d("HomeFragment", "Clicked article ID: ${article.id}")
             }
         }
     }

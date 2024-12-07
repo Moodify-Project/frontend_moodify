@@ -3,6 +3,7 @@ package com.example.frontend_moodify.presentation.repository
 import com.example.frontend_moodify.data.remote.network.AuthApiService
 import com.example.frontend_moodify.data.remote.response.login.LoginRequest
 import com.example.frontend_moodify.data.remote.response.login.LoginResponse
+import com.example.frontend_moodify.data.remote.response.login.TokenResponse
 import com.example.frontend_moodify.data.remote.response.register.RegisterRequest
 import com.example.frontend_moodify.data.remote.response.register.RegisterResponse
 import java.io.IOException
@@ -17,7 +18,7 @@ class AuthRepository(private val apiService: AuthApiService) {
             if (response.isSuccessful) {
                 response.body()
             } else {
-                null // Jika server mengembalikan status gagal
+                null
             }
         } catch (e: Exception) {
             throw IOException("Registration failed: ${e.message}")

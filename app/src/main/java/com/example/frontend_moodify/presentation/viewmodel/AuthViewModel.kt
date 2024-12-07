@@ -9,9 +9,13 @@ import com.example.frontend_moodify.data.remote.response.login.LoginResponse
 import com.example.frontend_moodify.data.remote.response.register.RegisterRequest
 import com.example.frontend_moodify.data.remote.response.register.RegisterResponse
 import com.example.frontend_moodify.presentation.repository.AuthRepository
+import com.example.frontend_moodify.utils.SessionManager
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.Locale
+import java.util.TimeZone
 
 class AuthViewModel(private val authRepository: AuthRepository) : ViewModel() {
     private val _isLoading = MutableLiveData<Boolean>()
@@ -22,9 +26,6 @@ class AuthViewModel(private val authRepository: AuthRepository) : ViewModel() {
 
     private val _loginResult = MutableLiveData<Result<LoginResponse>>()
     val loginResult: LiveData<Result<LoginResponse>> get() = _loginResult
-
-//    private val _registerResult = MutableLiveData<Result<RegisterResponse>>()
-//    val registerResult: LiveData<Result<RegisterResponse>> = _registerResult
 
     private val _registerResult = MutableLiveData<Result<String>>()
     val registerResult: LiveData<Result<String>> get() = _registerResult
@@ -59,4 +60,5 @@ class AuthViewModel(private val authRepository: AuthRepository) : ViewModel() {
             }
         }
     }
+
 }

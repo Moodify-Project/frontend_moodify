@@ -40,12 +40,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         val adapter = ArticleAdapter { article ->
             val intent = Intent(requireContext(), DetailActivity::class.java).apply {
                 putExtra("title", article.title)
-                putExtra("imageUrl", article.urlToImage)
-                putExtra("description", article.description)
-                putExtra("publishDate", article.publishedAt)
-                putExtra("bookmarkCount", article.bookmarkedCount)
+//                putExtra("imageUrl", article.urlToImage)
+//                putExtra("description", article.description)
+//                putExtra("publishDate", article.publishedAt)
+//                putExtra("bookmarkCount", article.bookmarkedCount)
                 putExtra("articleId", article.id)
-                putExtra("content", article.content)
+//                putExtra("content", article.content)
             }
             Log.d("HomeFragment", "publishDate: ${article.id}")
 

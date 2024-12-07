@@ -1,19 +1,21 @@
 package com.example.frontend_moodify.utils
 
+import com.auth0.android.jwt.JWT
+import com.example.frontend_moodify.data.remote.network.AuthApiService
+import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
+import java.io.IOException
 
 class AuthInterceptor(private val sessionManager: SessionManager) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val requestBuilder = chain.request().newBuilder()
 
-        // Tambahkan Authorization Header
         sessionManager.getAccessToken()?.let { token ->
             requestBuilder.addHeader("Authorization", "Bearer $token")
         }
 
-        // Tambahkan Cookie Header
         sessionManager.getRefreshTokenCookie()?.let { cookie ->
             requestBuilder.addHeader("Cookie", cookie)
         }

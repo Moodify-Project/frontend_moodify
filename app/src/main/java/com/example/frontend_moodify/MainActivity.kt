@@ -6,6 +6,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -27,15 +28,23 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
         val sharedPreferences = getSharedPreferences("user_settings", MODE_PRIVATE)
         val isDarkMode = sharedPreferences.getBoolean("dark_mode", false)
+
         if (isDarkMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         }
 
-        super.onCreate(savedInstanceState)
+        val sessionManager = SessionManager(this)
+
+        if (sessionManager.getAccessToken() == null) {
+            sessionManager.clearSession()
+            navigateToLogin()
+        }
 
         // Inflate layout dan setContentView
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -44,8 +53,13 @@ class MainActivity : AppCompatActivity() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
+        if (isDarkMode) {
+            toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.black))
+        } else {
+            toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.white))
+        }
 
+        val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.navigation_home,
@@ -55,12 +69,17 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_journal
             )
         )
-
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         val bottomNavigationView: BottomNavigationView = binding.bottomNavigation
         bottomNavigationView.setupWithNavController(navController)
         bottomNavigationView.labelVisibilityMode = NavigationBarView.LABEL_VISIBILITY_LABELED
+
+        if (isDarkMode) {
+            bottomNavigationView.setBackgroundColor(ContextCompat.getColor(this, R.color.black))
+        } else {
+            bottomNavigationView.setBackgroundColor(ContextCompat.getColor(this, R.color.white))
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -97,6 +116,12 @@ class MainActivity : AppCompatActivity() {
         val sessionManager = SessionManager(this)
         sessionManager.clearSession()
 
+        val intent = Intent(this, LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
+    }
+    private fun navigateToLogin() {
         val intent = Intent(this, LoginActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)

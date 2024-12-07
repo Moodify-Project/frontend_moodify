@@ -2,6 +2,7 @@ package com.example.frontend_moodify.presentation.ui.auth
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -9,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.frontend_moodify.MainActivity
 import com.example.frontend_moodify.data.remote.network.Injection
 import com.example.frontend_moodify.databinding.ActivityLoginBinding
+import com.example.frontend_moodify.presentation.repository.AuthRepository
 import com.example.frontend_moodify.presentation.ui.splash.LandingPageActivity
 import com.example.frontend_moodify.presentation.viewmodel.AuthViewModel
 import com.example.frontend_moodify.presentation.viewmodel.AuthViewModelFactory
@@ -31,6 +33,7 @@ class LoginActivity : AppCompatActivity() {
 
         val repository = Injection.provideAuthRepository()
         viewModel = ViewModelProvider(this, AuthViewModelFactory(repository))[AuthViewModel::class.java]
+
 
         viewModel.isLoading.observe(this) { isLoading ->
             binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
@@ -66,6 +69,7 @@ class LoginActivity : AppCompatActivity() {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
         }
+
     }
     override fun onBackPressed() {
         if (isTaskRoot) {
@@ -79,4 +83,5 @@ class LoginActivity : AppCompatActivity() {
         startActivity(intent)
         finish()
     }
+
 }

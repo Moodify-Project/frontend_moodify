@@ -17,4 +17,7 @@ interface AuthApiService {
 
     @POST("auth/register")
     suspend fun register(@Body request: RegisterRequest): Response<RegisterResponse>
+
+    @POST("auth/refresh_token")
+    suspend fun refreshAccessToken(@Body body: Map<String, String>): TokenResponse
 }

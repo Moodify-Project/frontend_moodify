@@ -12,8 +12,10 @@ import com.example.frontend_moodify.databinding.ActivityRegisterBinding
 import com.example.frontend_moodify.presentation.ui.splash.LandingPageActivity
 import com.example.frontend_moodify.presentation.viewmodel.AuthViewModel
 import com.example.frontend_moodify.presentation.viewmodel.AuthViewModelFactory
+import com.example.frontend_moodify.utils.SessionManager
 
 class RegisterActivity : AppCompatActivity() {
+    private lateinit var sessionManager: SessionManager
     private val authViewModel: AuthViewModel by viewModels {
         AuthViewModelFactory(Injection.provideAuthRepository())
     }

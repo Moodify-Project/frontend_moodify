@@ -1,20 +1,22 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <style name="Base.Theme.Frontend_moodify" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/blue</item> <!-- White primary color for light mode -->
-        <item name="colorPrimaryVariant">@color/light_blue</item>
-        <item name="colorOnPrimary">@android:color/black</item>
-        <item name="colorSecondary">@color/blue</item>
-        <item name="colorOnSecondary">@android:color/white</item>
-        <item name="android:statusBarColor">@color/blue</item>
-        <item name="android:navigationBarColor">@color/navigationBarColorLight</item>
-        <item name="android:textColorPrimary">@color/black</item> <!-- Black text for primary text -->
-        <item name="android:textColorSecondary">@color/grey</item> <!-- Grey text for secondary text -->
-        <item name="colorControlNormal">@color/nav_colors</item>  <!-- Gunakan nav_colors untuk light mode -->
+        <!-- Pengaturan tema terang -->
+        <item name="colorPrimary">@color/blue</item> <!-- Biru terang -->
+        <item name="colorPrimaryVariant">@color/light_blue</item> <!-- Biru muda -->
+        <item name="colorOnPrimary">@android:color/black</item> <!-- Teks di atas primary color -->
+        <item name="colorSecondary">@color/blue</item> <!-- Biru terang untuk elemen sekunder -->
+        <item name="colorOnSecondary">@android:color/white</item> <!-- Teks di atas warna sekunder -->
+        <item name="android:statusBarColor">@color/blue</item> <!-- Status bar berwarna biru -->
+        <item name="android:navigationBarColor">@color/navigationBarColorLight</item> <!-- Warna bar navigasi untuk mode terang -->
+        <item name="android:textColorPrimary">@color/black</item> <!-- Teks utama hitam -->
+        <item name="android:textColorSecondary">@color/grey</item> <!-- Teks sekunder abu-abu -->
+        <item name="colorControlNormal">@color/nav_colors</item> <!-- Warna ikon navigasi -->
+        <item name="android:windowBackground">@color/white</item> <!-- Latar belakang putih -->
     </style>
 
     <style name="Theme.Frontend_moodify" parent="Base.Theme.Frontend_moodify" />
     <style name="Theme.Splash" parent="Theme.AppCompat.NoActionBar">
-        <item name="android:windowBackground">@color/white</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowBackground">@color/white</item> <!-- Latar belakang splash screen -->
+        <item name="android:statusBarColor">@android:color/transparent</item> <!-- Status bar transparan saat splash -->
     </style>
 </resources>
