@@ -36,6 +36,14 @@ class SessionManager(context: Context)  {
         return if (refreshToken != null) "refreshToken=$refreshToken" else null
     }
 
+    fun saveExpiredDate(expiredDate: String) {
+        prefs.edit().putString("EXPIRED_DATE", expiredDate).apply()
+    }
+
+    fun getExpiredDate(): String? {
+        return prefs.getString("EXPIRED_DATE", null)
+    }
+
     fun clearSession() {
         prefs.edit().clear().apply()
     }

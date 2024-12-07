@@ -66,7 +66,7 @@ class ProfileActivity : AppCompatActivity() {
         binding.changeProfileImageButton.setOnClickListener {
             openGallery()
         }
-        binding.toolbar.setNavigationOnClickListener {
+        binding.topAppBar.setNavigationOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
 

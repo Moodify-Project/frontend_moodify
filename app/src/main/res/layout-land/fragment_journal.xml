@@ -10,7 +10,7 @@
     <!-- Header Layout -->
     <RelativeLayout
         android:id="@+id/header"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -66,46 +66,49 @@
         </FrameLayout>
     </RelativeLayout>
 
-    <!-- RecyclerView for Horizontal Date Selector -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_date_selector"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/header"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"/>
-
-    <!-- ScrollView for Journal Content -->
-    <ScrollView
-        android:id="@+id/sv_journal_content"
+    <!-- Horizontal Layout -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="16dp"
-        android:paddingTop="28dp"
-        android:paddingBottom="28dp"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
-        android:fillViewport="true"
-        app:layout_constraintTop_toBottomOf="@id/rv_date_selector"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/header"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <TextView
-            android:id="@+id/tv_journal_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:text="@string/lorem_ipsum"
-            android:fontFamily="@font/poppins_regular"
-            android:textSize="14sp"
-            android:textAlignment="viewStart"/>
+        <!-- RecyclerView for Horizontal Date Selector -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_date_selector"
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
+            android:padding="8dp"
+            android:scrollbars="vertical"
+            android:overScrollMode="always"/>
 
-    </ScrollView>
-    <include
-        android:id="@+id/emptyStateLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        layout="@layout/fragment_journal_off"
-        android:visibility="gone" />
+        <!-- ScrollView for Journal Content -->
+        <ScrollView
+            android:id="@+id/sv_journal_content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="16dp"
+            android:fillViewport="true">
+
+            <TextView
+                android:id="@+id/tv_journal_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/lorem_ipsum"
+                android:fontFamily="@font/poppins_regular"
+                android:textSize="14sp"
+                android:textAlignment="viewStart"/>
+
+        </ScrollView>
+        <include
+            android:id="@+id/emptyStateLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            layout="@layout/fragment_journal_off"
+            android:visibility="gone" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

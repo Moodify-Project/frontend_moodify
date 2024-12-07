@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Pengaturan tema terang -->
     <style name="Base.Theme.Frontend_moodify" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Pengaturan tema terang -->
         <item name="colorPrimary">@color/blue</item> <!-- Biru terang -->
         <item name="colorPrimaryVariant">@color/light_blue</item> <!-- Biru muda -->
         <item name="colorOnPrimary">@android:color/black</item> <!-- Teks di atas primary color -->
@@ -12,11 +12,20 @@
         <item name="android:textColorSecondary">@color/grey</item> <!-- Teks sekunder abu-abu -->
         <item name="colorControlNormal">@color/nav_colors</item> <!-- Warna ikon navigasi -->
         <item name="android:windowBackground">@color/white</item> <!-- Latar belakang putih -->
+        <item name="android:popupMenuStyle">@style/PopupMenuLight</item> <!-- Menu Popup terang -->
     </style>
 
     <style name="Theme.Frontend_moodify" parent="Base.Theme.Frontend_moodify" />
+
+    <!-- Splash Screen Theme -->
     <style name="Theme.Splash" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">@color/white</item> <!-- Latar belakang splash screen -->
         <item name="android:statusBarColor">@android:color/transparent</item> <!-- Status bar transparan saat splash -->
+    </style>
+
+    <!-- Popup Menu Style (Light) -->
+    <style name="PopupMenuLight" parent="Widget.AppCompat.PopupMenu">
+        <item name="android:popupBackground">@color/white</item> <!-- White background for light mode -->
+        <item name="android:textColor">@android:color/black</item> <!-- Black text color -->
     </style>
 </resources>

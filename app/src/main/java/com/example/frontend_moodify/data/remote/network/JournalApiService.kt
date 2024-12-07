@@ -2,6 +2,8 @@ package com.example.frontend_moodify.data.remote.network
 
 import com.example.frontend_moodify.data.remote.response.journal.JournalResponse
 import com.example.frontend_moodify.data.remote.response.journal.JournalUpdateRequest
+import com.example.frontend_moodify.data.remote.response.journal.MoodResponse
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -20,4 +22,7 @@ interface JournalApiService {
         @Query("date") date: String,
         @Body body: JournalUpdateRequest
     ): JournalResponse
+
+    @GET("journals/moods/weekly")
+    suspend fun getWeeklyMoods(@Query("date") date: String): MoodResponse
 }

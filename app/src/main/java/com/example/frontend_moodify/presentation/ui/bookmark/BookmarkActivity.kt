@@ -26,6 +26,13 @@ class BookmarkActivity : AppCompatActivity() {
     private val viewModel: BookmarkViewModel by viewModels {
         BookmarkViewModelFactory(Injection.provideArticleRepository(SessionManager(this)))
     }
+//    private val sessionManager by lazy { SessionManager(this) }
+//    private val authRepository by lazy { Injection.provideAuthRepository() }
+//    private val viewModel: BookmarkViewModel by viewModels {
+//        BookmarkViewModelFactory(
+//            Injection.provideArticleRepository(sessionManager, authRepository)
+//        )
+//    }
     private val adapter = BookmarkAdapter { article ->
         val intent = Intent(this, DetailActivity::class.java).apply {
             putExtra("title", article.title)
@@ -53,6 +60,7 @@ class BookmarkActivity : AppCompatActivity() {
         }
 
         viewModel.bookmarkedArticles.observe(this) { articles ->
+            updateEmptyState(articles.isEmpty())
             adapter.submitList(articles)
         }
 
@@ -68,7 +76,10 @@ class BookmarkActivity : AppCompatActivity() {
 
         viewModel.fetchBookmarkedArticles()
     }
-
+    private fun updateEmptyState(isEmpty: Boolean) {
+        binding.favoriteArticlesRecyclerView.visibility = if (isEmpty) View.GONE else View.VISIBLE
+        binding.emptyStateLayout.root.visibility = if (isEmpty) View.VISIBLE else View.GONE
+    }
     private fun setupRecyclerView() {
         binding.favoriteArticlesRecyclerView.apply {
             layoutManager = LinearLayoutManager(this@BookmarkActivity)

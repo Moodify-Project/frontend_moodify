@@ -119,15 +119,10 @@
         app:tint="@color/white"
         app:srcCompat="@drawable/ic_bookmark_nonactive" />
 
-<!--    <ImageView-->
-<!--        android:id="@+id/bookmarkButton"-->
-<!--        android:layout_width="46dp"-->
-<!--        android:layout_height="46dp"-->
-<!--        android:layout_gravity="bottom|end"-->
-<!--        android:layout_margin="16dp"-->
-<!--        android:src="@drawable/ic_bookmark_nonactive"-->
-<!--        android:background="@drawable/circle_shape_blue"-->
-<!--        android:contentDescription="Bookmark"-->
-<!--        android:elevation="8dp"-->
-<!--        android:padding="8dp" />-->
+    <include
+        android:id="@+id/emptyStateLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        layout="@layout/activity_detail_off"
+        android:visibility="gone" />
 </FrameLayout>

@@ -1,5 +1,6 @@
 package com.example.frontend_moodify
 
+import android.content.res.Configuration
 import android.graphics.text.LineBreaker
 import android.os.Build
 import android.os.Bundle
@@ -49,9 +50,10 @@ class JournalFragment : Fragment() {
             selectedDate = selected
             updateDateText(selected)
         }
+        setRecyclerViewLayoutManager()
 
-        binding.rvDateSelector.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+//        binding.rvDateSelector.layoutManager =
+//            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvDateSelector.adapter = dateAdapter
 
         val today = Calendar.getInstance()
@@ -73,9 +75,30 @@ class JournalFragment : Fragment() {
         }
     }
 
+    private fun setRecyclerViewLayoutManager() {
+        val orientation = resources.configuration.orientation
+        val layoutManager = if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            // Mode landscape: Scroll secara vertikal
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        } else {
+            // Mode portrait: Scroll secara horizontal
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        }
+        binding.rvDateSelector.layoutManager = layoutManager
+    }
+
     private fun observeViewModel() {
         viewModel.journalContent.observe(viewLifecycleOwner) { content ->
-            binding.tvJournalText.text = content
+            binding?.let { safeBinding ->
+                if (content.isEmpty() || content == "Journal is empty") {
+                    safeBinding.emptyStateLayout?.root?.visibility = View.VISIBLE
+                    safeBinding.svJournalContent.visibility = View.GONE
+                } else {
+                    safeBinding.emptyStateLayout?.root?.visibility = View.GONE
+                    safeBinding.svJournalContent.visibility = View.VISIBLE
+                    safeBinding.tvJournalText.text = content
+                }
+            }
         }
 
         viewModel.errorMessage.observe(viewLifecycleOwner) { error ->

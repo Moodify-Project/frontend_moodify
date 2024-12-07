@@ -1,74 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/header"
-        android:layout_width="match_parent"
-        android:layout_height="64dp">
-
-        <ImageView
-            android:id="@+id/backButton"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginStart="16dp"
-            android:contentDescription="@string/back_button_description"
-            app:titleTextColor="@color/light_grey"
-            android:src="@drawable/ic_back_grey"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/headerTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:fontFamily="@font/poppins_medium"
-            android:text="@string/favorite_articles"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/backButton"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="8dp"
-            android:background="@color/light_grey"
-            app:layout_constraintTop_toBottomOf="@id/headerTitle" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <LinearLayout
+        android:id="@+id/lostConnectionLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_marginTop="64dp"
-        android:gravity="center_horizontal">
+        android:gravity="center">
 
         <ImageView
-            android:id="@+id/dateMonthIcon"
-            android:layout_width="378dp"
-            android:layout_height="132dp"
-            android:layout_marginBottom="16dp"
-            android:src="@drawable/date_moonth" />
-
-        <ImageView
-            android:id="@+id/lostConnectionIcon"
             android:layout_width="200dp"
             android:layout_height="200dp"
-            android:layout_marginTop="80dp"
-            android:layout_marginBottom="16dp"
-            android:src="@drawable/ic_empty_journal" />
-
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="16dp"/>
-    </LinearLayout>
+            android:layout_marginTop="160dp"
+            android:contentDescription="@string/lost_connection_image"
+            android:src="@drawable/ic_empty_journal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.143" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

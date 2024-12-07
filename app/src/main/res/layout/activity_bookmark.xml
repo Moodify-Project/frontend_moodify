@@ -10,10 +10,11 @@
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/topAppBar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="56dp"
         android:elevation="4dp"
+        android:paddingTop="5dp"
+        android:gravity="center_vertical"
         app:navigationIcon="@drawable/ic_back_grey"
-        app:titleTextColor="@color/light_grey"
         app:title="@string/favorite_articles"
         app:titleTextAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
 
@@ -32,36 +33,21 @@
         android:layout_gravity="center" />
 
     <!-- ScrollView ensures the layout is scrollable -->
-    <ScrollView
+
+    <!-- RecyclerView -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/favoriteArticlesRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:scrollbars="vertical"
+        android:paddingTop="24dp"/>
+
+    <!-- Empty State -->
+    <include
+        android:id="@+id/emptyStateLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <!-- RecyclerView -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/favoriteArticlesRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="?attr/actionBarSize"
-                android:scrollbars="vertical"
-                android:paddingTop="24dp"/>
-
-            <!-- Empty State -->
-            <TextView
-                android:id="@+id/emptyStateText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/no_connection_message"
-                android:visibility="gone"
-                android:textColor="@color/grey"
-                android:textSize="16sp"
-                android:fontFamily="@font/poppins_regular" />
-        </LinearLayout>
-    </ScrollView>
+        layout="@layout/fragment_bookmark_off"
+        android:visibility="gone" />
 </FrameLayout>

@@ -160,7 +160,7 @@
     <string name="article_description">Research explores factors that influence cognitive aging, highlighting exercise, avoiding stress...</string>
 
     <!-- Home -->
-    <string name="greeting">Hello, Candra</string>
+    <string name="greeting">Hello, User</string>
     <string name="date">FRIDAY, NOVEMBER 08</string>
     <string name="newest_article">Newest Article</string>
 

@@ -1,5 +1,6 @@
 package com.example.frontend_moodify.data.remote.network
 
+import android.content.Context
 import com.example.frontend_moodify.presentation.repository.ArticleRepository
 import com.example.frontend_moodify.presentation.repository.AuthRepository
 import com.example.frontend_moodify.presentation.repository.JournalRepository
@@ -27,9 +28,19 @@ object Injection {
         return AuthRepository(provideAuthApiService())
     }
 
+//    private fun provideOkHttpClient(sessionManager: SessionManager): OkHttpClient {
+//        return OkHttpClient.Builder()
+//            .addInterceptor(AuthInterceptor(sessionManager))
+//            .build()
+//    }
+    private fun provideAuthInterceptor(sessionManager: SessionManager): AuthInterceptor {
+        val authRepository = provideAuthRepository()
+        return AuthInterceptor(sessionManager, authRepository)
+    }
+
     private fun provideOkHttpClient(sessionManager: SessionManager): OkHttpClient {
         return OkHttpClient.Builder()
-            .addInterceptor(AuthInterceptor(sessionManager))
+            .addInterceptor(provideAuthInterceptor(sessionManager))
             .build()
     }
 
@@ -70,4 +81,7 @@ object Injection {
         return NationRepository(apiService)
     }
 
+    fun provideNotificationApiService(sessionManager: SessionManager): NotificationApiService {
+        return provideRetrofit(sessionManager).create(NotificationApiService::class.java)
+    }
 }

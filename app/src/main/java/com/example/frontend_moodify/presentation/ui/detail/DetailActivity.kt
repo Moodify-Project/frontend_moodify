@@ -1,6 +1,8 @@
 package com.example.frontend_moodify.presentation.ui.detail
 
 import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -9,6 +11,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
+import java.text.SimpleDateFormat
 import com.example.frontend_moodify.R
 import com.example.frontend_moodify.data.remote.network.Injection
 import com.example.frontend_moodify.data.remote.response.news.Article
@@ -18,6 +21,9 @@ import com.example.frontend_moodify.presentation.viewmodel.BookmarkViewModelFact
 import com.example.frontend_moodify.presentation.viewmodel.DetailViewModel
 import com.example.frontend_moodify.presentation.viewmodel.DetailViewModelFactory
 import com.example.frontend_moodify.utils.SessionManager
+import java.util.Date
+import java.util.Locale
+import java.util.TimeZone
 
 class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
@@ -34,6 +40,12 @@ class DetailActivity : AppCompatActivity() {
 
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        if (!isNetworkAvailable()) {
+            showOfflineLayout()
+        } else {
+            loadData()
+        }
 
         val articleId = intent.getStringExtra("articleId") ?: run {
             Log.e("DetailActivity", "Article ID is null")
@@ -58,25 +70,12 @@ class DetailActivity : AppCompatActivity() {
             onBackPressedDispatcher.onBackPressed()
         }
 
-//        binding.articleTitle.text = title
-//        binding.articleContent.text = description
-//        binding.articleDate.text = publishDate
-//        binding.bookmarkCount.text = bookmarkCount.toString()
-//
-//        Glide.with(this)
-//            .load(imageUrl)
-//            .into(binding.headerImage)
-
-
-
         viewModel.articleDetail.observe(this) { article ->
             binding.articleTitle.text = article.title
             binding.articleContent.text = article.content
-            binding.articleDate.text = article.publishedAt
+            val formattedDate = formatDate(article.publishedAt)
+            binding.articleDate.text = formattedDate
             binding.bookmarkCount.text = article.bookmarkedCount.toString()
-            val count = article.bookmarkedCount ?: 0
-            binding.bookmarkCount.text = count.toString()
-            Log.e("DetailActivity", "Bookmark count: $count")
 
             Glide.with(this)
                 .load(article.urlToImage)
@@ -114,6 +113,35 @@ class DetailActivity : AppCompatActivity() {
                 sharedViewModel.fetchBookmarkedArticles()
                 Toast.makeText(this, "Bookmark added", Toast.LENGTH_SHORT).show()
             }
+        }
+    }
+    private fun isNetworkAvailable(): Boolean {
+        val connectivityManager =
+            getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork = connectivityManager.activeNetwork
+        val networkCapabilities = connectivityManager.getNetworkCapabilities(activeNetwork)
+        return networkCapabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
+    }
+
+    private fun showOfflineLayout() {
+        binding.emptyStateLayout.root.visibility = View.VISIBLE
+        binding.scrollableContent.visibility = View.GONE
+    }
+    private fun loadData() {
+        binding.emptyStateLayout.root.visibility = View.GONE
+        binding.scrollableContent.visibility = View.VISIBLE
+    }
+    private fun formatDate(dateString: String?): String {
+        return try {
+            val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
+            inputFormat.timeZone = TimeZone.getTimeZone("UTC")
+            val date = inputFormat.parse(dateString)
+
+            val outputFormat = SimpleDateFormat("MMMM dd, yyyy 'at' hh:mm a", Locale.getDefault())
+            outputFormat.format(date ?: Date())
+        } catch (e: Exception) {
+            e.printStackTrace()
+            "Invalid date"
         }
     }
 }

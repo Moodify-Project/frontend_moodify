@@ -55,8 +55,10 @@ class MainActivity : AppCompatActivity() {
 
         if (isDarkMode) {
             toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.black))
+            toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.white))
         } else {
             toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.white))
+            toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.black))
         }
 
         val navController = findNavController(R.id.nav_host_fragment_content_main)
@@ -79,6 +81,14 @@ class MainActivity : AppCompatActivity() {
             bottomNavigationView.setBackgroundColor(ContextCompat.getColor(this, R.color.black))
         } else {
             bottomNavigationView.setBackgroundColor(ContextCompat.getColor(this, R.color.white))
+        }
+
+        // Adjust color of the overflow menu icon based on dark mode
+        val menuIcon = toolbar.overflowIcon
+        if (isDarkMode) {
+            menuIcon?.setColorFilter(ContextCompat.getColor(this, R.color.white), android.graphics.PorterDuff.Mode.SRC_IN)
+        } else {
+            menuIcon?.setColorFilter(ContextCompat.getColor(this, R.color.black), android.graphics.PorterDuff.Mode.SRC_IN)
         }
     }
 
