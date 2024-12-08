@@ -1,5 +1,7 @@
 package com.example.frontend_moodify
 
+import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
@@ -44,6 +46,12 @@ class RelaxationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Animasi fade-in untuk tvTitle dan elemen lainnya ketika pertama kali tampilan fragment dimuat
+        animateTextAppearance(binding.tvTitle)
+        animateTextAppearance(binding.tvTimer)
+        animateTextAppearance(binding.tvDurationStart)
+        animateTextAppearance(binding.tvDurationEnd)
+
         mediaPlayer = MediaPlayer()
 
         setupSongPlayer()
@@ -55,15 +63,14 @@ class RelaxationFragment : Fragment() {
                 startRelaxation()
             }
         }
+
         binding.imgInfo.setOnClickListener { view ->
             val snackbar = Snackbar.make(
                 view,
-                " GUIDELINE RELAXATION FEATURE \n 1. Inhale deeply, slowly, and mindfully (6s).\n2. Gently hold your breath (4s).\n 3. Exhale slowly, release all tension (8s).",
+                "GUIDELINE RELAXATION FEATURE \n 1. Inhale deeply, slowly, and mindfully (6s).\n2. Gently hold your breath (4s).\n 3. Exhale slowly, release all tension (8s).",
                 Snackbar.LENGTH_INDEFINITE
             )
-            snackbar.setAction("Tutup") {
-                snackbar.dismiss()
-            }
+            snackbar.setAction("Tutup") { snackbar.dismiss() }
             snackbar.setAnchorView(R.id.imgInfo)
 
             val snackbarView = snackbar.view
@@ -72,12 +79,22 @@ class RelaxationFragment : Fragment() {
                 maxLines = 10
                 textSize = 14f
             }
+
+            // Fade in snackbar
+            snackbarView.alpha = 0f
+            snackbarView.animate().alpha(1f).setDuration(500).start()
+
             snackbar.show()
 
             Handler(Looper.getMainLooper()).postDelayed({
                 snackbar.dismiss()
             }, 15000)
         }
+    }
+
+    private fun animateTextAppearance(view: View) {
+        view.alpha = 0f  // Mulai dengan transparansi 0
+        view.animate().alpha(1f).setDuration(1000).start() // Fade-in dalam 1 detik
     }
 
     private fun setupSongPlayer() {
@@ -107,37 +124,33 @@ class RelaxationFragment : Fragment() {
         isRunning = true
         binding.btnPlay.setImageResource(R.drawable.ic_pause)
         binding.tvTitle.text = "Bersiap..."
-//        binding.tvTimer.text = "3"
-        startCountdown(3)
-//        handler.postDelayed({
-//            currentStep = 0
-//            runStep()
-//        }, 3000)
+        animatePlayPauseButton(true)
+        startCountdownWithAnimation(3)
 
         songPlayer?.start()
         updateSongProgressHandler.post(updateSongProgressRunnable)
     }
 
-    private fun startCountdown(start: Int) {
+    private fun startCountdownWithAnimation(start: Int) {
         var countdown = start
-        handler.post(object : Runnable {
-            override fun run() {
-                if (countdown > 0) {
-                    binding.tvTimer.text = countdown.toString()
-                    countdown--
-                    handler.postDelayed(this, 1000)
-                } else {
-                    currentStep = 0
-                    runStep()
-                }
-            }
-        })
+        val countdownAnimator = ValueAnimator.ofInt(countdown, 0)
+        countdownAnimator.duration = 3000 // 3 seconds for countdown
+        countdownAnimator.addUpdateListener { valueAnimator ->
+            binding.tvTimer.text = valueAnimator.animatedValue.toString()
+        }
+        countdownAnimator.start()
+
+        handler.postDelayed({
+            currentStep = 0
+            runStepWithAnimation()
+        }, 3000)
     }
 
     private fun stopRelaxation() {
         isRunning = false
         handler.removeCallbacksAndMessages(null)
         binding.btnPlay.setImageResource(R.drawable.ic_play)
+        animatePlayPauseButton(false)
         binding.tvTitle.text = "Relaxasi Berhenti"
         binding.tvTimer.text = "0"
 
@@ -145,11 +158,12 @@ class RelaxationFragment : Fragment() {
         updateSongProgressHandler.removeCallbacksAndMessages(null)
     }
 
-    private fun runStep() {
-        if (!isRunning) return
-
+    private fun runStepWithAnimation() {
         val step = steps[currentStep]
         binding.tvTitle.text = step.name
+        binding.tvTitle.alpha = 0f // Start with transparent text
+        binding.tvTitle.animate().alpha(1f).setDuration(500).start() // Fade-in text
+
         remainingTime = step.duration
         updateTimer()
     }
@@ -163,7 +177,7 @@ class RelaxationFragment : Fragment() {
             playStepSound()
             handler.postDelayed({
                 currentStep = (currentStep + 1) % steps.size
-                runStep()
+                runStepWithAnimation()
             }, 1000)
         }
     }
@@ -184,18 +198,6 @@ class RelaxationFragment : Fragment() {
         }
     }
 
-//    private fun toggleSongPlayback() {
-//        songPlayer?.let {
-//            if (it.isPlaying) {
-//                it.pause()
-//                updateSongProgressHandler.removeCallbacksAndMessages(null)
-//            } else {
-//                it.start()
-//                updateSongProgressHandler.post(updateSongProgressRunnable)
-//            }
-//        }
-//    }
-
     private val updateSongProgressRunnable = object : Runnable {
         override fun run() {
             songPlayer?.let {
@@ -204,6 +206,12 @@ class RelaxationFragment : Fragment() {
                 updateSongProgressHandler.postDelayed(this, 1000)
             }
         }
+    }
+
+    private fun animatePlayPauseButton(isPlaying: Boolean) {
+        val animator = ObjectAnimator.ofFloat(binding.btnPlay, "rotation", if (isPlaying) 180f else 0f)
+        animator.duration = 300 // Rotate button smoothly
+        animator.start()
     }
 
     private fun formatTime(milliseconds: Int): String {

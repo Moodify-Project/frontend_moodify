@@ -8,13 +8,14 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import android.animation.ObjectAnimator
+import android.animation.AnimatorSet
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.frontend_moodify.data.remote.network.Injection
-import com.example.frontend_moodify.data.remote.response.login.TokenResponse
 import com.example.frontend_moodify.databinding.FragmentHomeBinding
 import com.example.frontend_moodify.presentation.adapter.ArticleAdapter
 import com.example.frontend_moodify.presentation.ui.detail.DetailActivity
@@ -43,7 +44,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         if (!isNetworkAvailable()) {
             showNoConnectionLayout()
         } else {
-
             val repository = Injection.provideArticleRepository(sessionManager)
             val factory = ArticleViewModelFactory(repository)
             viewModel = ViewModelProvider(this, factory)[ArticleViewModel::class.java]
@@ -52,34 +52,26 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             val factoryProfile = ProfileViewModelFactory(repositoryProfile)
             val viewModelProfile = ViewModelProvider(this, factoryProfile).get(ProfileViewModel::class.java)
 
-
             viewModelProfile.profile.observe(viewLifecycleOwner) { profile ->
                 if (profile != null) {
-                    binding.nameUser?.let{
+                    binding.nameUser?.let {
                         val name = profile.name
-                        it.text = "Helo, $name"
+                        it.text = "Hello, $name"
                     }
                     binding.userImage?.let {
                         Glide.with(this)
                             .load(profile.urlphoto)
                             .into(it)
                     }
+                    animateProfileContainer()
                 }
             }
             viewModelProfile.getProfile()
 
             val adapter = ArticleAdapter { article ->
                 val intent = Intent(requireContext(), DetailActivity::class.java).apply {
-                    putExtra("title", article.title)
-//                putExtra("imageUrl", article.urlToImage)
-//                putExtra("description", article.description)
-//                putExtra("publishDate", article.publishedAt)
-//                putExtra("bookmarkCount", article.bookmarkedCount)
                     putExtra("articleId", article.id)
-//                putExtra("content", article.content)
                 }
-                Log.d("HomeFragment", "publishDate: ${article.id}")
-
                 startActivity(intent)
             }
 
@@ -88,6 +80,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
             viewModel.articles.observe(viewLifecycleOwner) {
                 adapter.submitList(it)
+                animateRecyclerViewItems()
             }
 
             viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
@@ -100,12 +93,31 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             }
 
             val currentDate = getCurrentDate()
-//        binding.dateTextView.text = currentDate
             binding.dateTextView?.let {
                 it.text = currentDate
             }
 
             viewModel.fetchArticles()
+        }
+    }
+
+    private fun animateProfileContainer() {
+        val profileTranslationY = ObjectAnimator.ofFloat(binding.containerProfile, "translationY", -50f, 0f).setDuration(500)
+        profileTranslationY.start()
+    }
+
+    private fun animateRecyclerViewItems() {
+        val layoutManager = binding.articlesRecyclerView.layoutManager as LinearLayoutManager
+        val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
+        for (i in firstVisibleItemPosition until binding.articlesRecyclerView.adapter!!.itemCount) {
+            val itemView = layoutManager.findViewByPosition(i)
+            itemView?.let {
+                val animatorSet = AnimatorSet()
+                val translationY = ObjectAnimator.ofFloat(it, "translationY", 50f, 0f).setDuration(300)
+                val alpha = ObjectAnimator.ofFloat(it, "alpha", 0f, 1f).setDuration(300)
+                animatorSet.playTogether(translationY, alpha)
+                animatorSet.start()
+            }
         }
     }
 
@@ -115,7 +127,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         return networkInfo != null && networkInfo.isConnected
     }
 
-    // Show the layout when there's no connection
     private fun showNoConnectionLayout() {
         binding.emptyStateLayout.root.visibility = View.VISIBLE
         binding.articlesRecyclerView.visibility = View.GONE
