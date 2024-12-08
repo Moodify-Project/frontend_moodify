@@ -5,14 +5,12 @@ import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import android.animation.ObjectAnimator
 import android.animation.AnimatorSet
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.frontend_moodify.data.remote.network.Injection
@@ -25,7 +23,6 @@ import com.example.frontend_moodify.presentation.viewmodel.ArticleViewModelFacto
 import com.example.frontend_moodify.presentation.viewmodel.ProfileViewModel
 import com.example.frontend_moodify.presentation.viewmodel.ProfileViewModelFactory
 import com.example.frontend_moodify.utils.SessionManager
-import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -109,10 +106,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private fun animateRecyclerViewItems() {
         val layoutManager = binding.articlesRecyclerView.layoutManager as LinearLayoutManager
         val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
+
         for (i in firstVisibleItemPosition until binding.articlesRecyclerView.adapter!!.itemCount) {
             val itemView = layoutManager.findViewByPosition(i)
             itemView?.let {
                 val animatorSet = AnimatorSet()
+
                 val translationY = ObjectAnimator.ofFloat(it, "translationY", 50f, 0f).setDuration(300)
                 val alpha = ObjectAnimator.ofFloat(it, "alpha", 0f, 1f).setDuration(300)
                 animatorSet.playTogether(translationY, alpha)

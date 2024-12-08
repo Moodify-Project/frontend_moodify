@@ -46,7 +46,6 @@ class RelaxationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Animasi fade-in untuk tvTitle dan elemen lainnya ketika pertama kali tampilan fragment dimuat
         animateTextAppearance(binding.tvTitle)
         animateTextAppearance(binding.tvTimer)
         animateTextAppearance(binding.tvDurationStart)
@@ -80,7 +79,6 @@ class RelaxationFragment : Fragment() {
                 textSize = 14f
             }
 
-            // Fade in snackbar
             snackbarView.alpha = 0f
             snackbarView.animate().alpha(1f).setDuration(500).start()
 
@@ -93,8 +91,8 @@ class RelaxationFragment : Fragment() {
     }
 
     private fun animateTextAppearance(view: View) {
-        view.alpha = 0f  // Mulai dengan transparansi 0
-        view.animate().alpha(1f).setDuration(1000).start() // Fade-in dalam 1 detik
+        view.alpha = 0f
+        view.animate().alpha(1f).setDuration(1000).start()
     }
 
     private fun setupSongPlayer() {
@@ -209,9 +207,17 @@ class RelaxationFragment : Fragment() {
     }
 
     private fun animatePlayPauseButton(isPlaying: Boolean) {
-        val animator = ObjectAnimator.ofFloat(binding.btnPlay, "rotation", if (isPlaying) 180f else 0f)
-        animator.duration = 300 // Rotate button smoothly
+        val scaleX = if (isPlaying) 1.1f else 1f
+        val scaleY = if (isPlaying) 1.1f else 1f
+
+        val animator = ObjectAnimator.ofFloat(binding.btnPlay, "scaleX", scaleX)
+        val animatorY = ObjectAnimator.ofFloat(binding.btnPlay, "scaleY", scaleY)
+
+        animator.duration = 100
+        animatorY.duration = 100
+
         animator.start()
+        animatorY.start()
     }
 
     private fun formatTime(milliseconds: Int): String {

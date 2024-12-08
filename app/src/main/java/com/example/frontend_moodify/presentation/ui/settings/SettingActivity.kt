@@ -6,16 +6,16 @@ import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.view.animation.AlphaAnimation
+import android.view.animation.ScaleAnimation
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SwitchCompat
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.work.WorkManager
 import com.example.frontend_moodify.R
 import com.example.frontend_moodify.databinding.ActivitySettingsBinding
-import com.example.frontend_moodify.presentation.ui.auth.RegisterActivity
 import com.example.frontend_moodify.presentation.ui.profile.ProfileActivity
 import com.example.frontend_moodify.utils.DailyReminderWorker
 
@@ -30,11 +30,11 @@ class SettingActivity : AppCompatActivity() {
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Setup UI
         darkModeSwitch = findViewById(R.id.dark_mode_switch)
         dailyReminderSwitch = findViewById(R.id.notification_switch)
 
-        // Dark Mode
+        applyScaleFadeAnimations()
+
         val sharedPreferences = getSharedPreferences("user_settings", MODE_PRIVATE)
         val isDarkMode = sharedPreferences.getBoolean("dark_mode", false)
         darkModeSwitch.isChecked = isDarkMode
@@ -63,7 +63,6 @@ class SettingActivity : AppCompatActivity() {
         dailyReminderSwitch.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    // Check Notification Permission for Android 13+
                     if (ContextCompat.checkSelfPermission(
                             this,
                             Manifest.permission.POST_NOTIFICATIONS
@@ -87,6 +86,39 @@ class SettingActivity : AppCompatActivity() {
         binding.profileLink.setOnClickListener {
             val intent = Intent(this, ProfileActivity::class.java)
             startActivity(intent)
+        }
+    }
+
+    private fun applyScaleFadeAnimations() {
+        val elements = listOf(
+            binding.profileTitle,
+            binding.profileLink,
+            binding.themesTitle,
+            binding.darkModeText,
+            binding.darkModeSwitch,
+            binding.dailyReminderTitle,
+            binding.notificationText,
+            binding.notificationSwitch
+        )
+
+        elements.forEachIndexed { index, view ->
+            val scaleAnimation = ScaleAnimation(
+                0.9f, 1.0f,
+                0.9f, 1.0f,
+                ScaleAnimation.RELATIVE_TO_SELF, 0.5f,
+                ScaleAnimation.RELATIVE_TO_SELF, 0.5f
+            )
+            scaleAnimation.duration = 500
+
+            val alphaAnimation = AlphaAnimation(0f, 1f)
+            alphaAnimation.duration = 500
+
+            val animationSet = android.view.animation.AnimationSet(true)
+            animationSet.addAnimation(scaleAnimation)
+            animationSet.addAnimation(alphaAnimation)
+
+            animationSet.startOffset = (index * 100).toLong()
+            view.startAnimation(animationSet)
         }
     }
 

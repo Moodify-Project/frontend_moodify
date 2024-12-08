@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.animation.ObjectAnimator
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,7 +29,6 @@ class MoodTrackerFragment : Fragment() {
     private lateinit var dateAdapter: DateAdapter
     private var allDates: List<Calendar> = emptyList()
     private var selectedWeekStart: Calendar? = null
-//    private var selectedDate: Calendar = Calendar.getInstance()
     private lateinit var viewModel: MoodViewModel
 
     override fun onCreateView(
@@ -42,17 +42,14 @@ class MoodTrackerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Inisialisasi ViewModel
         val sessionManager = SessionManager(requireContext())
         val repository = Injection.provideJournalRepository(sessionManager)
         val factory = MoodViewModelFactory(repository)
         viewModel = ViewModelProvider(this, factory)[MoodViewModel::class.java]
 
-        // Generate daftar tanggal untuk dua tahun terakhir
         allDates = generateDates()
         selectedWeekStart = getWeekStart(Calendar.getInstance())
 
-        // Inisialisasi adapter dan RecyclerView
         dateAdapter = DateAdapter(allDates, isWeeklyMode = false) { selected ->
             selectedWeekStart = getWeekStart(selected)
             updateDateRangeText()
@@ -61,26 +58,24 @@ class MoodTrackerFragment : Fragment() {
         setRecyclerViewLayoutManager()
         binding.rvDateSelector.adapter = dateAdapter
 
-        // Scroll ke hari ini
         scrollToToday()
         updateDateRangeText()
 
-        // Observe data dari ViewModel
+        animateHeader()
+        animateRecyclerView()
+        animateJournalContent()
+
         observeViewModel()
 
-
-        // Tombol navigasi hari sebelumnya dan berikutnya
         binding.btnLeft.setOnClickListener { navigateWeek(-1) }
         binding.btnRight.setOnClickListener { navigateWeek(1) }
 
-        // Justifikasi teks jika Android mendukung
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             binding.tvJournalText.justificationMode = LineBreaker.JUSTIFICATION_MODE_INTER_WORD
         }
     }
 
     private fun observeViewModel() {
-        // Observasi data mood
         viewModel.moods.observe(viewLifecycleOwner) { moods ->
             val total = moods.anger + moods.enthusiasm + moods.happiness + moods.sadness + moods.worry
             if (total > 0) {
@@ -90,7 +85,6 @@ class MoodTrackerFragment : Fragment() {
                 val enthusiasmPercentage = (moods.enthusiasm * 100) / total
                 val worryPercentage = (moods.worry * 100) / total
 
-                // Tampilkan persentase
                 binding.happyPercentage.text = String.format("%.2f%%", happinessPercentage)
                 binding.sadPercentage.text = String.format("%.2f%%", sadnessPercentage)
                 binding.angryPercentage.text = String.format("%.2f%%", angerPercentage)
@@ -111,16 +105,10 @@ class MoodTrackerFragment : Fragment() {
             }
         }
 
-        // Observasi error
         viewModel.errorMessage.observe(viewLifecycleOwner) { error ->
             binding.tvError?.visibility = if (error.isNotEmpty()) View.VISIBLE else View.GONE
             binding.tvError?.text = error
         }
-
-        // Observasi loading state
-//        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
-//            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-//        }
     }
 
     private fun generateMoodConclusion(
@@ -131,7 +119,7 @@ class MoodTrackerFragment : Fragment() {
         worry: Float
     ): String {
         fun getLevel(value: Float, ranges: List<Pair<Int, Int>>): String {
-            val intValue = value.toInt() // Konversi Float ke Int
+            val intValue = value.toInt()
             return when {
                 intValue in ranges[0].first..ranges[0].second -> "Sangat Rendah"
                 intValue in ranges[1].first..ranges[1].second -> "Rendah"
@@ -159,31 +147,14 @@ class MoodTrackerFragment : Fragment() {
     """.trimIndent()
     }
 
-
     private fun updateMoodData(selectedDate: Calendar) {
-        // Format tanggal
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         val selectedDateString = dateFormat.format(selectedDate.time)
 
         Log.d("MoodTrackerFragment", "Selected Date: $selectedDateString")
-
-        // Tampilkan tanggal di UI
-//        binding.tvDate.text = dateFormat.format(selectedDate.time)
-
-        // Fetch data mood berdasarkan tanggal
         viewModel.fetchMoods(selectedDateString)
     }
 
-//    private fun navigateDay(step: Int) {
-//        val currentIndex = allDates.indexOfFirst { isSameDay(it, selectedDate) }
-//        val newIndex = (currentIndex + step).coerceIn(0, allDates.size - 1)
-//
-//        selectedDate = allDates[newIndex]
-//        dateAdapter.setSelectedDate(selectedDate)
-//
-//        binding.rvDateSelector.scrollToPosition(newIndex)
-//        updateMoodData()
-//    }
     private fun navigateWeek(step: Int) {
         if (selectedWeekStart == null) {
             selectedWeekStart = Calendar.getInstance()
@@ -203,19 +174,18 @@ class MoodTrackerFragment : Fragment() {
 
         binding.rvDateSelector.scrollToPosition(newIndex)
     }
-    // Perbarui rentang tanggal di UI
+
     private fun updateDateRangeText() {
         val endOfWeek = selectedWeekStart?.clone() as Calendar
         endOfWeek.add(Calendar.DAY_OF_WEEK, 6)
         val dateFormat = SimpleDateFormat("MMM dd", Locale.getDefault())
         binding.tvDate.text = "${dateFormat.format(selectedWeekStart?.time)} - ${dateFormat.format(endOfWeek.time)}"
     }
+
     private fun getWeekStart(date: Calendar): Calendar {
         val start = date.clone() as Calendar
         start.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
         if (start.after(date)) {
-            // Jika awal minggu lebih besar dari tanggal saat ini,
-            // artinya tanggal saat ini termasuk minggu sebelumnya.
             start.add(Calendar.DAY_OF_MONTH, -7)
         }
         return start
@@ -256,6 +226,52 @@ class MoodTrackerFragment : Fragment() {
     private fun isSameDay(date1: Calendar, date2: Calendar): Boolean {
         return date1.get(Calendar.YEAR) == date2.get(Calendar.YEAR) &&
                 date1.get(Calendar.DAY_OF_YEAR) == date2.get(Calendar.DAY_OF_YEAR)
+    }
+
+    private fun animateHeader() {
+        ObjectAnimator.ofFloat(binding.tvDate, "translationY", -100f, 0f).apply {
+            duration = 500
+        }.start()
+
+        ObjectAnimator.ofFloat(binding.btnLeft, "translationX", -100f, 0f).apply {
+            duration = 500
+        }.start()
+
+        ObjectAnimator.ofFloat(binding.btnRight, "translationX", 100f, 0f).apply {
+            duration = 500
+        }.start()
+    }
+
+    private fun animateRecyclerView() {
+        ObjectAnimator.ofFloat(binding.rvDateSelector, "alpha", 0f, 1f).apply {
+            duration = 500
+        }.start()
+    }
+
+    private fun animateJournalContent() {
+        ObjectAnimator.ofFloat(binding.tvJournalText, "alpha", 0f, 1f).apply {
+            duration = 500
+        }.start()
+
+        ObjectAnimator.ofFloat(binding.happyPercentage, "alpha", 0f, 1f).apply {
+            duration = 500
+        }.start()
+
+        ObjectAnimator.ofFloat(binding.sadPercentage, "alpha", 0f, 1f).apply {
+            duration = 500
+        }.start()
+
+        ObjectAnimator.ofFloat(binding.angryPercentage, "alpha", 0f, 1f).apply {
+            duration = 500
+        }.start()
+
+        ObjectAnimator.ofFloat(binding.enthusiasticPercentage, "alpha", 0f, 1f).apply {
+            duration = 500
+        }.start()
+
+        ObjectAnimator.ofFloat(binding.worryPercentage, "alpha", 0f, 1f).apply {
+            duration = 500
+        }.start()
     }
 
     override fun onDestroyView() {

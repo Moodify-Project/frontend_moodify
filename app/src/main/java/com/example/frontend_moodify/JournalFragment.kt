@@ -1,5 +1,6 @@
 package com.example.frontend_moodify
 
+import android.animation.ObjectAnimator
 import android.content.res.Configuration
 import android.graphics.text.LineBreaker
 import android.os.Build
@@ -51,9 +52,6 @@ class JournalFragment : Fragment() {
             updateDateText(selected)
         }
         setRecyclerViewLayoutManager()
-
-//        binding.rvDateSelector.layoutManager =
-//            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvDateSelector.adapter = dateAdapter
 
         val today = Calendar.getInstance()
@@ -73,15 +71,51 @@ class JournalFragment : Fragment() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             binding.tvJournalText.justificationMode = LineBreaker.JUSTIFICATION_MODE_INTER_WORD
         }
+
+        // Start Animations
+        animateHeader()
+        animateRecyclerView()
+        animateJournalContent()
+    }
+
+    private fun animateHeader() {
+        // Animation for tvDate and buttons (slide-in from sides)
+        val dateAnimator = ObjectAnimator.ofFloat(binding.tvDate, "translationY", 50f, 0f)
+        dateAnimator.duration = 600
+        dateAnimator.start()
+
+        val leftButtonAnimator = ObjectAnimator.ofFloat(binding.btnLeft, "translationX", -200f, 0f)
+        val rightButtonAnimator = ObjectAnimator.ofFloat(binding.btnRight, "translationX", 200f, 0f)
+        leftButtonAnimator.duration = 500
+        rightButtonAnimator.duration = 500
+        leftButtonAnimator.start()
+        rightButtonAnimator.start()
+    }
+
+    private fun animateRecyclerView() {
+        // Fade-in animation for RecyclerView
+        val recyclerViewAnimator = ObjectAnimator.ofFloat(binding.rvDateSelector, "alpha", 0f, 1f)
+        recyclerViewAnimator.duration = 500
+        recyclerViewAnimator.start()
+    }
+
+    private fun animateJournalContent() {
+        // Slide-up and fade-in animation for journal content
+        val journalContentAnimator = ObjectAnimator.ofFloat(binding.svJournalContent, "translationY", 200f, 0f)
+        journalContentAnimator.duration = 600
+        journalContentAnimator.start()
+
+        // Fade-in animation for journal text
+        val textAnimator = ObjectAnimator.ofFloat(binding.tvJournalText, "alpha", 0f, 1f)
+        textAnimator.duration = 600
+        textAnimator.start()
     }
 
     private fun setRecyclerViewLayoutManager() {
         val orientation = resources.configuration.orientation
         val layoutManager = if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            // Mode landscape: Scroll secara vertikal
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         } else {
-            // Mode portrait: Scroll secara horizontal
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         }
         binding.rvDateSelector.layoutManager = layoutManager
