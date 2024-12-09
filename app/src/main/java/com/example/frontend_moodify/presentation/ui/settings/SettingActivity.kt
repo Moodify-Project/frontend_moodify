@@ -5,6 +5,8 @@ import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.view.animation.AlphaAnimation
+import android.view.animation.ScaleAnimation
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SwitchCompat
@@ -26,11 +28,11 @@ class SettingActivity : AppCompatActivity() {
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Setup UI
         darkModeSwitch = findViewById(R.id.dark_mode_switch)
         dailyReminderSwitch = findViewById(R.id.notification_switch)
 
-        // Dark Mode
+        applyScaleFadeAnimations()
+
         val sharedPreferences = getSharedPreferences("user_settings", MODE_PRIVATE)
         val isDarkMode = sharedPreferences.getBoolean("dark_mode", false)
         darkModeSwitch.isChecked = isDarkMode
@@ -74,6 +76,39 @@ class SettingActivity : AppCompatActivity() {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
+    }
+
+    private fun applyScaleFadeAnimations() {
+        val elements = listOf(
+            binding.profileTitle,
+            binding.profileLink,
+            binding.themesTitle,
+            binding.darkModeText,
+            binding.darkModeSwitch,
+            binding.dailyReminderTitle,
+            binding.notificationText,
+            binding.notificationSwitch
+        )
+
+        elements.forEachIndexed { index, view ->
+            val scaleAnimation = ScaleAnimation(
+                0.9f, 1.0f,
+                0.9f, 1.0f,
+                ScaleAnimation.RELATIVE_TO_SELF, 0.5f,
+                ScaleAnimation.RELATIVE_TO_SELF, 0.5f
+            )
+            scaleAnimation.duration = 500
+
+            val alphaAnimation = AlphaAnimation(0f, 1f)
+            alphaAnimation.duration = 500
+
+            val animationSet = android.view.animation.AnimationSet(true)
+            animationSet.addAnimation(scaleAnimation)
+            animationSet.addAnimation(alphaAnimation)
+
+            animationSet.startOffset = (index * 100).toLong()
+            view.startAnimation(animationSet)
         }
     }
 

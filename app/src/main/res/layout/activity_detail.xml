@@ -15,7 +15,11 @@
         app:navigationIcon="@drawable/ic_back_grey"
         app:title="@string/header_title"
         app:titleTextAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/light_grey"
+        android:layout_marginTop="?attr/actionBarSize" />
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"

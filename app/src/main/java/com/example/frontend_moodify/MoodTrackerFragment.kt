@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.animation.ObjectAnimator
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,7 +30,6 @@ class MoodTrackerFragment : Fragment() {
     private lateinit var dateAdapter: DateAdapter
     private var allDates: List<Calendar> = emptyList()
     private var selectedWeekStart: Calendar? = null
-//    private var selectedDate: Calendar = Calendar.getInstance()
     private lateinit var viewModel: MoodViewModel
 
     override fun onCreateView(
@@ -43,17 +43,14 @@ class MoodTrackerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Inisialisasi ViewModel
         val sessionManager = SessionManager(requireContext())
         val repository = Injection.provideJournalRepository(sessionManager)
         val factory = MoodViewModelFactory(repository)
         viewModel = ViewModelProvider(this, factory)[MoodViewModel::class.java]
 
-        // Generate daftar tanggal untuk dua tahun terakhir
         allDates = generateDates()
         selectedWeekStart = getWeekStart(Calendar.getInstance())
 
-        // Inisialisasi adapter dan RecyclerView
         dateAdapter = DateAdapter(allDates, isWeeklyMode = false) { selected ->
             selectedWeekStart = getWeekStart(selected)
             updateDateRangeText()
@@ -62,19 +59,15 @@ class MoodTrackerFragment : Fragment() {
         setRecyclerViewLayoutManager()
         binding.rvDateSelector.adapter = dateAdapter
 
-        // Scroll ke hari ini
         scrollToToday()
         updateDateRangeText()
         updateMoodData()
 
-        // Observe data dari ViewModel
+        animateHeader()
+        animateRecyclerView()
+        animateJournalContent()
+
         observeViewModel()
-
-//        val pieChartView = binding.pieChart
-
-        // Set data persentase
-//        val moodPercentages = listOf(0.25f, 0.15f, 0.20f, 0.30f, 0.10f)
-//        pieChartView.setPercentages(moodPercentages)
 
 
         // Tombol navigasi hari sebelumnya dan berikutnya
@@ -172,7 +165,7 @@ class MoodTrackerFragment : Fragment() {
         worry: Float
     ): String {
         fun getLevel(value: Float, ranges: List<Pair<Int, Int>>): String {
-            val intValue = value.toInt() // Konversi Float ke Int
+            val intValue = value.toInt()
             return when {
                 intValue in ranges[0].first..ranges[0].second -> "Very Low"
                 intValue in ranges[1].first..ranges[1].second -> "Low"
@@ -211,7 +204,7 @@ class MoodTrackerFragment : Fragment() {
     }
 
 
-    //    private fun navigateDay(step: Int) {
+//    private fun navigateDay(step: Int) {
 //        val currentIndex = allDates.indexOfFirst { isSameDay(it, selectedDate) }
 //        val newIndex = (currentIndex + step).coerceIn(0, allDates.size - 1)
 //
@@ -241,19 +234,18 @@ class MoodTrackerFragment : Fragment() {
 
         binding.rvDateSelector.scrollToPosition(newIndex)
     }
-    // Perbarui rentang tanggal di UI
+
     private fun updateDateRangeText() {
         val endOfWeek = selectedWeekStart?.clone() as Calendar
         endOfWeek.add(Calendar.DAY_OF_WEEK, 6)
         val dateFormat = SimpleDateFormat("MMM dd", Locale.getDefault())
         binding.tvDate.text = "${dateFormat.format(selectedWeekStart?.time)} - ${dateFormat.format(endOfWeek.time)}"
     }
+
     private fun getWeekStart(date: Calendar): Calendar {
         val start = date.clone() as Calendar
         start.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
         if (start.after(date)) {
-            // Jika awal minggu lebih besar dari tanggal saat ini,
-            // artinya tanggal saat ini termasuk minggu sebelumnya.
             start.add(Calendar.DAY_OF_MONTH, -7)
         }
         return start
@@ -294,6 +286,52 @@ class MoodTrackerFragment : Fragment() {
     private fun isSameDay(date1: Calendar, date2: Calendar): Boolean {
         return date1.get(Calendar.YEAR) == date2.get(Calendar.YEAR) &&
                 date1.get(Calendar.DAY_OF_YEAR) == date2.get(Calendar.DAY_OF_YEAR)
+    }
+
+    private fun animateHeader() {
+        ObjectAnimator.ofFloat(binding.tvDate, "translationY", -100f, 0f).apply {
+            duration = 500
+        }.start()
+
+        ObjectAnimator.ofFloat(binding.btnLeft, "translationX", -100f, 0f).apply {
+            duration = 500
+        }.start()
+
+        ObjectAnimator.ofFloat(binding.btnRight, "translationX", 100f, 0f).apply {
+            duration = 500
+        }.start()
+    }
+
+    private fun animateRecyclerView() {
+        ObjectAnimator.ofFloat(binding.rvDateSelector, "alpha", 0f, 1f).apply {
+            duration = 500
+        }.start()
+    }
+
+    private fun animateJournalContent() {
+        ObjectAnimator.ofFloat(binding.tvJournalText, "alpha", 0f, 1f).apply {
+            duration = 500
+        }.start()
+
+        ObjectAnimator.ofFloat(binding.happyPercentage, "alpha", 0f, 1f).apply {
+            duration = 500
+        }.start()
+
+        ObjectAnimator.ofFloat(binding.sadPercentage, "alpha", 0f, 1f).apply {
+            duration = 500
+        }.start()
+
+        ObjectAnimator.ofFloat(binding.angryPercentage, "alpha", 0f, 1f).apply {
+            duration = 500
+        }.start()
+
+        ObjectAnimator.ofFloat(binding.enthusiasticPercentage, "alpha", 0f, 1f).apply {
+            duration = 500
+        }.start()
+
+        ObjectAnimator.ofFloat(binding.worryPercentage, "alpha", 0f, 1f).apply {
+            duration = 500
+        }.start()
     }
 
     override fun onDestroyView() {

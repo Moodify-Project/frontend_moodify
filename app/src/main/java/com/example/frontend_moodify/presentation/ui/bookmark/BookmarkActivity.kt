@@ -4,11 +4,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.animation.AlphaAnimation
+import android.view.animation.TranslateAnimation
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.frontend_moodify.R
@@ -26,13 +26,7 @@ class BookmarkActivity : AppCompatActivity() {
     private val viewModel: BookmarkViewModel by viewModels {
         BookmarkViewModelFactory(Injection.provideArticleRepository(SessionManager(this)))
     }
-//    private val sessionManager by lazy { SessionManager(this) }
-//    private val authRepository by lazy { Injection.provideAuthRepository() }
-//    private val viewModel: BookmarkViewModel by viewModels {
-//        BookmarkViewModelFactory(
-//            Injection.provideArticleRepository(sessionManager, authRepository)
-//        )
-//    }
+
     private val adapter = BookmarkAdapter { article ->
         val intent = Intent(this, DetailActivity::class.java).apply {
             putExtra("title", article.title)
@@ -44,7 +38,6 @@ class BookmarkActivity : AppCompatActivity() {
 //            putExtra("content", article.content)
         }
         Log.d("BookmarkActivity", "publishDate: ${article.id}")
-
         startActivity(intent)
     }
 
@@ -53,15 +46,24 @@ class BookmarkActivity : AppCompatActivity() {
         binding = ActivityBookmarkBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val slideInAnim = TranslateAnimation(0f, 0f, -binding.topAppBar.height.toFloat(), 0f)
+        slideInAnim.duration = 500
+        binding.topAppBar.startAnimation(slideInAnim)
+
         setupRecyclerView()
 
         binding.topAppBar.setNavigationOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
 
+        // Observe bookmarked articles and apply animations
         viewModel.bookmarkedArticles.observe(this) { articles ->
             updateEmptyState(articles.isEmpty())
             adapter.submitList(articles)
+
+            val fadeInAnim = AlphaAnimation(0f, 1f)
+            fadeInAnim.duration = 500
+            binding.favoriteArticlesRecyclerView.startAnimation(fadeInAnim)
         }
 
         viewModel.isLoading.observe(this) { isLoading ->
@@ -76,10 +78,18 @@ class BookmarkActivity : AppCompatActivity() {
 
         viewModel.fetchBookmarkedArticles()
     }
+
     private fun updateEmptyState(isEmpty: Boolean) {
         binding.favoriteArticlesRecyclerView.visibility = if (isEmpty) View.GONE else View.VISIBLE
         binding.emptyStateLayout.root.visibility = if (isEmpty) View.VISIBLE else View.GONE
+
+        if (isEmpty) {
+            val fadeInAnim = AlphaAnimation(0f, 1f)
+            fadeInAnim.duration = 500
+            binding.emptyStateLayout.root.startAnimation(fadeInAnim)
+        }
     }
+
     private fun setupRecyclerView() {
         binding.favoriteArticlesRecyclerView.apply {
             layoutManager = LinearLayoutManager(this@BookmarkActivity)
