@@ -170,32 +170,67 @@ class MoodTrackerFragment : Fragment() {
 
         Log.d("MoodTrackerFragment", "Fetching Mood Data for Date: $dateString")
         viewModel.fetchMoods(dateString)
+
+
     }
 
     private fun animatePieChart(moodPercentages: List<Float>) {
-        // Menambahkan animasi untuk PieChart secara bertahap
         val chart = binding.pieChart
-        val startPercentages = List(5) { 0f } // Mulai dari 0%
+        val startPercentages = List(5) { 0f }
 
-        // Set initial data as 0% and animate to actual percentages
         chart.setPercentages(startPercentages)
 
-        // Membuat animasi untuk PieChart agar mengisi dari 0% ke nilai yang ada
-        val animator = ObjectAnimator.ofObject(
-            chart,
-            "percentages", // properti yang ingin dianimasikan
+        val animator = ValueAnimator.ofObject(
             TypeEvaluator<List<Float>> { fraction, start, end ->
                 start.mapIndexed { index, startValue ->
                     startValue + (end[index] - startValue) * fraction
                 }
-            },
-            startPercentages,
-            moodPercentages
+            }, startPercentages, moodPercentages
         ).apply {
-            duration = 1000  // Durasi animasi (1 detik)
+            duration = 1000
+            interpolator = android.view.animation.AccelerateDecelerateInterpolator()
+            addUpdateListener { animation ->
+                val animatedPercentages = animation.animatedValue as List<Float>
+                chart.setPercentages(animatedPercentages)
+            }
         }
+
         animator.start()
     }
+
+
+
+
+//    private fun animatePieChart(moodPercentages: List<Float>) {
+//        // Set initial data as 0% tanpa animasi
+//        val chart = binding.pieChart
+//        chart.setPercentages(moodPercentages)
+//    }
+
+//    private fun animatePieChart(moodPercentages: List<Float>) {
+//        // Menambahkan animasi untuk PieChart secara bertahap
+//        val chart = binding.pieChart
+//        val startPercentages = List(5) { 0f } // Mulai dari 0%
+//
+//        // Set initial data as 0% and animate to actual percentages
+//        chart.setPercentages(startPercentages)
+//
+//        // Membuat animasi untuk PieChart agar mengisi dari 0% ke nilai yang ada
+//        val animator = ObjectAnimator.ofObject(
+//            chart,
+//            "percentages", // properti yang ingin dianimasikan
+//            TypeEvaluator<List<Float>> { fraction, start, end ->
+//                start.mapIndexed { index, startValue ->
+//                    startValue + (end[index] - startValue) * fraction
+//                }
+//            },
+//            startPercentages,
+//            moodPercentages
+//        ).apply {
+//            duration = 1000  // Durasi animasi (1 detik)
+//        }
+//        animator.start()
+//    }
 
     private fun animatePercentageText(textView: TextView, percentage: Float) {
         val animatedPercentage = ValueAnimator.ofFloat(0f, percentage * 100).apply {
