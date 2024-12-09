@@ -59,13 +59,13 @@
 
     <TextView
         android:id="@+id/descriptionText"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:fontFamily="@font/poppins_bold"
         android:textAlignment="viewStart"
         android:gravity="start"
-        android:padding="8dp"
+        android:paddingStart="0dp"
         android:lineSpacingExtra="8dp"
         android:text="@string/description_text"
         android:textColor="@color/white"

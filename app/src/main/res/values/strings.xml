@@ -175,7 +175,7 @@
     <string name="end_time">4:02</string>
     <string name="relaxation_stopped">Relaxation Stopped</string>
 
-    <string name="description_text">Lorem Ipsum is simply dummy text of the printing and </string>
+    <string name="description_text">Wellcome to MOODIFY, Moodify lets you track your emotions and identify mood triggers. </string>
 
     <!-- Profile -->
     <string-array name="gender_options">
