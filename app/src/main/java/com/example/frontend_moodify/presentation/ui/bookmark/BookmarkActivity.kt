@@ -36,12 +36,12 @@ class BookmarkActivity : AppCompatActivity() {
     private val adapter = BookmarkAdapter { article ->
         val intent = Intent(this, DetailActivity::class.java).apply {
             putExtra("title", article.title)
-            putExtra("imageUrl", article.urlToImage)
-            putExtra("description", article.description)
-            putExtra("publishDate", article.publishedAt)
-            putExtra("bookmarkCount", article.bookmarkedCount)
+//            putExtra("imageUrl", article.urlToImage)
+//            putExtra("description", article.description)
+//            putExtra("publishDate", article.publishedAt)
+//            putExtra("bookmarkCount", article.bookmarkedCount)
             putExtra("articleId", article.id)
-            putExtra("content", article.content)
+//            putExtra("content", article.content)
         }
         Log.d("BookmarkActivity", "publishDate: ${article.id}")
 

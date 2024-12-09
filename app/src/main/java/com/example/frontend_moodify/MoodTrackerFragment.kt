@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.frontend_moodify.data.remote.network.Injection
 import com.example.frontend_moodify.databinding.FragmentMoodTrackBinding
 import com.example.frontend_moodify.presentation.adapter.DateAdapter
+import com.example.frontend_moodify.presentation.customview.PieChartView
 import com.example.frontend_moodify.presentation.viewmodel.MoodViewModel
 import com.example.frontend_moodify.presentation.viewmodel.MoodViewModelFactory
 import com.example.frontend_moodify.utils.SessionManager
@@ -64,9 +65,16 @@ class MoodTrackerFragment : Fragment() {
         // Scroll ke hari ini
         scrollToToday()
         updateDateRangeText()
+        updateMoodData()
 
         // Observe data dari ViewModel
         observeViewModel()
+
+//        val pieChartView = binding.pieChart
+
+        // Set data persentase
+//        val moodPercentages = listOf(0.25f, 0.15f, 0.20f, 0.30f, 0.10f)
+//        pieChartView.setPercentages(moodPercentages)
 
 
         // Tombol navigasi hari sebelumnya dan berikutnya
@@ -83,31 +91,64 @@ class MoodTrackerFragment : Fragment() {
         // Observasi data mood
         viewModel.moods.observe(viewLifecycleOwner) { moods ->
             val total = moods.anger + moods.enthusiasm + moods.happiness + moods.sadness + moods.worry
-            if (total > 0) {
-                val happinessPercentage = (moods.happiness * 100) / total
-                val sadnessPercentage = (moods.sadness * 100) / total
-                val angerPercentage = (moods.anger * 100) / total
-                val enthusiasmPercentage = (moods.enthusiasm * 100) / total
-                val worryPercentage = (moods.worry * 100) / total
+          if (total > 0) {
+                  val moodPercentages = listOf(
+                      moods.happiness.toFloat() / total,
+                      moods.sadness.toFloat() / total,
+                      moods.anger.toFloat() / total,
+                      moods.enthusiasm.toFloat() / total,
+                      moods.worry.toFloat() / total
+                  )
 
-                // Tampilkan persentase
-                binding.happyPercentage.text = String.format("%.2f%%", happinessPercentage)
-                binding.sadPercentage.text = String.format("%.2f%%", sadnessPercentage)
-                binding.angryPercentage.text = String.format("%.2f%%", angerPercentage)
-                binding.enthusiasticPercentage.text = String.format("%.2f%%", enthusiasmPercentage)
-                binding.worryPercentage.text = String.format("%.2f%%", worryPercentage)
+                  binding.pieChart.setPercentages(moodPercentages)
 
-                val conclusion = generateMoodConclusion(
-                    happinessPercentage, sadnessPercentage, angerPercentage, enthusiasmPercentage, worryPercentage
-                )
-                Log.d("MoodTrackerFragment", "conclusion: $conclusion")
-                binding.tvJournalText.text = conclusion
+                  // Tampilkan persentase
+                  binding.happyPercentage.text = String.format("%.1f%%", moodPercentages[0] * 100)
+                  binding.sadPercentage.text = String.format("%.1f%%", moodPercentages[1] * 100)
+                  binding.angryPercentage.text = String.format("%.1f%%", moodPercentages[2] * 100)
+                  binding.enthusiasticPercentage.text = String.format("%.1f%%", moodPercentages[3] * 100)
+                  binding.worryPercentage.text = String.format("%.1f%%", moodPercentages[4] * 100)
+
+                  val conclusion = generateMoodConclusion(
+                      moodPercentages[0] * 100, moodPercentages[1] * 100,
+                      moodPercentages[2] * 100, moodPercentages[3] * 100, moodPercentages[4] * 100
+                  )
+                  Log.d("MoodTrackerFragment", "Conclusion: $conclusion")
+                  binding.tvJournalText.text = conclusion
+//
+//                val happinessPercentage = (moods.happiness * 100) / total
+//                val sadnessPercentage = (moods.sadness * 100) / total
+//                val angerPercentage = (moods.anger * 100) / total
+//                val enthusiasmPercentage = (moods.enthusiasm * 100) / total
+//                val worryPercentage = (moods.worry * 100) / total
+//
+//                val moodPercentages = listOf(
+//                  happinessPercentage, sadnessPercentage,
+//                  angerPercentage, enthusiasmPercentage, worryPercentage
+//                )
+//                binding.pieChart.setPercentages(moodPercentages)
+//
+//                // Tampilkan persentase
+//                binding.happyPercentage.text = String.format("%.2f%%", happinessPercentage)
+//                binding.sadPercentage.text = String.format("%.2f%%", sadnessPercentage)
+//                binding.angryPercentage.text = String.format("%.2f%%", angerPercentage)
+//                binding.enthusiasticPercentage.text = String.format("%.2f%%", enthusiasmPercentage)
+//                binding.worryPercentage.text = String.format("%.2f%%", worryPercentage)
+//
+//                val conclusion = generateMoodConclusion(
+//                    happinessPercentage, sadnessPercentage, angerPercentage, enthusiasmPercentage, worryPercentage
+//                )
+//                Log.d("MoodTrackerFragment", "conclusion: $conclusion")
+//                binding.tvJournalText.text = conclusion
             } else {
                 binding.happyPercentage.text = "0%"
                 binding.sadPercentage.text = "0%"
                 binding.angryPercentage.text = "0%"
                 binding.enthusiasticPercentage.text = "0%"
                 binding.worryPercentage.text = "0%"
+
+                binding.tvJournalText.text = "Data belum tersedia."
+                binding.pieChart.setPercentages(listOf(0f, 0f, 0f, 0f, 0f))
             }
         }
 
@@ -133,11 +174,11 @@ class MoodTrackerFragment : Fragment() {
         fun getLevel(value: Float, ranges: List<Pair<Int, Int>>): String {
             val intValue = value.toInt() // Konversi Float ke Int
             return when {
-                intValue in ranges[0].first..ranges[0].second -> "Sangat Rendah"
-                intValue in ranges[1].first..ranges[1].second -> "Rendah"
-                intValue in ranges[2].first..ranges[2].second -> "Sedang"
-                intValue in ranges[3].first..ranges[3].second -> "Tinggi"
-                else -> "Sangat Tinggi"
+                intValue in ranges[0].first..ranges[0].second -> "Very Low"
+                intValue in ranges[1].first..ranges[1].second -> "Low"
+                intValue in ranges[2].first..ranges[2].second -> "Moderate"
+                intValue in ranges[3].first..ranges[3].second -> "High"
+                else -> "Very High"
             }
         }
 
@@ -148,33 +189,29 @@ class MoodTrackerFragment : Fragment() {
         val worryLevel = getLevel(worry, listOf(0 to 10, 11 to 30, 31 to 50, 51 to 70, 71 to 100))
 
         return """
-        Berdasarkan data yang telah dikumpulkan selama seminggu:
-        - Kebahagiaan Anda berada di level: $happinessLevel
-        - Kesedihan Anda berada di level: $sadnessLevel
-        - Kemarahan Anda berada di level: $angerLevel
-        - Antusiasme Anda berada di level: $enthusiasmLevel
-        - Kekhawatiran Anda berada di level: $worryLevel
+        Over the past week, here is an overview of your emotions:
+        - Your happiness level is: $happinessLevel
+        - Your sadness level is: $sadnessLevel
+        - Your anger level is: $angerLevel
+        - Your enthusiasm level is: $enthusiasmLevel
+        - Your worry level is: $worryLevel
 
-        Kesimpulan: Anda dapat memanfaatkan data ini untuk meningkatkan mood positif dan mengelola emosi negatif dengan lebih baik.
+        Use this information to continue strengthening your positive emotions and effectively managing the negative ones.
     """.trimIndent()
     }
 
 
-    private fun updateMoodData(selectedDate: Calendar) {
-        // Format tanggal
+    private fun updateMoodData(selectedDate: Calendar? = null) {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        val selectedDateString = dateFormat.format(selectedDate.time)
+        val dateToFetch = selectedDate ?: selectedWeekStart ?: Calendar.getInstance()
+        val dateString = dateFormat.format(dateToFetch.time)
 
-        Log.d("MoodTrackerFragment", "Selected Date: $selectedDateString")
-
-        // Tampilkan tanggal di UI
-//        binding.tvDate.text = dateFormat.format(selectedDate.time)
-
-        // Fetch data mood berdasarkan tanggal
-        viewModel.fetchMoods(selectedDateString)
+        Log.d("MoodTrackerFragment", "Fetching Mood Data for Date: $dateString")
+        viewModel.fetchMoods(dateString)
     }
 
-//    private fun navigateDay(step: Int) {
+
+    //    private fun navigateDay(step: Int) {
 //        val currentIndex = allDates.indexOfFirst { isSameDay(it, selectedDate) }
 //        val newIndex = (currentIndex + step).coerceIn(0, allDates.size - 1)
 //
@@ -196,6 +233,7 @@ class MoodTrackerFragment : Fragment() {
         updateDateRangeText()
 
         selectedWeekStart?.let {
+            updateMoodData(it)
             dateAdapter.setSelectedDate(it)
             val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
             Log.d("MoodTrackerFragment", "Navigated to Week Start: ${dateFormat.format(it.time)}")

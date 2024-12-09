@@ -24,18 +24,16 @@ class SplashScreenActivity : AppCompatActivity() {
 
         val floatInSmile = ObjectAnimator.ofFloat(icLogoSmile, "translationY", 200f, 0f).apply {
             duration = 1000
+            addListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationStart(animation: Animator) {
+                    icLogoSmile.visibility = View.VISIBLE
+                }
+
+                override fun onAnimationEnd(animation: Animator) {
+                    showSequentialLogos(icLogoSmile, icLogoNetral, icLogoSad)
+                }
+            })
         }
-
-        floatInSmile.addListener(object : AnimatorListenerAdapter() {
-            override fun onAnimationStart(animation: Animator) {
-                icLogoSmile.visibility = View.VISIBLE
-            }
-
-            override fun onAnimationEnd(animation: Animator) {
-                // Animasi berikutnya setelah float in selesai
-                showSequentialLogos(icLogoSmile, icLogoNetral, icLogoSad)
-            }
-        })
 
         floatInSmile.start()
     }
@@ -46,7 +44,7 @@ class SplashScreenActivity : AppCompatActivity() {
         icLogoSad: ImageView
     ) {
         val distanceBetweenLogos = 150f
-        val closerDistanceForSad = 130f // Jarak lebih dekat untuk ic_logo_sad
+        val closerDistanceForSad = 130f
 
         val moveSmileLeft =
             ObjectAnimator.ofFloat(icLogoSmile, "translationX", 0f, -distanceBetweenLogos).apply {
@@ -93,24 +91,23 @@ class SplashScreenActivity : AppCompatActivity() {
             playTogether(moveSmileFurtherLeft, moveNetralLeft, showSad)
         }
 
-        // Langkah terakhir: kembalikan ikon ke posisi tengah secara horizontal, tetapi dengan jarak lebih dekat
         val arrangeLogos = AnimatorSet().apply {
             playTogether(
                 ObjectAnimator.ofFloat(
                     icLogoSmile,
                     "translationX",
                     -distanceBetweenLogos
-                ), // Smile di kiri
+                ),
                 ObjectAnimator.ofFloat(
                     icLogoNetral,
                     "translationX",
                     0f
-                ),                  // Netral di tengah
+                ),
                 ObjectAnimator.ofFloat(
                     icLogoSad,
                     "translationX",
                     closerDistanceForSad
-                )   // Sad lebih dekat ke Netral
+                )
             )
             duration = 1000
         }
@@ -119,14 +116,17 @@ class SplashScreenActivity : AppCompatActivity() {
             playSequentially(moveAndCenterNetral, moveAndCenterSad, arrangeLogos)
             addListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationEnd(animation: Animator) {
-                    // Pindah ke MainActivity
-                    val intent = Intent(this@SplashScreenActivity, MainActivity::class.java)
-                    startActivity(intent)
-                    finish() // Tutup SplashScreenActivity
+                    navigateToMain()
                 }
             })
         }
 
         finalAnimationSet.start()
+    }
+
+    private fun navigateToMain() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }

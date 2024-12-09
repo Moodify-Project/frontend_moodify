@@ -97,7 +97,7 @@
                 android:id="@+id/tv_journal_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/lorem_ipsum"
+                android:text="@string/no_journal_message"
                 android:fontFamily="@font/poppins_regular"
                 android:textSize="14sp"
                 android:textAlignment="viewStart"/>

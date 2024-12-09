@@ -1,8 +1,10 @@
 package com.example.frontend_moodify.utils
 
+import android.content.Intent
 import com.auth0.android.jwt.JWT
 import com.example.frontend_moodify.data.remote.network.AuthApiService
 import com.example.frontend_moodify.presentation.repository.AuthRepository
+import com.example.frontend_moodify.presentation.ui.auth.LoginActivity
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -42,6 +44,7 @@ class AuthInterceptor(private val sessionManager: SessionManager, private val au
                     }
                 } else {
                     sessionManager.clearSession()
+                    navigateToLogin()
                     throw IOException("Token expired and refresh failed: ${result.exceptionOrNull()?.message}")
                 }
             }
@@ -64,6 +67,12 @@ class AuthInterceptor(private val sessionManager: SessionManager, private val au
         val now = System.currentTimeMillis()
         return now > expiredTime
     }
-
+    private fun navigateToLogin() {
+        val context = sessionManager.context
+        val intent = Intent(context, LoginActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        context.startActivity(intent)
+    }
 }
 

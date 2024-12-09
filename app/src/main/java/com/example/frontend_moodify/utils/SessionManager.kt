@@ -5,7 +5,7 @@ import android.content.SharedPreferences
 import android.util.Log
 import com.auth0.android.jwt.JWT
 
-class SessionManager(context: Context)  {
+class SessionManager(val context: Context)  {
     private val prefs: SharedPreferences =
         context.getSharedPreferences("user_session", Context.MODE_PRIVATE)
 

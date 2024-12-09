@@ -91,8 +91,8 @@
     <string name="error_password_length">Password must be at least 8 characters</string>
     <string name="error_name_empty">Name cannot be empty</string>
     <string name="error_name_short">Name must be at least 3 characters long</string>
-    <string name="error_password_uppercase">Password harus memiliki minimal 2 huruf besar.</string>
-    <string name="error_password_symbol">Password harus memiliki minimal 2 simbol.</string>
+    <string name="error_password_uppercase">Password harus memiliki minimal 1 huruf besar.</string>
+    <string name="error_password_symbol">Password harus memiliki minimal 1 simbol.</string>
 
     <!-- Buttons -->
     <string name="register_button">Register</string>

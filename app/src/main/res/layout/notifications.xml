@@ -22,14 +22,6 @@
             android:gravity="center_vertical"
             android:layout_marginBottom="8dp">
 
-            <!-- Icon -->
-            <ImageView
-                android:id="@+id/notification_icon"
-                android:layout_width="40dp"
-                android:layout_height="24dp"
-                android:layout_marginEnd="8dp"
-                android:src="@drawable/logo_black" />
-
             <!-- Title -->
             <TextView
                 android:id="@+id/notification_title"
@@ -37,7 +29,15 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_semi_bold"
                 android:text="@string/notification_title"
+                android:layout_marginEnd="8dp"
                 android:textSize="14sp" />
+
+            <!-- Icon -->
+            <ImageView
+                android:id="@+id/notification_icon"
+                android:layout_width="40dp"
+                android:layout_height="24dp"
+                android:src="@drawable/logo_black" />
         </LinearLayout>
 
         <!-- Main Message -->
@@ -52,13 +52,5 @@
             android:layout_marginBottom="4dp" />
 
         <!-- Sub Message -->
-        <TextView
-            android:id="@+id/notification_sub_message"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_regular"
-            android:text="@string/notification_sub_message"
-            android:textColor="@color/light_grey"
-            android:textSize="12sp" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>

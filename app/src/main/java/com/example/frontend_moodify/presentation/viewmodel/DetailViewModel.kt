@@ -30,18 +30,29 @@ class DetailViewModel(private val apiService: ArticleApiService) : ViewModel() {
 
     fun fetchArticleDetail(articleId: String) {
         viewModelScope.launch {
+            _loading.value = true
             try {
                 val response = apiService.getArticleDetail(articleId)
                 if (response.isSuccessful) {
-                    _articleDetail.postValue(response.body()?.result)
+                    response.body()?.result?.let { article ->
+                        _articleDetail.postValue(article)
+                        Log.d("DetailViewModel", "Article Detail fetched successfully: $article")
+                    }
                 } else {
-                    Log.e("DetailViewModel", "Error: ${response.message()}")
+                    val errorMessage = "Error: ${response.message()}"
+                    _error.postValue(errorMessage)
+                    Log.e("DetailViewModel", errorMessage)
                 }
             } catch (e: Exception) {
-                Log.e("DetailViewModel", "Network Error: ${e.message}")
+                val errorMessage = "Network Error: ${e.message}"
+                _error.postValue(errorMessage)
+                Log.e("DetailViewModel", errorMessage)
+            } finally {
+                _loading.value = false
             }
         }
     }
+
 
     fun fetchBookmarkStatus(articleId: String) {
         viewModelScope.launch {

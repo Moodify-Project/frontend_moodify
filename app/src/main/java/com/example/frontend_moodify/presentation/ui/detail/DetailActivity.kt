@@ -75,8 +75,10 @@ class DetailActivity : AppCompatActivity() {
             binding.articleContent.text = article.content
             val formattedDate = formatDate(article.publishedAt)
             binding.articleDate.text = formattedDate
-            binding.bookmarkCount.text = article.bookmarkedCount.toString()
+            val countBookmark = article.countBookmarked
+            binding.bookmarkCount.text = countBookmark.toString()
 
+            Log.d("DetailActivity", "BookmarkCount: $countBookmark")
             Glide.with(this)
                 .load(article.urlToImage)
                 .into(binding.headerImage)

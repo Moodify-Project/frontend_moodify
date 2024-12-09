@@ -56,7 +56,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             viewModelProfile.profile.observe(viewLifecycleOwner) { profile ->
                 if (profile != null) {
                     binding.nameUser?.let{
-                        val name = profile.name
+                        val name = profile.name?.takeIf { it.isNotBlank() } ?: "Moodifyers"
                         it.text = "Helo, $name"
                     }
                     binding.userImage?.let {
@@ -64,6 +64,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                             .load(profile.urlphoto)
                             .into(it)
                     }
+                }else{
+                    binding.nameUser?.text = "Helo, Moodifyers"
                 }
             }
             viewModelProfile.getProfile()
