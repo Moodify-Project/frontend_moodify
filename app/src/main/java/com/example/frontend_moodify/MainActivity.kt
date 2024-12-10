@@ -1,7 +1,10 @@
 package com.example.frontend_moodify
 
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -21,6 +24,9 @@ import com.example.frontend_moodify.utils.SessionManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarView
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.app.ActivityCompat
+import com.google.firebase.FirebaseApp
+import com.google.firebase.messaging.FirebaseMessaging
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,6 +35,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
 
         val sharedPreferences = getSharedPreferences("user_settings", MODE_PRIVATE)
         val isDarkMode = sharedPreferences.getBoolean("dark_mode", false)
@@ -90,7 +97,27 @@ class MainActivity : AppCompatActivity() {
         } else {
             menuIcon?.setColorFilter(ContextCompat.getColor(this, R.color.black), android.graphics.PorterDuff.Mode.SRC_IN)
         }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ActivityCompat.checkSelfPermission(this, "android.permission.POST_NOTIFICATIONS") != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf("android.permission.POST_NOTIFICATIONS"),
+                    1002
+                )
+            }
+        }
     }
+
+//    private fun initializeFirebase() {
+//        // Pastikan Firebase diinisialisasi sebelum digunakan
+//        if (FirebaseApp.getApps(this).isEmpty()) {
+//            FirebaseApp.initializeApp(this)
+//            Log.d("FirebaseInit", "Firebase initialized successfully")
+//        } else {
+//            Log.d("FirebaseInit", "Firebase already initialized")
+//        }
+//    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)

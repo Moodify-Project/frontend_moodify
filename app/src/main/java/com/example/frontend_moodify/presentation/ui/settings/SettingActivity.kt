@@ -1,12 +1,14 @@
 package com.example.frontend_moodify.presentation.ui.settings
 
 import android.Manifest
-import android.content.SharedPreferences
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.view.animation.AlphaAnimation
-import android.view.animation.ScaleAnimation
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SwitchCompat
@@ -14,8 +16,17 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.frontend_moodify.R
+import com.example.frontend_moodify.data.remote.network.Injection
 import com.example.frontend_moodify.databinding.ActivitySettingsBinding
-import com.example.frontend_moodify.utils.DailyReminderService
+import com.example.frontend_moodify.presentation.ui.auth.LoginActivity
+import com.example.frontend_moodify.presentation.ui.profile.ProfileActivity
+import com.example.frontend_moodify.utils.FirebaseService
+import com.example.frontend_moodify.utils.SessionManager
+import com.google.firebase.FirebaseApp
+import com.google.firebase.messaging.FirebaseMessaging
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class SettingActivity : AppCompatActivity() {
 
@@ -25,17 +36,22 @@ class SettingActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        FirebaseApp.initializeApp(this)
+
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         darkModeSwitch = findViewById(R.id.dark_mode_switch)
         dailyReminderSwitch = findViewById(R.id.notification_switch)
 
-        applyScaleFadeAnimations()
-
         val sharedPreferences = getSharedPreferences("user_settings", MODE_PRIVATE)
         val isDarkMode = sharedPreferences.getBoolean("dark_mode", false)
+        val isDailyReminderEnabled = sharedPreferences.getBoolean("daily_reminder", false)
+
+        // Set initial states
         darkModeSwitch.isChecked = isDarkMode
+        dailyReminderSwitch.isChecked = isDailyReminderEnabled
         updateDarkMode(isDarkMode)
 
         darkModeSwitch.setOnCheckedChangeListener { _, isChecked ->
@@ -45,30 +61,76 @@ class SettingActivity : AppCompatActivity() {
             updateDarkMode(isChecked)
         }
 
-        // Daily Reminder
-        val isDailyReminderEnabled = sharedPreferences.getBoolean("daily_reminder", false)
-        dailyReminderSwitch.isChecked = isDailyReminderEnabled
-
         dailyReminderSwitch.setOnCheckedChangeListener { _, isChecked ->
+            val editor = sharedPreferences.edit()
+            editor.putBoolean("daily_reminder", isChecked)
+            editor.apply()
+
             if (isChecked) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
-                    ContextCompat.checkSelfPermission(
-                        this,
-                        Manifest.permission.POST_NOTIFICATIONS
-                    ) != PackageManager.PERMISSION_GRANTED
-                ) {
-                    requestNotificationPermission()
-                } else {
-                    enableDailyReminder(sharedPreferences)
-                }
+                activateDailyReminder()
             } else {
-                disableDailyReminder(sharedPreferences)
+                deactivateDailyReminder()
             }
+        }
+
+        // Request notification permissions for API 33+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+            ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.POST_NOTIFICATIONS
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                1001
+            )
         }
 
         binding.topAppBar.setNavigationOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
+        binding.profileLink.setOnClickListener {
+            val intent = Intent(this, ProfileActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
+    private fun activateDailyReminder() {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val token = task.result
+                Log.d("FCM Token", "Token: $token")
+                sendTokenToServer(token)
+            } else {
+                Log.e("FCM Token", "Failed to get token")
+            }
+        }
+    }
+
+    private fun deactivateDailyReminder() {
+        // Logic for disabling the reminder
+        Toast.makeText(this, "Daily reminder deactivated", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun sendTokenToServer(token: String) {
+        val sessionManager = SessionManager(this)
+        val apiService = Injection.provideNotificationApiService(sessionManager)
+        val body = mapOf("fcmToken" to token)
+
+        apiService.sendNotification(body).enqueue(object : Callback<Unit> {
+            override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
+                if (response.isSuccessful) {
+                    Log.d("FCM Token", "Token successfully sent to server")
+                } else {
+                    Log.e("FCM Token", "Failed to send token: ${response.errorBody()?.string()}")
+                }
+            }
+
+            override fun onFailure(call: Call<Unit>, t: Throwable) {
+                Log.e("FCM Token", "Error sending token to server", t)
+            }
+        })
     }
 
     private fun updateDarkMode(isEnabled: Boolean) {
@@ -76,79 +138,6 @@ class SettingActivity : AppCompatActivity() {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-        }
-    }
-
-    private fun applyScaleFadeAnimations() {
-        val elements = listOf(
-            binding.profileTitle,
-            binding.profileLink,
-            binding.themesTitle,
-            binding.darkModeText,
-            binding.darkModeSwitch,
-            binding.dailyReminderTitle,
-            binding.notificationText,
-            binding.notificationSwitch
-        )
-
-        elements.forEachIndexed { index, view ->
-            val scaleAnimation = ScaleAnimation(
-                0.9f, 1.0f,
-                0.9f, 1.0f,
-                ScaleAnimation.RELATIVE_TO_SELF, 0.5f,
-                ScaleAnimation.RELATIVE_TO_SELF, 0.5f
-            )
-            scaleAnimation.duration = 500
-
-            val alphaAnimation = AlphaAnimation(0f, 1f)
-            alphaAnimation.duration = 500
-
-            val animationSet = android.view.animation.AnimationSet(true)
-            animationSet.addAnimation(scaleAnimation)
-            animationSet.addAnimation(alphaAnimation)
-
-            animationSet.startOffset = (index * 100).toLong()
-            view.startAnimation(animationSet)
-        }
-    }
-
-    private fun enableDailyReminder(sharedPreferences: SharedPreferences) {
-        val editor = sharedPreferences.edit()
-        editor.putBoolean("daily_reminder", true)
-        editor.apply()
-        DailyReminderService.startService(this)
-        Toast.makeText(this, "Daily Reminder enabled!", Toast.LENGTH_SHORT).show()
-    }
-
-    private fun disableDailyReminder(sharedPreferences: SharedPreferences) {
-        val editor = sharedPreferences.edit()
-        editor.putBoolean("daily_reminder", false)
-        editor.apply()
-        DailyReminderService.stopService(this)
-        Toast.makeText(this, "Daily Reminder disabled!", Toast.LENGTH_SHORT).show()
-    }
-
-    private fun requestNotificationPermission() {
-        ActivityCompat.requestPermissions(
-            this,
-            arrayOf(Manifest.permission.POST_NOTIFICATIONS),
-            1001
-        )
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == 1001 && grantResults.isNotEmpty() &&
-            grantResults[0] == PackageManager.PERMISSION_GRANTED
-        ) {
-            enableDailyReminder(getSharedPreferences("user_settings", MODE_PRIVATE))
-        } else {
-            Toast.makeText(this, "Notification permission required!", Toast.LENGTH_SHORT).show()
-            dailyReminderSwitch.isChecked = false
         }
     }
 }

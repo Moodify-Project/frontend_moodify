@@ -89,7 +89,6 @@ class CreateJournalFragment : Fragment() {
             }
         }
 
-        // Klik tombol "Done" untuk menyimpan atau memperbarui jurnal
         binding.textDone.setOnClickListener {
             val content = binding.inputField.text.toString()
             if (content.isNotEmpty()) {

@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("kotlin-kapt")
+//    id("com.google.gms.google-services")
+    id("com.google.gms.google-services") version "4.4.2"
 }
 
 android {
@@ -62,8 +64,12 @@ dependencies {
     implementation (libs.jwtdecode)
 
     implementation (libs.material)
-    implementation(libs.androidx.core.animation)
+    implementation (libs.androidx.core.animation)
     implementation (libs.androidx.work.runtime.ktx)
+    implementation (platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+    implementation (libs.firebase.messaging)
+
 
 
     testImplementation(libs.junit)

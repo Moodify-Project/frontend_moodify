@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1069599400401",
+    "project_id": "moodify-97f92",
+    "storage_bucket": "moodify-97f92.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1069599400401:android:8ed14bf1ea6200e5ccc0f0",
+        "android_client_info": {
+          "package_name": "com.example.frontend_moodify"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDcqUcQHVNbPQ53hwDRDhLU7BWOwigWdCs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1069599400401:android:4adb53f93564372accc0f0",
+        "android_client_info": {
+          "package_name": "com.sanata.moodify"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDcqUcQHVNbPQ53hwDRDhLU7BWOwigWdCs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

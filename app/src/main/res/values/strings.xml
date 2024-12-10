@@ -132,7 +132,7 @@
     <string name="setting_title">Settings</string>
     <string name="bookmark_title">Bookmark</string>
     <string name="logout_title">Logout</string>
-=======
+
     <!--Pop Up Menu -->
     <string name="menu_settings">Settings</string>
     <string name="menu_profile">Profile</string>
@@ -192,6 +192,7 @@
     <string name="enter_name">John Sins</string>
     <string name="change_photo">Change Photo</string>
     <string name="name_placeholder">Enter your name</string>
+    <string name="error_profile_name_short">Name must be at least 4 characters long</string>
 
     <string name="lost_connection_image">Image indicating no internet connection</string>
     <string name="no_connection_message">No Connection. Please Try Again Later.</string>
@@ -201,6 +202,8 @@
     <string name="text_done">Done ✓</string>
     <string name="input_hint">Start typing...</string>
 
-
+    <string name="default_notification_channel_id">default_channel</string>
+    <string name="default_notification_channel_name">General Notifications</string>
+    <string name="default_notification_channel_description">All notifications</string>
 </resources>
 

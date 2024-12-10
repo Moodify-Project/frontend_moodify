@@ -33,7 +33,8 @@ import java.util.Date
 import java.util.Locale
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
-    private lateinit var binding: FragmentHomeBinding
+    private var _binding: FragmentHomeBinding? = null
+    private val binding get() = _binding!!
     private lateinit var viewModel: ArticleViewModel
     private lateinit var sessionManager: SessionManager
 
@@ -41,7 +42,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         super.onViewCreated(view, savedInstanceState)
 
         sessionManager = SessionManager(requireContext())
-        binding = FragmentHomeBinding.bind(view)
+        _binding = FragmentHomeBinding.bind(view)
 
         if (!isNetworkAvailable()) {
             showNoConnectionLayout()
@@ -55,27 +56,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             val viewModelProfile = ViewModelProvider(this, factoryProfile).get(ProfileViewModel::class.java)
 
             viewModelProfile.profile.observe(viewLifecycleOwner) { profile ->
-//                val name = profile?.name?.takeIf { it.isNotBlank() } ?: "Moodifyers"
-//                if (profile != null) {
-////                    binding.nameUser?.let{
-////                        val name = profile.name?.takeIf { it.isNotBlank() } ?: "Moodifyers"
-//////                        it.text = "Helo, $name"
-////                        animateText("Helo, $name")
-////                    }
-//                    binding.nameUser?.let { textView ->
-//                        textView.text = ""
-//                        animateText("Helo, $name")
-//                    }
-//                    binding.userImage?.let {
-//                        Glide.with(this)
-//                            .load(profile.urlphoto)
-//                            .into(it)
-//                    }
-//                }else{
-//                    animateText("Helo, Moodifyers")
-////                    binding.nameUser?.text = "Helo, Moodifyers"
-//                    animateProfileContainer()
-//                }
                 val name = profile?.name?.takeIf { it.isNotBlank() } ?: "Moodifyers"
                 Log.d("HomeFragment", "$name")
                 // Pastikan TextView tersedia sebelum animasi
@@ -103,6 +83,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             val adapter = ArticleAdapter { article ->
                 val intent = Intent(requireContext(), DetailActivity::class.java).apply {
                     putExtra("articleId", article.id)
+                    putExtra("title", article.title)
                 }
                 startActivity(intent)
             }
@@ -196,5 +177,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         val dateFormat = SimpleDateFormat("EEEE, MMMM dd", Locale.getDefault())
         val formattedDate = dateFormat.format(Date())
         return formattedDate.uppercase()
+    }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

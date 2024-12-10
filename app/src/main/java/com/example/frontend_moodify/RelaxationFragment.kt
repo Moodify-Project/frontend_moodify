@@ -134,7 +134,12 @@ class RelaxationFragment : Fragment() {
         val countdownAnimator = ValueAnimator.ofInt(countdown, 0)
         countdownAnimator.duration = 3000 // 3 seconds for countdown
         countdownAnimator.addUpdateListener { valueAnimator ->
-            binding.tvTimer.text = valueAnimator.animatedValue.toString()
+//            binding?.let {
+//                it.tvTimer.text = valueAnimator.animatedValue.toString()
+//            }
+            if (view != null) { // Check if the view is still active
+                binding.tvTimer.text = valueAnimator.animatedValue.toString()
+            }
         }
         countdownAnimator.start()
 
@@ -158,9 +163,11 @@ class RelaxationFragment : Fragment() {
 
     private fun runStepWithAnimation() {
         val step = steps[currentStep]
-        binding.tvTitle.text = step.name
-        binding.tvTitle.alpha = 0f // Start with transparent text
-        binding.tvTitle.animate().alpha(1f).setDuration(500).start() // Fade-in text
+        binding?.let {
+            it.tvTitle.text = step.name
+            it.tvTitle.alpha = 0f // Start with transparent text
+            it.tvTitle.animate().alpha(1f).setDuration(500).start() // Fade-in text
+        }
 
         remainingTime = step.duration
         updateTimer()
@@ -198,10 +205,12 @@ class RelaxationFragment : Fragment() {
 
     private val updateSongProgressRunnable = object : Runnable {
         override fun run() {
-            songPlayer?.let {
-                binding.seekBarSong.progress = it.currentPosition
-                binding.tvDurationStart.text = formatTime(it.currentPosition)
-                updateSongProgressHandler.postDelayed(this, 1000)
+            binding?.let { binding ->
+                songPlayer?.let {
+                    binding.seekBarSong.progress = it.currentPosition
+                    binding.tvDurationStart.text = formatTime(it.currentPosition)
+                    updateSongProgressHandler.postDelayed(this, 1000)
+                }
             }
         }
     }
@@ -230,6 +239,8 @@ class RelaxationFragment : Fragment() {
         super.onDestroyView()
         stopRelaxation()
         songPlayer?.release()
+        handler.removeCallbacksAndMessages(null)
+        updateSongProgressHandler.removeCallbacksAndMessages(null)
         _binding = null
     }
 

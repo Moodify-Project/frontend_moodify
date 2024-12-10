@@ -42,6 +42,12 @@ class LoginActivity : AppCompatActivity() {
             binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         }
 
+        viewModel.error.observe(this) { errorMessage ->
+            errorMessage?.let {
+                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+            }
+        }
+
         viewModel.loginResult.observe(this) { result ->
             result.onSuccess { response ->
                 Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show()

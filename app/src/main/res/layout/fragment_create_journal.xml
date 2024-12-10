@@ -51,7 +51,6 @@
                 android:id="@+id/input_field"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:textColor="@color/black"
                 android:textColorHint="@color/grey"
                 android:backgroundTint="@android:color/transparent"
                 android:gravity="top"/>

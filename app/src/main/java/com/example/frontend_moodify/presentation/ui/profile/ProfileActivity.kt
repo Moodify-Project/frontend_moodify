@@ -266,7 +266,7 @@ class ProfileActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     Toast.makeText(this@ProfileActivity, "Foto berhasil diunggah!", Toast.LENGTH_SHORT).show()
                 } else {
-                    Toast.makeText(this@ProfileActivity, "Gagal mengunggah foto!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@ProfileActivity, "Gagal mengunggah foto! maks 2MB", Toast.LENGTH_SHORT).show()
                     Log.e("ProfileActivity", "Response code: ${response.code()}")
                 }
             }

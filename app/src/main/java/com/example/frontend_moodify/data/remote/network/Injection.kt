@@ -84,4 +84,8 @@ object Injection {
     fun provideNotificationApiService(sessionManager: SessionManager): NotificationApiService {
         return provideRetrofit(sessionManager).create(NotificationApiService::class.java)
     }
+
+//    fun provideNotificationApiService(sessionManager: SessionManager): NotificationApiService {
+//        return provideRetrofit(sessionManager).create(NotificationApiService::class.java)
+//    }
 }

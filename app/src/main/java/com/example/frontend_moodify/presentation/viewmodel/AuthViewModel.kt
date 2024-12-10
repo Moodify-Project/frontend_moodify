@@ -30,13 +30,36 @@ class AuthViewModel(private val authRepository: AuthRepository) : ViewModel() {
     private val _registerResult = MutableLiveData<Result<String>>()
     val registerResult: LiveData<Result<String>> get() = _registerResult
 
+//    fun login(email: String, password: String) {
+//        _isLoading.value = true
+//        viewModelScope.launch {
+//            try {
+//                val response = authRepository.login(LoginRequest(email, password))
+//                _loginResult.postValue(Result.success(response))
+//            } catch (e: Exception) {
+//                _loginResult.postValue(Result.failure(e))
+//            } finally {
+//                _isLoading.postValue(false)
+//            }
+//        }
+//    }
     fun login(email: String, password: String) {
         _isLoading.value = true
         viewModelScope.launch {
             try {
                 val response = authRepository.login(LoginRequest(email, password))
                 _loginResult.postValue(Result.success(response))
+            } catch (e: HttpException) {
+                when (e.code()) {
+                    400 -> _error.postValue("Incorrect email or password")
+                    else -> _error.postValue("Login failed: ${e.message}")
+                }
+                _loginResult.postValue(Result.failure(e))
+            } catch (e: IOException) {
+                _error.postValue("Network error. Please try again later.")
+                _loginResult.postValue(Result.failure(e))
             } catch (e: Exception) {
+                _error.postValue("An unexpected error occurred.")
                 _loginResult.postValue(Result.failure(e))
             } finally {
                 _isLoading.postValue(false)

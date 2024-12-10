@@ -41,16 +41,23 @@ class JournalViewModel(private val repository: JournalRepository) : ViewModel() 
             try {
                 val response = if (_journalContent.value == "Journal is empty") {
                      repository.createJournal(content).also {
-                         _journalContent.value = content // Perbarui konten di ViewModel
+                         _journalContent.value = content
                      }
 //                    _errorMessage.value = response.message
                 } else {
                     repository.updateJournal(date, content).also {
-                        _journalContent.value = content // Pastikan konten terbaru disimpan
+                        _journalContent.value = content
                     }
 //                    _errorMessage.value = response.message
                 }
                 _successMessage.value = response.message
+            } catch (e: HttpException) {
+                if (e.code() == 422) {
+                    // Tampilkan pesan validasi khusus
+                    _errorMessage.value = "String must contain at least 200 character(s)"
+                } else {
+                    _errorMessage.value = "Kesalahan jaringan: ${e.message}"
+                }
             } catch (e: Exception) {
                 _errorMessage.value = e.message
             }

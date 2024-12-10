@@ -24,7 +24,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class JournalFragment : Fragment() {
-    private lateinit var binding: FragmentJournalBinding
+    private var _binding: FragmentJournalBinding? = null
+    private val binding get() = _binding!!
     private lateinit var dateAdapter: DateAdapter
     private lateinit var viewModel: JournalViewModel
     private var allDates: List<Calendar> = emptyList()
@@ -34,7 +35,7 @@ class JournalFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentJournalBinding.inflate(inflater, container, false)
+        _binding = FragmentJournalBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -206,5 +207,9 @@ class JournalFragment : Fragment() {
     private fun isSameDay(date1: Calendar, date2: Calendar): Boolean {
         return date1.get(Calendar.YEAR) == date2.get(Calendar.YEAR) &&
                 date1.get(Calendar.DAY_OF_YEAR) == date2.get(Calendar.DAY_OF_YEAR)
+    }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

@@ -57,7 +57,17 @@ class AuthInterceptor(private val sessionManager: SessionManager, private val au
         sessionManager.getRefreshTokenCookie()?.let { cookie ->
             requestBuilder.addHeader("Cookie", cookie)
         }
-        return chain.proceed(requestBuilder.build())
+//        return chain.proceed(requestBuilder.build())
+        val response = chain.proceed(requestBuilder.build())
+
+        // Tangani error 401
+        if (response.code == 401) {
+            sessionManager.clearSession()
+            navigateToLogin()
+            throw IOException("Unauthorized: User is redirected to login.")
+        }
+
+        return response
     }
 
     private fun isTokenExpired(expiredDate: String): Boolean {
@@ -68,7 +78,7 @@ class AuthInterceptor(private val sessionManager: SessionManager, private val au
         return now > expiredTime
     }
     private fun navigateToLogin() {
-        val context = sessionManager.context
+        val context = sessionManager.getContext()
         val intent = Intent(context, LoginActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
