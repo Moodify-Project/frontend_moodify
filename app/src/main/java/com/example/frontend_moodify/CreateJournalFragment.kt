@@ -1,5 +1,6 @@
 package com.example.frontend_moodify
 
+import android.animation.AnimatorSet
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import android.animation.ObjectAnimator
-import android.animation.AnimatorSet
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.frontend_moodify.data.remote.network.Injection
@@ -39,22 +39,18 @@ class CreateJournalFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Format tanggal hari ini
         val currentDate = Calendar.getInstance().time
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         val formattedDate = dateFormat.format(currentDate)
 
-        // Set tanggal pada text_date
         val displayDateFormat = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
         binding.textDate.text = displayDateFormat.format(currentDate)
 
-        // Fade-in animasi untuk text_date
         ObjectAnimator.ofFloat(binding.textDate, "alpha", 0f, 1f).apply {
             duration = 800
             start()
         }
 
-        // Animasi untuk inputField dan textDone
         val inputFieldAnimator = ObjectAnimator.ofFloat(binding.inputField, "translationY", 300f, 0f)
         inputFieldAnimator.duration = 600
 
@@ -65,7 +61,6 @@ class CreateJournalFragment : Fragment() {
         animatorSet.playTogether(inputFieldAnimator, doneButtonAnimator)
         animatorSet.start()
 
-        // Observasi LiveData dari ViewModel
         journalViewModel.journalContent.observe(viewLifecycleOwner) { content ->
             if (content == "Journal is empty") {
                 binding.inputField.setText("")
@@ -94,22 +89,29 @@ class CreateJournalFragment : Fragment() {
             if (content.isNotEmpty()) {
                 journalViewModel.saveOrUpdateJournal(formattedDate, content)
 
-                // Animasi tombol Done saat diklik
-                binding.textDone.animate().apply {
-                    duration = 300
-                    rotation(360f)
-                    scaleX(1.2f)
-                    scaleY(1.2f)
-                    withEndAction {
-                        binding.textDone.animate().scaleX(1f).scaleY(1f).duration = 200
-                    }
-                }.start()
+                val scaleUp = ObjectAnimator.ofFloat(binding.textDone, "scaleX", 1f, 1.1f).apply {
+                    duration = 150
+                }
+                val scaleUpY = ObjectAnimator.ofFloat(binding.textDone, "scaleY", 1f, 1.1f).apply {
+                    duration = 150
+                }
+
+                val scaleDown = ObjectAnimator.ofFloat(binding.textDone, "scaleX", 1.1f, 1f).apply {
+                    duration = 150
+                }
+                val scaleDownY = ObjectAnimator.ofFloat(binding.textDone, "scaleY", 1.1f, 1f).apply {
+                    duration = 150
+                }
+
+                val animatorSet = AnimatorSet().apply {
+                    playSequentially(scaleUp, scaleUpY, scaleDown, scaleDownY)
+                    start()
+                }
             } else {
                 Toast.makeText(requireContext(), "Content cannot be empty", Toast.LENGTH_SHORT).show()
             }
         }
 
-        // Fetch jurnal untuk tanggal hari ini
         journalViewModel.fetchJournalByDate(formattedDate)
     }
 

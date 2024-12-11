@@ -96,21 +96,21 @@ class MoodTrackerFragment : Fragment() {
                     moods.worry.toFloat() / total
                 )
 
-                binding.pieChart.setPercentages(moodPercentages)
+                  binding.pieChart.setPercentages(moodPercentages)
 
-                // Tampilkan persentase
-                binding.happyPercentage.text = String.format("%.1f%%", moodPercentages[0] * 100)
-                binding.sadPercentage.text = String.format("%.1f%%", moodPercentages[1] * 100)
-                binding.angryPercentage.text = String.format("%.1f%%", moodPercentages[2] * 100)
-                binding.enthusiasticPercentage.text = String.format("%.1f%%", moodPercentages[3] * 100)
-                binding.worryPercentage.text = String.format("%.1f%%", moodPercentages[4] * 100)
+                  // Tampilkan persentase
+                  binding.happyPercentage.text = String.format("%.1f%%", moodPercentages[0] * 100)
+                  binding.sadPercentage.text = String.format("%.1f%%", moodPercentages[1] * 100)
+                  binding.angryPercentage.text = String.format("%.1f%%", moodPercentages[2] * 100)
+                  binding.enthusiasticPercentage.text = String.format("%.1f%%", moodPercentages[3] * 100)
+                  binding.worryPercentage.text = String.format("%.1f%%", moodPercentages[4] * 100)
 
-                val conclusion = generateMoodConclusion(
-                    moodPercentages[0] * 100, moodPercentages[1] * 100,
-                    moodPercentages[2] * 100, moodPercentages[3] * 100, moodPercentages[4] * 100
-                )
-                Log.d("MoodTrackerFragment", "Conclusion: $conclusion")
-                binding.tvJournalText.text = conclusion
+                  val conclusion = generateMoodConclusion(
+                      moodPercentages[0] * 100, moodPercentages[1] * 100,
+                      moodPercentages[2] * 100, moodPercentages[3] * 100, moodPercentages[4] * 100
+                  )
+                  Log.d("MoodTrackerFragment", "Conclusion: $conclusion")
+                  binding.tvJournalText.text = conclusion
 //
 //                val happinessPercentage = (moods.happiness * 100) / total
 //                val sadnessPercentage = (moods.sadness * 100) / total

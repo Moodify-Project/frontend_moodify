@@ -100,18 +100,6 @@ class ProfileActivity : AppCompatActivity() {
         binding.genderSpinner.setSelection(0)
 
 
-//        binding.genderSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-//            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-//                val selectedGender = genderList[position]
-//                Toast.makeText(this@ProfileActivity, "Selected: $selectedGender", Toast.LENGTH_SHORT).show()
-//            }
-//
-//            override fun onNothingSelected(parent: AdapterView<*>) {
-//                binding.genderSpinner.setSelection(0)
-//                Toast.makeText(this@ProfileActivity, "Default set to Male", Toast.LENGTH_SHORT).show()
-//            }
-//        }
-
         viewModelProfile.profile.observe(this) { profile ->
             if (profile != null) {
                 binding.nameInput.setText(profile.name)
