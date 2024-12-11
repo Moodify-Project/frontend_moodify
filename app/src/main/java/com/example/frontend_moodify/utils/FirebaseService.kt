@@ -22,7 +22,11 @@ class FirebaseService : FirebaseMessagingService() {
     override fun onNewToken(token: String) {
         super.onNewToken(token)
         Log.d("FCM Token", "New token received: $token")
-        sendTokenToServer(token)
+//        sendTokenToServer(token)
+        val sharedPreferences = getSharedPreferences("user_settings", MODE_PRIVATE)
+        val isDailyReminderEnabled = sharedPreferences.getBoolean("daily_reminder", true)
+        val action = if (isDailyReminderEnabled) 1 else 0
+        sendTokenToServer(token, action)
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
@@ -42,12 +46,12 @@ class FirebaseService : FirebaseMessagingService() {
         }
     }
 
-    private fun sendTokenToServer(token: String) {
+    private fun sendTokenToServer(token: String, action: Int) {
         val sessionManager = SessionManager(applicationContext)
         val apiService = Injection.provideNotificationApiService(sessionManager)
         val body = mapOf("fcmToken" to token)
 
-        apiService.sendNotification(body).enqueue(object : Callback<Unit> {
+        apiService.sendNotification(action, body).enqueue(object : Callback<Unit> {
             override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
                 if (response.isSuccessful) {
                     Log.d("FCM Token", "Token successfully sent to server")

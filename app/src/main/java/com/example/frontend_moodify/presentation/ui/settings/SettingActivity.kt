@@ -66,11 +66,16 @@ class SettingActivity : AppCompatActivity() {
             editor.putBoolean("daily_reminder", isChecked)
             editor.apply()
 
-            if (isChecked) {
-                activateDailyReminder()
-            } else {
-                deactivateDailyReminder()
-            }
+//            val action = if (isChecked) 1 else 0
+//            sendTokenToServer(token, action)
+
+
+            handleDailyReminder(isChecked)
+//            if (isChecked) {
+//                activateDailyReminder(isChecked)
+//            } else {
+//                deactivateDailyReminder()
+//            }
         }
 
         // Request notification permissions for API 33+
@@ -96,12 +101,25 @@ class SettingActivity : AppCompatActivity() {
         }
     }
 
-    private fun activateDailyReminder() {
+//    private fun activateDailyReminder(isEnabled: Boolean) {
+//        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+//            if (task.isSuccessful) {
+//                val token = task.result
+//                Log.d("FCM Token", "Token: $token")
+////                sendTokenToServer(token)
+//                val action = if (isEnabled) 1 else 0
+//                sendTokenToServer(token, action)
+//            } else {
+//                Log.e("FCM Token", "Failed to get token")
+//            }
+//        }
+//    }
+    private fun handleDailyReminder(isEnabled: Boolean) {
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val token = task.result
-                Log.d("FCM Token", "Token: $token")
-                sendTokenToServer(token)
+                val action = if (isEnabled) 1 else 0
+                sendTokenToServer(token, action)
             } else {
                 Log.e("FCM Token", "Failed to get token")
             }
@@ -113,12 +131,12 @@ class SettingActivity : AppCompatActivity() {
         Toast.makeText(this, "Daily reminder deactivated", Toast.LENGTH_SHORT).show()
     }
 
-    private fun sendTokenToServer(token: String) {
+    private fun sendTokenToServer(token: String, action: Int) {
         val sessionManager = SessionManager(this)
         val apiService = Injection.provideNotificationApiService(sessionManager)
         val body = mapOf("fcmToken" to token)
 
-        apiService.sendNotification(body).enqueue(object : Callback<Unit> {
+        apiService.sendNotification(action,body).enqueue(object : Callback<Unit> {
             override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
                 if (response.isSuccessful) {
                     Log.d("FCM Token", "Token successfully sent to server")
