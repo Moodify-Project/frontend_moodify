@@ -52,12 +52,12 @@ class LandingPageActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            binding.descriptionText.breakStrategy = LineBreaker.BREAK_STRATEGY_SIMPLE
-            binding.descriptionText.justificationMode = LineBreaker.JUSTIFICATION_MODE_INTER_WORD
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            binding.descriptionText.justificationMode = LineBreaker.JUSTIFICATION_MODE_INTER_WORD
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+//            binding.descriptionText.breakStrategy = LineBreaker.BREAK_STRATEGY_SIMPLE
+//            binding.descriptionText.justificationMode = LineBreaker.JUSTIFICATION_MODE_INTER_WORD
+//        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            binding.descriptionText.justificationMode = LineBreaker.JUSTIFICATION_MODE_INTER_WORD
+//        }
 
     }
     private fun navigateToMainActivity() {

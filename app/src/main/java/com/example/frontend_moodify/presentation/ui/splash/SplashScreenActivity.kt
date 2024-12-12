@@ -23,7 +23,7 @@ class SplashScreenActivity : AppCompatActivity() {
         val icLogoSad = findViewById<ImageView>(R.id.ic_logo_sad)
 
         val floatInSmile = ObjectAnimator.ofFloat(icLogoSmile, "translationY", 200f, 0f).apply {
-            duration = 1000
+            duration = 500
             addListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationStart(animation: Animator) {
                     icLogoSmile.visibility = View.VISIBLE
@@ -48,11 +48,11 @@ class SplashScreenActivity : AppCompatActivity() {
 
         val moveSmileLeft =
             ObjectAnimator.ofFloat(icLogoSmile, "translationX", 0f, -distanceBetweenLogos).apply {
-                duration = 1000
+                duration = 500
             }
 
         val showNetral = ObjectAnimator.ofFloat(icLogoNetral, "alpha", 0f, 1f).apply {
-            duration = 1000
+            duration = 500
             addListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationStart(animation: Animator) {
                     icLogoNetral.visibility = View.VISIBLE
@@ -70,16 +70,16 @@ class SplashScreenActivity : AppCompatActivity() {
             -distanceBetweenLogos,
             -2 * distanceBetweenLogos
         ).apply {
-            duration = 1000
+            duration = 500
         }
 
         val moveNetralLeft =
             ObjectAnimator.ofFloat(icLogoNetral, "translationX", 0f, -distanceBetweenLogos).apply {
-                duration = 1000
+                duration = 500
             }
 
         val showSad = ObjectAnimator.ofFloat(icLogoSad, "alpha", 0f, 1f).apply {
-            duration = 1000
+            duration = 500
             addListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationStart(animation: Animator) {
                     icLogoSad.visibility = View.VISIBLE
@@ -109,7 +109,7 @@ class SplashScreenActivity : AppCompatActivity() {
                     closerDistanceForSad
                 )
             )
-            duration = 1000
+            duration = 500
         }
 
         val finalAnimationSet = AnimatorSet().apply {
@@ -125,7 +125,7 @@ class SplashScreenActivity : AppCompatActivity() {
     }
 
     private fun navigateToMain() {
-        val intent = Intent(this, MainActivity::class.java)
+        val intent = Intent(this, LandingPageActivity::class.java)
         startActivity(intent)
         finish()
     }

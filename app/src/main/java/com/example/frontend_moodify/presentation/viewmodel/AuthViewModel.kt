@@ -51,7 +51,8 @@ class AuthViewModel(private val authRepository: AuthRepository) : ViewModel() {
                 _loginResult.postValue(Result.success(response))
             } catch (e: HttpException) {
                 when (e.code()) {
-                    400 -> _error.postValue("Incorrect email or password")
+                    400 -> _error.postValue("The format of the data entered is incorrect.")
+                    404 -> _error.postValue("Incorrect email or password.")
                     else -> _error.postValue("Login failed: ${e.message}")
                 }
                 _loginResult.postValue(Result.failure(e))

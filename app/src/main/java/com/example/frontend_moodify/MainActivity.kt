@@ -32,21 +32,27 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+    private var isActive = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
 
-        val sharedPreferences = getSharedPreferences("user_settings", MODE_PRIVATE)
-        val isDarkMode = sharedPreferences.getBoolean("dark_mode", false)
-
-        if (isDarkMode) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-        }
+//        val sharedPreferences = getSharedPreferences("user_settings", MODE_PRIVATE)
+//        val isDarkMode = sharedPreferences.getBoolean("dark_mode", false)
+//
+//        if (isDarkMode) {
+//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+//        } else {
+//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+//        }
 
         val sessionManager = SessionManager(this)
+        val isDarkMode = sessionManager.getThemePreference()
+
+        AppCompatDelegate.setDefaultNightMode(
+            if (isDarkMode) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
+        )
 
         if (sessionManager.getAccessToken() == null) {
             sessionManager.clearSession()
@@ -168,5 +174,26 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        isActive = false
+        // Hentikan proses atau layanan saat aktivitas tidak terlihat
+        Log.d("MainActivity", "onPause: Proses dihentikan sementara.")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        isActive = false
+        // Bersihkan sumber daya atau proses yang berjalan
+        Log.d("MainActivity", "onStop: Proses dihentikan sepenuhnya.")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        isActive = true
+        // Lanjutkan kembali proses saat aktivitas kembali terlihat
+        Log.d("MainActivity", "onResume: Proses dilanjutkan.")
     }
 }

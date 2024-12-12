@@ -44,11 +44,43 @@ class SessionManager(private val context: Context)  {
         return prefs.getString("EXPIRED_DATE", null)
     }
 
+    fun saveThemePreference(isDarkMode: Boolean) {
+        prefs.edit().putBoolean("dark_mode", isDarkMode).apply()
+    }
+
+    fun getThemePreference(): Boolean {
+        return prefs.getBoolean("dark_mode", false) // Default: light mode
+    }
+
+    fun saveDailyReminderPreference(isEnabled: Boolean) {
+        prefs.edit().putBoolean("daily_reminder", isEnabled).apply()
+    }
+
+    fun getDailyReminderPreference(): Boolean {
+        return prefs.getBoolean("daily_reminder", false) // Default: reminder off
+    }
+
     fun clearSession() {
         prefs.edit().clear().apply()
+        clearAppCacheAndFiles()
+        Log.d("SessionManager", "Session cleared successfully.")
     }
 
     fun getContext(): Context {
         return context
+    }
+
+    private fun clearAppCacheAndFiles() {
+        try {
+            val cacheDir = context.cacheDir
+            cacheDir?.deleteRecursively()
+
+            val filesDir = context.filesDir
+            filesDir?.deleteRecursively()
+
+            Log.d("SessionManager", "Cache and files cleared successfully.")
+        } catch (e: Exception) {
+            Log.e("SessionManager", "Error clearing cache/files: ${e.message}")
+        }
     }
 }

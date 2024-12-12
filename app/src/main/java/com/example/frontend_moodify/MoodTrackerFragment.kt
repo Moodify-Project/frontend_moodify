@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.animation.ObjectAnimator
 import android.animation.TypeEvaluator
 import android.animation.ValueAnimator
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -96,21 +97,27 @@ class MoodTrackerFragment : Fragment() {
                     moods.worry.toFloat() / total
                 )
 
-                  binding.pieChart.setPercentages(moodPercentages)
+                animatePieChart(moodPercentages)
 
-                  // Tampilkan persentase
-                  binding.happyPercentage.text = String.format("%.1f%%", moodPercentages[0] * 100)
-                  binding.sadPercentage.text = String.format("%.1f%%", moodPercentages[1] * 100)
-                  binding.angryPercentage.text = String.format("%.1f%%", moodPercentages[2] * 100)
-                  binding.enthusiasticPercentage.text = String.format("%.1f%%", moodPercentages[3] * 100)
-                  binding.worryPercentage.text = String.format("%.1f%%", moodPercentages[4] * 100)
+                animatePercentageText(binding.happyPercentage, moodPercentages[0] * 100)
+                animatePercentageText(binding.sadPercentage, moodPercentages[1] * 100)
+                animatePercentageText(binding.angryPercentage, moodPercentages[2] * 100)
+                animatePercentageText(binding.enthusiasticPercentage, moodPercentages[3] * 100)
+                animatePercentageText(binding.worryPercentage, moodPercentages[4] * 100)
 
-                  val conclusion = generateMoodConclusion(
-                      moodPercentages[0] * 100, moodPercentages[1] * 100,
-                      moodPercentages[2] * 100, moodPercentages[3] * 100, moodPercentages[4] * 100
-                  )
-                  Log.d("MoodTrackerFragment", "Conclusion: $conclusion")
-                  binding.tvJournalText.text = conclusion
+                // Tampilkan persentase
+//                binding.happyPercentage.text = String.format("%.1f%%", moodPercentages[0] * 100)
+//                binding.sadPercentage.text = String.format("%.1f%%", moodPercentages[1] * 100)
+//                binding.angryPercentage.text = String.format("%.1f%%", moodPercentages[2] * 100)
+//                binding.enthusiasticPercentage.text = String.format("%.1f%%", moodPercentages[3] * 100)
+//                binding.worryPercentage.text = String.format("%.1f%%", moodPercentages[4] * 100)
+
+                val conclusion = generateMoodConclusion(
+                    moodPercentages[0] * 100, moodPercentages[1] * 100,
+                    moodPercentages[2] * 100, moodPercentages[3] * 100, moodPercentages[4] * 100
+                )
+                Log.d("MoodTrackerFragment", "Conclusion: $conclusion")
+                binding.tvJournalText.text = conclusion
 //
 //                val happinessPercentage = (moods.happiness * 100) / total
 //                val sadnessPercentage = (moods.sadness * 100) / total
@@ -144,9 +151,11 @@ class MoodTrackerFragment : Fragment() {
                 binding.worryPercentage.text = "0%"
 
                 binding.tvJournalText.text = "Data belum tersedia."
-                binding.pieChart.setPercentages(listOf(0f, 0f, 0f, 0f, 0f))
+//                binding.pieChart.setPercentages(listOf(0f, 0f, 0f, 0f, 0f))
+                animatePieChart(List(5) { 0f })
             }
         }
+
 
         // Observasi error
         viewModel.errorMessage.observe(viewLifecycleOwner) { error ->
@@ -178,11 +187,11 @@ class MoodTrackerFragment : Fragment() {
             }
         }
 
-        val happinessLevel = getLevel(happiness, listOf(0 to 20, 21 to 40, 41 to 60, 61 to 80, 81 to 100))
-        val sadnessLevel = getLevel(sadness, listOf(0 to 10, 11 to 30, 31 to 50, 51 to 70, 71 to 100))
-        val angerLevel = getLevel(anger, listOf(0 to 5, 6 to 20, 21 to 40, 41 to 70, 71 to 100))
-        val enthusiasmLevel = getLevel(enthusiasm, listOf(0 to 20, 21 to 40, 41 to 60, 61 to 80, 81 to 100))
-        val worryLevel = getLevel(worry, listOf(0 to 10, 11 to 30, 31 to 50, 51 to 70, 71 to 100))
+        val happinessLevel = getLevel(happiness, listOf(0 to 19, 20 to 39, 40 to 59, 60 to 79, 80 to 100))
+        val sadnessLevel = getLevel(sadness, listOf(0 to 19, 20 to 39, 40 to 59, 60 to 79, 80 to 100))
+        val angerLevel = getLevel(anger, listOf(0 to 19, 20 to 39, 40 to 59, 60 to 79, 80 to 100))
+        val enthusiasmLevel = getLevel(enthusiasm, listOf(0 to 19, 20 to 39, 40 to 59, 60 to 79, 80 to 100))
+        val worryLevel = getLevel(worry, listOf(0 to 19, 20 to 39, 40 to 59, 60 to 79, 80 to 100))
 
         return """
         Over the past week, here is an overview of your emotions:
@@ -222,41 +231,78 @@ class MoodTrackerFragment : Fragment() {
 
 
 
+//    private fun animatePieChart(moodPercentages: List<Float>) {
+//        val chart = binding.pieChart
+//        val startPercentages = List(5) { 0f }
+//
+//        chart.setPercentages(startPercentages)
+//
+//        val animator = ValueAnimator.ofObject(
+//            TypeEvaluator<List<Float>> { fraction, start, end ->
+//                start.mapIndexed { index, startValue ->
+//                    startValue + (end[index] - startValue) * fraction
+//                }
+//            }, startPercentages, moodPercentages
+//        ).apply {
+//            duration = 1000
+//            interpolator = android.view.animation.AccelerateDecelerateInterpolator()
+//            addUpdateListener { animation ->
+//                val animatedPercentages = animation.animatedValue as List<Float>
+//                chart.setPercentages(animatedPercentages)
+//            }
+//        }
+//
+//        animator.start()
+//    }
+
+
+//    private fun animatePercentageText(textView: TextView, percentage: Float) {
+//        val animatedPercentage = ValueAnimator.ofFloat(0f, percentage * 100).apply {
+//            duration = 1000 // Durasi animasi (1 detik)
+//            addUpdateListener { animation ->
+//                val value = animation.animatedValue as Float
+//                textView.text = String.format("%.1f%%", value)
+//            }
+//        }
+//        animatedPercentage.start()
+//    }
+
     private fun animatePieChart(moodPercentages: List<Float>) {
         val chart = binding.pieChart
-        val startPercentages = List(5) { 0f }
 
-        chart.setPercentages(startPercentages)
+        // Memulai dengan semua persentase pada 0
+        val startPercentages = List(moodPercentages.size) { 0f }
+        chart.setPercentages(startPercentages) // Reset chart ke 0
 
-        val animator = ValueAnimator.ofObject(
-            TypeEvaluator<List<Float>> { fraction, start, end ->
-                start.mapIndexed { index, startValue ->
-                    startValue + (end[index] - startValue) * fraction
-                }
-            }, startPercentages, moodPercentages
-        ).apply {
-            duration = 1000
-            interpolator = android.view.animation.AccelerateDecelerateInterpolator()
+        // ValueAnimator untuk interpolasi persentase
+        val animator = ValueAnimator.ofFloat(0f, 1f).apply {
+            duration = 1000 // Durasi animasi dalam milidetik
+            interpolator = AccelerateDecelerateInterpolator()
+
             addUpdateListener { animation ->
-                val animatedPercentages = animation.animatedValue as List<Float>
-                chart.setPercentages(animatedPercentages)
+                val fraction = animation.animatedValue as Float
+                val animatedPercentages = moodPercentages.mapIndexed { index, value ->
+                    startPercentages[index] + (value - startPercentages[index]) * fraction
+                }
+                chart.setPercentages(animatedPercentages) // Update chart dengan nilai baru
             }
         }
-
-        animator.start()
+        animator.start() // Mulai animasi
     }
 
-
     private fun animatePercentageText(textView: TextView, percentage: Float) {
-        val animatedPercentage = ValueAnimator.ofFloat(0f, percentage * 100).apply {
+        ValueAnimator.ofFloat(0f, percentage).apply {
             duration = 1000 // Durasi animasi (1 detik)
+            interpolator = AccelerateDecelerateInterpolator()
+
             addUpdateListener { animation ->
                 val value = animation.animatedValue as Float
                 textView.text = String.format("%.1f%%", value)
             }
-        }
-        animatedPercentage.start()
+        }.start() // Mulai animasi
     }
+
+
     private fun navigateWeek(step: Int) {
         if (selectedWeekStart == null) {
             selectedWeekStart = Calendar.getInstance()
